@@ -60,16 +60,31 @@
               <h3 class="mb-1">Welcome to Solan Apps! 👋</h3>
               <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
-              <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+              @if (session()->has('error'))
+              <div class="alert alert-primary d-flex align-items-center" role="alert">
+                <span class="alert-icon text-primary me-2">
+                  <i class="ti ti-x ti-xs"></i>
+                </span>
+                {{ session('error') }}
+              </div>
+              @endif
+
+              <form id="formAuthentication" class="mb-3"  wire:submit="login">
                 <div class="mb-3">
-                  <label for="email" class="form-label">Username</label>
+                  <label for="username" class="form-label">Username</label>
                   <input
                     type="text"
-                    class="form-control"
-                    id="email"
-                    name="email-username"
-                    placeholder="Enter your email or username"
+                    class="form-control @error('username') is-invalid @enderror"
+                    id="username"
+                    name="username"
+                    wire:model.defer="username"
+                    placeholder="Enter your username"
                     autofocus />
+
+                    @error('username')
+                        <div class="invalid-feedback">Please enter your name.</div>
+                    @enderror
+
                 </div>
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
@@ -79,11 +94,16 @@
                     <input
                       type="password"
                       id="password"
-                      class="form-control"
+                      class="form-control @error('password') is-invalid @enderror"
                       name="password"
+                      wire:model.defer="password"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password" />
+
                     <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                    @error('password')
+                        <div class="invalid-feedback">Please enter your password.</div>
+                    @enderror
                   </div>
                 </div>
                 <div class="mb-3">
@@ -92,7 +112,7 @@
                     <label class="form-check-label" for="remember-me"> Remember Me </label>
                   </div>
                 </div>
-                <button class="btn btn-primary d-grid w-100">Sign in</button>
+                <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
               </form>
             </div>
           </div>

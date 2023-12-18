@@ -18,6 +18,12 @@ use App\Livewire\FollowUp\Components\FormSpk;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+Route::get('/', LoginPage::class)->name('login');
+Route::post('/logout', [LoginIndex::class, 'logout'])->name('logout');
 
-Route::get('/', LoginPage::class);
-Route::get('/form-spk', FormSpk::class);
+Route::group(['middleware' => ['auth']], function () {
+    Route::group(['prefix' => 'follow-up', 'middleware' => ['user-access:Follow Up']], function () {
+        Route::get('/form-spk', FormSpk::class)->name('dashboard.FollowUp');
+    });
+});
+
