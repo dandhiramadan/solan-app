@@ -18,7 +18,9 @@ use App\Livewire\FollowUp\Components\FormSpk;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', LoginPage::class)->name('login');
+Route::middleware(['guest'])->group(function () {
+    Route::get('/', LoginPage::class)->name('login');
+});
 Route::post('/logout', [LoginIndex::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => ['auth']], function () {
