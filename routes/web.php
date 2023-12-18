@@ -20,6 +20,7 @@ use App\Livewire\FollowUp\Components\Dashboard;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
 Route::middleware(['guest'])->group(function () {
     Route::get('/', LoginPage::class)->name('login');
 });

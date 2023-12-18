@@ -41,7 +41,7 @@
         <link rel="stylesheet" href="/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
         <link rel="stylesheet" href="/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
         <link rel="stylesheet" href="/assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css" />
-
+        {{-- <link rel="stylesheet" href="/assets/vendor/libs/toastr/toastr.css" /> --}}
         <!-- Page CSS -->
         <link rel="stylesheet" href="/assets/vendor/css/pages/cards-advance.css" />
 
@@ -1260,10 +1260,11 @@
                 </div>
                 <!--/ Content wrapper -->
             </div>
-
+            <livewire:broadcasting />
             <!--/ Layout container -->
             </div>
         </div>
+
 
         <!-- Overlay -->
         <div class="layout-overlay layout-menu-toggle"></div>
@@ -1271,7 +1272,17 @@
         <!-- Drag Target Area To SlideIn Menu On Small Screens -->
         <div class="drag-target"></div>
 
-        <!--/ Layout wrapper -->
+
+        <div class="toast" >
+            <div class="toast-header">
+                <strong class="me-auto"><i class="bi-gift-fill"></i> We miss you!</strong>
+                <small>10 mins ago</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+                It's been a long time since you visited us. We've something special for you. <a href="#">Click here!</a>
+            </div>
+        </div>
 
         <!-- Core JS -->
         <script src="/assets/vendor/js/core.js"></script>
@@ -1280,9 +1291,12 @@
         <script src="/assets/vendor/libs/apex-charts/apexcharts.js"></script>
         <script src="/assets/vendor/libs/swiper/swiper.js"></script>
         <script src="/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+        <script src="/assets/vendor/libs/toastr/toastr.js"></script>
 
         <!-- Main JS -->
         <script src="/assets/js/main.js"></script>
+
+        <!-- Vendors JS -->
 
         <!-- Page JS -->
         <script src="/assets/js/dashboards-analytics.js"></script>
