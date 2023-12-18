@@ -7,7 +7,7 @@ use Livewire\Attributes\Rule;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Auth;
 
-#[Layout('components.auth.app')]
+#[Layout('components.auth.app-login')]
 class LoginPage extends Component
 {
     #[Rule('required', message: 'Username harus diisi.')]
@@ -41,12 +41,5 @@ class LoginPage extends Component
         }
 
         session()->flash('error', 'Username/password Salah.');
-    }
-
-    public function logout()
-    {
-        Auth::logout();
-
-        return redirect('/');
     }
 }

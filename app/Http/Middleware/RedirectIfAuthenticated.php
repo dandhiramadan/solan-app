@@ -24,7 +24,7 @@ class RedirectIfAuthenticated
                 $user = Auth::guard($guard)->user();
                 switch ($user->role) {
                     case 'Follow Up':
-                        return redirect()->route('followUp.dashboard');
+                        return redirect()->route('dashboard.FollowUp');
                         break;
                     case 'Stock':
                         return redirect()->route('stock.dashboard');

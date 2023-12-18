@@ -3,6 +3,8 @@
 use App\Livewire\Auth\LoginPage;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\FollowUp\Components\FormSpk;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Livewire\FollowUp\Components\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,11 +23,12 @@ use App\Livewire\FollowUp\Components\FormSpk;
 Route::middleware(['guest'])->group(function () {
     Route::get('/', LoginPage::class)->name('login');
 });
-Route::post('/logout', [LoginIndex::class, 'logout'])->name('logout');
+Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'follow-up', 'middleware' => ['user-access:Follow Up']], function () {
-        Route::get('/form-spk', FormSpk::class)->name('dashboard.FollowUp');
+        Route::get('/dashboard', Dashboard::class)->name('dashboard.FollowUp');
+        Route::get('/form-spk', FormSpk::class)->name('formSpk.FollowUp');
     });
 });
 
