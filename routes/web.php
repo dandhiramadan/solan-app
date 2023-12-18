@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Auth\LoginPage;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\FollowUp\Components\FormSpk;
 
@@ -18,4 +19,5 @@ use App\Livewire\FollowUp\Components\FormSpk;
 //     return view('welcome');
 // });
 
+Route::get('/', LoginPage::class);
 Route::get('/form-spk', FormSpk::class);
