@@ -1260,11 +1260,11 @@
                 </div>
                 <!--/ Content wrapper -->
             </div>
-            <livewire:broadcasting />
             <!--/ Layout container -->
             </div>
         </div>
 
+        <livewire:broadcasting />
 
         <!-- Overlay -->
         <div class="layout-overlay layout-menu-toggle"></div>
