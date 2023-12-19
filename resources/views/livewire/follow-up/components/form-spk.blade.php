@@ -85,6 +85,11 @@
                     <label class="form-label" for="No. Purchase Order">No. Purchase Order</label>
                     <x-forms.text wire:model.defer="customer_number"></x-forms.text>
                 </div>
+                <div class="col-md-6 mb-2">
+                    <label class="form-label" for="File Contoh">File Contoh</label>
+                    <x-forms.filepond wire:model="file_contoh" multiple allowImagePreview imagePreviewMaxHeight="200"
+                        allowFileTypeValidation allowFileSizeValidation maxFileSize="1024mb" />
+                </div>
             </div>
             <div class="pt-4">
                 <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
