@@ -76,9 +76,10 @@
                         </select>
                     </div>
                     @error('customer_name')
-                    <span class="" style="margin-top: 0.35rem; font-size:0.8125rem; color: #ea5455;" role="alert">
-                        {{ $message }}
-                    </span>
+                        <span class="" style="margin-top: 0.35rem; font-size:0.8125rem; color: #ea5455;"
+                            role="alert">
+                            {{ $message }}
+                        </span>
                     @enderror
                 </div>
                 <div class="col-md-6 mb-2">
@@ -91,9 +92,52 @@
                         allowFileTypeValidation allowFileSizeValidation maxFileSize="1024mb" />
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="card mb-4">
+                        <h5 class="card-header">Langkah Kerja</h5>
+                        <div class="card-body">
+                            <div class="demo-inline-spacing">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card mb-4">
+                        <h5 class="card-header">List Langkah Kerja</h5>
+                        <div class="card-body">
+                            <div class="demo-inline-spacing">
+                                @foreach ($workStep as $key => $item)
+                                    @if ($item->description == 'Cetak Label' || $item->description == 'Hot Cutting' || $item->description == 'Hot Cutting Folding' || $item->description == 'Lipat Perahu' || $item->description == 'Lipat Kanan Kiri')
+                                    <button type="button" class="btn btn-outline-info">{{ $item->description }}</button>
+                                    @else
+                                    <button type="button" class="btn btn-outline-primary">{{ $item->description }}</button>
+                                    @endif
+
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- <ul wire:sortable="updateTaskOrder">
+                @foreach ($workStep as $task)
+                    <li wire:sortable.item="{{ $task->id }}" wire:key="task-{{ $task->id }}">
+                        <h4 wire:sortable.handle>{{ $task->description }}</h4>
+                        <button wire:click="removeTask({{ $task->id }})">Remove</button>
+                    </li>
+                @endforeach
+            </ul> --}}
             <div class="pt-4">
                 <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
             </div>
         </form>
     </div>
 </div>
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/gh/livewire/sortable@v1.x.x/dist/livewire-sortable.js"></script>
+@endpush

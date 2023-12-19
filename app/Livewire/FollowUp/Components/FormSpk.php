@@ -3,6 +3,7 @@
 namespace App\Livewire\FollowUp\Components;
 
 use Livewire\Component;
+use App\Models\WorkStep;
 use Livewire\Attributes\Rule;
 use Livewire\WithFileUploads;
 
@@ -21,7 +22,14 @@ class FormSpk extends Component
 
     public function render()
     {
-        return view('livewire.follow-up.components.form-spk');
+        return view('livewire.follow-up.components.form-spk',[
+            'workStep' => WorkStep::all(),
+        ]);
+    }
+
+    public function updateTaskOrder()
+    {
+
     }
 
     public function save()

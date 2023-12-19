@@ -161,8 +161,8 @@
 
         <!-- Page JS -->
         <script src="/assets/js/dashboards-analytics.js"></script>
-
-        @stack('scripts')
         @livewireScripts
+        @stack('scripts')
+
     </body>
 </html>
