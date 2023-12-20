@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('repeat_from')->nullable();
             $table->string('request_kekurangan')->nullable();
             $table->string('spk_parent')->nullable();
-            $table->string('sub_spk')->nullable();
-            $table->string('spk_fsc')->nullable();
+            $table->boolean('sub_spk')->default(false);
+            $table->boolean('spk_fsc')->default(false);
             $table->string('spk_number_fsc')->nullable();
             $table->string('fsc_type')->nullable();
             $table->date('order_date')->nullable();

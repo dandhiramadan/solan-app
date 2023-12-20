@@ -11,8 +11,35 @@ class FormSpk extends Component
 {
     use WithFileUploads;
 
+    #[Rule('required', message: 'Tipe SPK harus diisi.')]
+    public $spk_type;
+
     #[Rule('required', message: 'Pemesan harus diisi.')]
     public $customer_name;
+
+    #[Rule('required', message: 'Sub SPK harus diisi.')]
+    public $sub_spk;
+
+    #[Rule('required', message: 'SPK Parent harus diisi.')]
+    public $spk_parent;
+
+    #[Rule('required', message: 'SPK Number harus diisi.')]
+    public $spk_number;
+
+    #[Rule('required', message: 'FSC harus diisi.')]
+    public $spk_fsc;
+
+    #[Rule('required', message: 'Tipe FSC harus diisi.')]
+    public $fsc_type;
+
+    #[Rule('required', message: 'SPK Number FSC harus diisi.')]
+    public $spk_number_fsc;
+
+    #[Rule('required', message: 'Tanggal PO Masuk harus diisi.')]
+    public $order_date;
+
+    #[Rule('required', message: 'Tanggal Permintaan Kirim harus diisi.')]
+    public $delivery_state;
 
     #[Rule('required', message: 'Customer number harus diisi.')]
     public $customer_number;
@@ -72,6 +99,6 @@ class FormSpk extends Component
     public function save()
     {
         $this->validate();
-        dd($this->langkahKerja);
+        dd($this->sub_spk);
     }
 }
