@@ -98,8 +98,24 @@
                     <div class="card mb-4">
                         <h5 class="card-header">Langkah Kerja</h5>
                         <div class="card-body">
-                            <div class="demo-inline-spacing">
-
+                            @error('langkahKerja')
+                                <span class="" style="margin-top: 0.35rem; font-size:0.8125rem; color: #ea5455;"
+                                    role="alert">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                            <div class="demo-inline-spacing" wire:sortable="updateTaskOrder">
+                                @foreach ($langkahKerja as $key => $data)
+                                    <div class="input-group" wire:sortable.item="{{ $key }}" wire:key="task-{{ $key }}">
+                                        <button type="button" class="btn btn-icon btn-outline-primary" wire:sortable.handle role="button">
+                                            <span class="ti ti-arrows-move-vertical"></span>
+                                        </button>
+                                        <input type="text" class="form-control"
+                                            wire:model.defer="langkahKerja.{{ $key }}.description" readonly/>
+                                        <button class="btn btn-outline-primary" type="button"
+                                            wire:click="removeLangkahKerja({{ $key }})">Delete</button>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -110,12 +126,18 @@
                         <div class="card-body">
                             <div class="demo-inline-spacing">
                                 @foreach ($workStep as $key => $item)
-                                    @if ($item->description == 'Cetak Label' || $item->description == 'Hot Cutting' || $item->description == 'Hot Cutting Folding' || $item->description == 'Lipat Perahu' || $item->description == 'Lipat Kanan Kiri')
-                                    <button type="button" class="btn btn-outline-info">{{ $item->description }}</button>
+                                    @if (
+                                        $item->description == 'Cetak Label' ||
+                                            $item->description == 'Hot Cutting' ||
+                                            $item->description == 'Hot Cutting Folding' ||
+                                            $item->description == 'Lipat Perahu' ||
+                                            $item->description == 'Lipat Kanan Kiri')
+                                        <button type="button" class="btn btn-outline-info"
+                                            wire:click="addLangkahKerja('{{ $item->description }}')">{{ $item->description }}</button>
                                     @else
-                                    <button type="button" class="btn btn-outline-primary">{{ $item->description }}</button>
+                                        <button type="button" class="btn btn-outline-primary"
+                                            wire:click="addLangkahKerja('{{ $item->description }}')">{{ $item->description }}</button>
                                     @endif
-
                                 @endforeach
                             </div>
                         </div>
