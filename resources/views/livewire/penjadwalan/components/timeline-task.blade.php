@@ -231,6 +231,66 @@
 
         filter();
 
+        //user
+        gantt.form_blocks["ownerselect"] = {
+            render: function(sns) {
+                var height = (sns.height || "23") + "px";
+                var html = "<div class='gantt_cal_ltext gantt_cal_chosen gantt_cal_multiselect' style='height:" +
+                    height + ";'><select data-placeholder='...' class='chosen-select'>";
+                if (sns.options) {
+                    for (var i = 0; i < sns.options.length; i++) {
+                        if (sns.unassigned_value !== undefined && sns.options[i].key == sns.unassigned_value) {
+                            continue;
+                        }
+                        html += "<option value='" + sns.options[i].key + "'>" + sns.options[i].label + "</option>";
+                    }
+                }
+                html += "</select></div>";
+                return html;
+            },
+
+            set_value: function(node, value, ev, sns) {
+                node.style.overflow = "visible";
+                node.parentNode.style.overflow = "visible";
+                node.style.display = "inline-block";
+                var select = $(node.firstChild);
+
+                if (value) {
+                    value = (value + "").split(",");
+                    select.val(value);
+                } else {
+                    select.val([]);
+                }
+
+                select.chosen();
+                if (sns.onchange) {
+                    select.change(function() {
+                        sns.onchange.call(this);
+                    })
+                }
+                select.trigger('chosen:updated');
+                select.trigger("change");
+            },
+
+            get_value: function(node, ev) {
+                var value = $(node.firstChild).val();
+                return value;
+            },
+
+            focus: function(node) {
+                $(node.firstChild).focus();
+            }
+        };
+
+        function findUser(id) {
+            var list = gantt.serverList("people");
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].key == id) {
+                    return list[i];
+                }
+            }
+            return null;
+        }
 
         // columns definition
         gantt.config.columns = [{
@@ -246,8 +306,8 @@
                 min_width: 180,
             },
             {
-                name: "jumlah_lc",
-                label: "Jumlah LC",
+                name: "target_lembar_cetak",
+                label: "Target LC",
                 align: "center",
                 min_width: 80,
             },
@@ -257,41 +317,51 @@
                 align: "center",
                 min_width: 50,
             },
-            // {
-            //     name: "owner",
-            //     align: "center",
-            //     width: 75,
-            //     label: "Owner",
-            //     template: function(task) {
-            //         if (task.type == gantt.config.types.project) {
-            //             return "";
-            //         }
+            {
+                name: "owner",
+                align: "center",
+                width: 75,
+                label: "Owner",
+                template: function(task) {
+                    if (task.type == gantt.config.types.project) {
+                        return "";
+                    }
 
-            //         var result = "";
+                    var result = "";
 
-            //         var owners = task.owners;
+                    var owners = [task.owners];
 
-            //         if (!owners || !owners.length) {
-            //             return "Unassigned";
-            //         }
+                    if (!owners || !owners.length) {
+                        return "-";
+                    }
 
-            //         if (owners.length == 1) {
-            //             return findUser(owners[0]).label;
-            //         }
+                    if (owners.length == 1) {
+                        var owner = findUser(owners[0]);
+                        if (!owner) {
+                            return "-";
+                        }
+                        return owner.label;
+                    }
 
-            //         owners.forEach(function(ownerId) {
-            //             var owner = findUser(ownerId);
-            //             if (!owner)
-            //                 return;
-            //             result += "<div class='owner-label' title='" + owner.label + "'>" + owner.label
-            //                 .substr(0, 1) + "</div>";
+                    owners.forEach(function(ownerId) {
+                        var owner = findUser(ownerId);
+                        if (!owner)
+                            return;
+                        result += "<div class='owner-label' title='" + owner.label + "'>" + owner.label
+                            .substr(0, 1) + "</div>";
 
-            //         });
+                    });
 
-            //         return result;
-            //     },
-            //     resize: true
-            // },
+                    return result;
+                },
+                resize: true
+            },
+            {
+                name: "jumlah_lembar_cetak",
+                label: "Jumlah LC",
+                align: "center",
+                min_width: 80,
+            },
             {
                 name: "start_date",
                 label: "Start time",
@@ -303,6 +373,21 @@
                 label: "End time",
                 align: "center",
                 min_width: 80,
+            },
+            {
+                name: "priority",
+                label: "Priority",
+                align: "center",
+                min_width: 80,
+                template: function(obj) {
+                    if (obj.priority == 1)
+                        return "Normal";
+
+                    if (obj.priority == 2)
+                        return "Medium";
+
+                    return "High";
+                }
             },
 
             // {
@@ -320,21 +405,7 @@
             //         return "-";
             //     }
             // },
-            // {
-            //     name: "priority",
-            //     label: "Priority",
-            //     align: "center",
-            //     min_width: 80,
-            //     template: function(obj) {
-            //         if (obj.priority == 1)
-            //             return "Normal";
 
-            //         if (obj.priority == 2)
-            //             return "Medium";
-
-            //         return "High";
-            //     }
-            // },
             // {
             //     name: "type",
             //     label: "Type",
@@ -359,17 +430,24 @@
         gantt.locale.labels.section_priority = "Priority";
         gantt.locale.labels.section_text = "Deskripsi";
         gantt.locale.labels.section_owner = "Owner";
-        gantt.locale.labels.section_jumlah_lc = "Target";
+        gantt.locale.labels.section_target_lembar_cetak = "Target Lembar Cetak";
+        gantt.locale.labels.section_jumlah_lembar_cetak = "Jumlah Lembar Cetak";
         gantt.locale.labels.section_machine = "Machine";
         gantt.locale.labels.section_workstep = "Langkah Kerja";
 
-        gantt.config.lightbox.sections = [
-            {
+        gantt.config.lightbox.sections = [{
                 name: "workstep",
                 height: 22,
                 map_to: "text",
                 type: "select",
                 options: gantt.serverList("workstep"),
+            },
+            {
+                name: "target_lembar_cetak",
+                height: 22,
+                map_to: "target_lembar_cetak",
+                type: "textarea",
+                focus: true,
             },
             {
                 name: "priority",
@@ -389,9 +467,9 @@
                 }, ]
             },
             {
-                name: "jumlah_lc",
+                name: "jumlah_lembar_cetak",
                 height: 22,
-                map_to: "jumlah_lc",
+                map_to: "jumlah_lembar_cetak",
                 type: "textarea",
                 focus: true,
             },

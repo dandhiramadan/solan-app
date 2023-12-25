@@ -17,6 +17,11 @@ class TaskController extends Controller
         $task->progress = $request->has('progress') ? $request->progress : 0;
         $task->parent = $request->parent;
         $task->sortorder = Task::max('sortorder') + 1;
+        $task->priority = $request->priority;
+        $task->jumlah_lembar_cetak = $request->jumlah_lembar_cetak;
+        $task->target_lembar_cetak = $request->target_lembar_cetak;
+        $task->user_id = $request->owners;
+
 
         $task->save();
 
@@ -35,6 +40,10 @@ class TaskController extends Controller
         $task->duration = $request->duration;
         $task->progress = $request->has('progress') ? $request->progress : 0;
         $task->parent = $request->parent;
+        $task->priority = $request->priority;
+        $task->jumlah_lembar_cetak = $request->jumlah_lembar_cetak;
+        $task->target_lembar_cetak = $request->target_lembar_cetak;
+        $task->user_id = $request->owners;
 
         if ($request->has('target')) {
             $this->updateOrder($id, $request->target);

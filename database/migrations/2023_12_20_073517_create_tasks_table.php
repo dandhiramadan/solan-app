@@ -18,11 +18,14 @@ return new class extends Migration {
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('type')->nullable();
             $table->string('text');
+            $table->integer('target_lembar_cetak')->nullable();
+            $table->integer('jumlah_lembar_cetak')->nullable();
             $table->integer('duration');
             $table->float('progress');
             $table->dateTime('start_date');
             $table->integer('parent')->nullable();
             $table->integer('sortorder')->default(0);
+            $table->integer('priority')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });
