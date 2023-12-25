@@ -16,15 +16,13 @@ return new class extends Migration {
             $table->foreign('instruction_id')->references('id')->on('instructions')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('state')->nullable();
-            $table->integer('jumlah')->nullable();
+            $table->string('type')->nullable();
             $table->string('text');
             $table->integer('duration');
             $table->float('progress');
             $table->dateTime('start_date');
-            $table->integer('parent');
+            $table->integer('parent')->nullable();
             $table->integer('sortorder')->default(0);
-            $table->string('type');
             $table->timestamps();
             $table->softDeletes();
         });
