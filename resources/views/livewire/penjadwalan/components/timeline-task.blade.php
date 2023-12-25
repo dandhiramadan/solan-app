@@ -80,97 +80,97 @@
             display: none !important;
         }
 
-        .content-wrapper {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
+        /* .content-wrapper {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+            }
 
-        .legend-controls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 5px;
-            flex-grow: 0;
-        }
+            .legend-controls {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 5px;
+                flex-grow: 0;
+            }
 
-        .gantt-legend {
-            position: absolute;
-            right: 2rem;
-            bottom: 2rem;
-            top: auto;
-            left: auto;
+            .gantt-legend {
+                position: absolute;
+                right: 2rem;
+                bottom: 2rem;
+                top: auto;
+                left: auto;
 
-            width: 300px;
-            height: auto;
+                width: 300px;
+                height: auto;
 
-            font-family: Arial, Helvetica, sans-serif;
-            background: white;
-            border: 1px solid #cecece;
-            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+                font-family: Arial, Helvetica, sans-serif;
+                background: white;
+                border: 1px solid #cecece;
+                box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 
 
-            --level-padding: 10px;
-        }
+                --level-padding: 10px;
+            }
 
-        .legend-head {
-            border-bottom: 1px solid #bebebe;
-            padding-left: var(--level-padding);
-        }
+            .legend-head {
+                border-bottom: 1px solid #bebebe;
+                padding-left: var(--level-padding);
+            }
 
-        .legend-category {
-            padding-left: var(--level-padding);
-        }
+            .legend-category {
+                padding-left: var(--level-padding);
+            }
 
-        .legend-list {
-            flex-direction: column;
-            padding-left: var(--level-padding);
-        }
+            .legend-list {
+                flex-direction: column;
+                padding-left: var(--level-padding);
+            }
 
-        .legend-row {
-            line-height: 1rem;
-            display: flex;
-            flex-direction: row;
-            margin: 5px;
-        }
+            .legend-row {
+                line-height: 1rem;
+                display: flex;
+                flex-direction: row;
+                margin: 5px;
+            }
 
-        .legend-label {
-            display: inline-block;
-            width: 0.7rem;
-            height: 1rem;
-            border-radius: 4px;
-            flex-grow: 0;
-            flex-shrink: 0;
-            margin: 0 5px;
-        }
+            .legend-label {
+                display: inline-block;
+                width: 0.7rem;
+                height: 1rem;
+                border-radius: 4px;
+                flex-grow: 0;
+                flex-shrink: 0;
+                margin: 0 5px;
+            }
 
-        .phase-white {
-            background-color: #ffffff;
-        }
+            .phase-white {
+                background-color: #ffffff;
+            }
 
-        .phase-red {
-            background-color: #ff6b6b;
-        }
+            .phase-red {
+                background-color: #ff6b6b;
+            }
 
-        .phase-yellow {
-            background-color: #F3EDC8;
-        }
+            .phase-yellow {
+                background-color: #F3EDC8;
+            }
 
-        .phase-purple {
-            background-color: #e785ff;
-        }
+            .phase-purple {
+                background-color: #e785ff;
+            }
 
-        .phase-orange {
-            background-color: #ff7745;
-        }
+            .phase-orange {
+                background-color: #ff7745;
+            }
 
-        .phase-repeat {
-            background: repeating-linear-gradient(45deg,
-                    #fafafa,
-                    #fafafa 2px,
-                    #8e8e8e 2px,
-                    #8e8e8e 4px);
-        }
+            .phase-repeat {
+                background: repeating-linear-gradient(45deg,
+                        #fafafa,
+                        #fafafa 2px,
+                        #8e8e8e 2px,
+                        #8e8e8e 4px);
+            } */
     </style>
 @endpush
 <div>
@@ -515,10 +515,17 @@
         //Gantt Grid Templates
         gantt.templates.grid_row_class = function(start, end, task) {
             if (task.$level > 0) {
-                return "nested_task"
+                return "nested_task";
             }
+
+            if (task.priority == 3) return "red";
+            if (task.priority == 2) return "yellow";
+            if (task.priority == 1) return "";
+
+            // Jika tidak ada kondisi yang cocok, kembalikan kelas default (jika ada)
             return "";
         };
+
 
         gantt.templates.grid_header_class = function(column, config) {
             return "gridHeaderText";
@@ -749,13 +756,6 @@
             }
         ];
 
-        //urgent bar warna
-        gantt.templates.grid_row_class = function(start_date, end_date, item) {
-            if (item.priority == 3) return "red";
-            if (item.priority == 2) return "yellow";
-            if (item.priority == 1) return "";
-            return "";
-        };
         gantt.templates.task_row_class = function(start_date, end_date, item) {
             if (item.schedulestatus == 'Late Delivery') return "purple";
             if (item.schedulestatus == 'Late Schedule') return "orange";
@@ -817,7 +817,6 @@
                 return element;
             }
         })();
-
 
         gantt.init("gantt_here");
         gantt.load("/api/data");
