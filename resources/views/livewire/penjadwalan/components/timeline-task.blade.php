@@ -7,6 +7,43 @@
             margin: 0px;
             /* overflow: hidden; */
         }
+
+        /* .scaleHeaderText
+        {
+	        font-size:11px!important;
+        }
+
+        .gridHeaderText
+        {
+	        font-size:11px;
+	        font-weight:bold;
+	        //color:white
+        }
+
+		.gantt_task_scale
+		{
+		    font-size: 11px!important;
+		}
+
+		.gantt_grid_scale
+		{
+		    font-size: 11px!important;
+		}
+
+		.gantt_task_content
+		{
+		    font-size: 11px!important;
+	  	}
+
+		.gantt_tree_content
+		{
+		    font-size: 11px!important;
+	  	} */
+
+		.nested_task .gantt_add
+		{
+		   display: none !important;
+		}
     </style>
 @endpush
 <div>
@@ -17,156 +54,152 @@
 
 @push('scripts')
     <script type="text/javascript">
-        function init() {
-            gantt.config.date_format = "%Y-%m-%d %H:%i:%s";
-            gantt.config.order_branch = true;
-            gantt.config.order_branch_free = true;
-            gantt.config.work_time = true;
-            gantt.config.duration_unit = "hour";
-            gantt.config.duration_step = 1;
-            gantt.config.autofit = true;
-            gantt.config.order_branch = true;
-            gantt.config.sort = true;
-            gantt.config.scales = [{
-                    unit: "day",
-                    format: "%d %F %Y"
-                },
-                {
-                    unit: "hour",
-                    step: 1,
-                    format: "%H:%i"
-                }
-            ];
-
-            gantt.setWorkTime({
-                hours: [8, 12, 13, 20]
-            });
-
-
-            gantt.plugins({
-                marker: true,
-
-                multiselect: true
-            });
-
-            var markers = gantt.addMarker({
-                start_date: new Date(),
-                css: "today",
-                text: "Today",
-            });
-
-            //limit drag project task
-            gantt.templates.task_class = function(st, end, item) {
-                return gantt.getChildren(item.id).length ? "gantt_project" : "";
-            };
-
-            function limitMoveLeft(task, limit) {
-                var dur = task.end_date - task.start_date;
-                task.end_date = new Date(limit.end_date);
-                task.start_date = new Date(+task.end_date - dur);
+        gantt.config.date_format = "%Y-%m-%d %H:%i:%s";
+        gantt.config.order_branch = true;
+        gantt.config.order_branch_free = true;
+        gantt.config.work_time = true;
+        gantt.config.duration_unit = "hour";
+        gantt.config.duration_step = 1;
+        gantt.config.autofit = true;
+        gantt.config.order_branch = true;
+        gantt.config.sort = true;
+        gantt.config.scales = [{
+                unit: "day",
+                format: "%d %F %Y"
+            },
+            {
+                unit: "hour",
+                step: 1,
+                format: "%H:%i"
             }
+        ];
 
-            function limitMoveRight(task, limit) {
-                var dur = task.end_date - task.start_date;
-                task.start_date = new Date(limit.start_date);
-                task.end_date = new Date(+task.start_date + dur);
-            }
+        gantt.setWorkTime({
+            hours: [8, 12, 13, 20]
+        });
 
-            function limitResizeLeft(task, limit) {
-                task.end_date = new Date(limit.end_date);
-            }
 
-            function limitResizeRight(task, limit) {
-                task.start_date = new Date(limit.start_date)
-            }
+        gantt.plugins({
+            marker: true,
+            multiselect: true
+        });
 
-            gantt.attachEvent("onTaskDrag", function(id, mode, task, original, e) {
-                var parent = task.parent ? gantt.getTask(task.parent) : null,
-                    children = gantt.getChildren(id),
-                    modes = gantt.config.drag_mode;
+        var markers = gantt.addMarker({
+            start_date: new Date(),
+            css: "today",
+            text: "Today",
+        });
 
-                var limitLeft = null,
-                    limitRight = null;
+        //limit drag project task
+        gantt.templates.task_class = function(st, end, item) {
+            return gantt.getChildren(item.id).length ? "gantt_project" : "";
+        };
 
-                if (!(mode == modes.move || mode == modes.resize)) return;
-
-                if (mode == modes.move) {
-                    limitLeft = limitMoveLeft;
-                    limitRight = limitMoveRight;
-                } else if (mode == modes.resize) {
-                    limitLeft = limitResizeLeft;
-                    limitRight = limitResizeRight;
-                }
-
-                //check parents constraints
-                if (parent && +parent.end_date < +task.end_date) {
-                    limitLeft(task, parent);
-                }
-                if (parent && +parent.start_date > +task.start_date) {
-                    limitRight(task, parent);
-                }
-
-                //check children constraints
-                for (var i = 0; i < children.length; i++) {
-                    var child = gantt.getTask(children[i]);
-                    if (+task.end_date < +child.end_date) {
-                        limitLeft(task, child);
-                    } else if (+task.start_date > +child.start_date) {
-                        limitRight(task, child)
-                    }
-                }
-            });
-
-            //scroll
-            gantt.config.layout = {
-                css: "gantt_container",
-                cols: [{
-                        width: 500,
-                        minWidth: 200,
-                        maxWidth: 600,
-                        rows: [{
-                                view: "grid",
-                                scrollX: "gridScroll",
-                                scrollable: true,
-                                scrollY: "scrollVer"
-                            },
-
-                            // horizontal scrollbar for the grid
-                            {
-                                view: "scrollbar",
-                                id: "gridScroll",
-                                group: "horizontal"
-                            }
-                        ]
-                    },
-                    {
-                        resizer: true,
-                        width: 1
-                    },
-                    {
-                        rows: [{
-                                view: "timeline",
-                                scrollX: "scrollHor",
-                                scrollY: "scrollVer"
-                            },
-
-                            // horizontal scrollbar for the timeline
-                            {
-                                view: "scrollbar",
-                                id: "scrollHor",
-                                group: "horizontal"
-                            }
-                        ]
-                    },
-                    {
-                        view: "scrollbar",
-                        id: "scrollVer"
-                    }
-                ]
-            };
+        function limitMoveLeft(task, limit) {
+            var dur = task.end_date - task.start_date;
+            task.end_date = new Date(limit.end_date);
+            task.start_date = new Date(+task.end_date - dur);
         }
 
-        init();
+        function limitMoveRight(task, limit) {
+            var dur = task.end_date - task.start_date;
+            task.start_date = new Date(limit.start_date);
+            task.end_date = new Date(+task.start_date + dur);
+        }
+
+        function limitResizeLeft(task, limit) {
+            task.end_date = new Date(limit.end_date);
+        }
+
+        function limitResizeRight(task, limit) {
+            task.start_date = new Date(limit.start_date)
+        }
+
+        gantt.attachEvent("onTaskDrag", function(id, mode, task, original, e) {
+            var parent = task.parent ? gantt.getTask(task.parent) : null,
+                children = gantt.getChildren(id),
+                modes = gantt.config.drag_mode;
+
+            var limitLeft = null,
+                limitRight = null;
+
+            if (!(mode == modes.move || mode == modes.resize)) return;
+
+            if (mode == modes.move) {
+                limitLeft = limitMoveLeft;
+                limitRight = limitMoveRight;
+            } else if (mode == modes.resize) {
+                limitLeft = limitResizeLeft;
+                limitRight = limitResizeRight;
+            }
+
+            //check parents constraints
+            if (parent && +parent.end_date < +task.end_date) {
+                limitLeft(task, parent);
+            }
+            if (parent && +parent.start_date > +task.start_date) {
+                limitRight(task, parent);
+            }
+
+            //check children constraints
+            for (var i = 0; i < children.length; i++) {
+                var child = gantt.getTask(children[i]);
+                if (+task.end_date < +child.end_date) {
+                    limitLeft(task, child);
+                } else if (+task.start_date > +child.start_date) {
+                    limitRight(task, child)
+                }
+            }
+        });
+
+        //scroll
+        gantt.config.layout = {
+            css: "gantt_container",
+            cols: [{
+                    width: 500,
+                    minWidth: 200,
+                    maxWidth: 600,
+                    rows: [{
+                            view: "grid",
+                            scrollX: "gridScroll",
+                            scrollable: true,
+                            scrollY: "scrollVer"
+                        },
+
+                        // horizontal scrollbar for the grid
+                        {
+                            view: "scrollbar",
+                            id: "gridScroll",
+                            group: "horizontal"
+                        }
+                    ]
+                },
+                {
+                    resizer: true,
+                    width: 1
+                },
+                {
+                    rows: [{
+                            view: "timeline",
+                            scrollX: "scrollHor",
+                            scrollY: "scrollVer"
+                        },
+
+                        // horizontal scrollbar for the timeline
+                        {
+                            view: "scrollbar",
+                            id: "scrollHor",
+                            group: "horizontal"
+                        }
+                    ]
+                },
+                {
+                    view: "scrollbar",
+                    id: "scrollVer"
+                }
+            ]
+        };
+
         setInterval(function() {
             var today = gantt.getMarker(markers);
             today.start_date = new Date();
@@ -211,6 +244,10 @@
                     match = true;
                 }
 
+                // check spkNumber
+                if (task.spknumber.toLowerCase().indexOf(filterValue.toLowerCase()) > -1) {
+                    match = true;
+                }
                 // check children
                 gantt.eachTask(function(child) {
                     if (filterLogic(child)) {
@@ -292,6 +329,37 @@
             return null;
         }
 
+        //Gantt Scale Templates
+	    gantt.templates.scale_cell_class = function( task, date )
+	    {
+	        return "scaleHeaderText";
+	    };
+
+		gantt.templates.task_class = function( st, end, item )
+		{
+			return item.$level == 0 ? "gantt_project" : ""
+		};
+
+		//Gantt Grid Templates
+		gantt.templates.grid_row_class = function( start, end, task )
+		{
+		   if ( task.$level > 0 )
+		   {
+		      return "nested_task"
+		   }
+		   return "";
+		};
+
+		gantt.templates.grid_header_class = function( column, config )
+		{
+		    return "gridHeaderText";
+		};
+
+		gantt.templates.grid_indent=function( task )
+		{
+		    return "<div style='width:5px; float:left; height:100%'></div>"
+		};
+
         // columns definition
         gantt.config.columns = [{
                 name: "add",
@@ -304,12 +372,6 @@
                 label: "Task name",
                 tree: true,
                 min_width: 180,
-            },
-            {
-                name: "target_lembar_cetak",
-                label: "Target LC",
-                align: "center",
-                min_width: 80,
             },
             {
                 name: "duration",
@@ -406,21 +468,27 @@
             //     }
             // },
 
-            // {
-            //     name: "type",
-            //     label: "Type",
-            //     align: "center",
-            //     min_width: 80,
-            //     template: function(obj) {
-            //         if (obj.type == "project")
-            //             return "project";
+            {
+                name: "type",
+                label: "Type",
+                align: "center",
+                min_width: 80,
+                template: function(obj) {
+                    if (obj.type == null)
+                        return "project";
 
-            //         if (obj.type == "task")
-            //             return "task";
+                    if (obj.type == "task")
+                        return "task";
 
-            //         return "-";
-            //     }
-            // },
+                    return "-";
+                }
+            },
+            {
+                name: "spknumber",
+                label: "SPK",
+                align: "center",
+                min_width: 80,
+            },
             // {
             //     name: "add",
             //     label: "",
@@ -430,7 +498,6 @@
         gantt.locale.labels.section_priority = "Priority";
         gantt.locale.labels.section_text = "Deskripsi";
         gantt.locale.labels.section_owner = "Owner";
-        gantt.locale.labels.section_target_lembar_cetak = "Target Lembar Cetak";
         gantt.locale.labels.section_jumlah_lembar_cetak = "Jumlah Lembar Cetak";
         gantt.locale.labels.section_machine = "Machine";
         gantt.locale.labels.section_workstep = "Langkah Kerja";
@@ -441,13 +508,6 @@
                 map_to: "text",
                 type: "select",
                 options: gantt.serverList("workstep"),
-            },
-            {
-                name: "target_lembar_cetak",
-                height: 22,
-                map_to: "target_lembar_cetak",
-                type: "textarea",
-                focus: true,
             },
             {
                 name: "priority",

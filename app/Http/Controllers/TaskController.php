@@ -19,7 +19,7 @@ class TaskController extends Controller
         $task->sortorder = Task::max('sortorder') + 1;
         $task->priority = $request->priority;
         $task->jumlah_lembar_cetak = $request->jumlah_lembar_cetak;
-        $task->target_lembar_cetak = $request->target_lembar_cetak;
+        $task->target_lembar_cetak = $request->jumlah_lembar_cetak;
         $task->user_id = $request->owners;
 
 
@@ -42,7 +42,7 @@ class TaskController extends Controller
         $task->parent = $request->parent;
         $task->priority = $request->priority;
         $task->jumlah_lembar_cetak = $request->jumlah_lembar_cetak;
-        $task->target_lembar_cetak = $request->target_lembar_cetak;
+        $task->target_lembar_cetak = $request->jumlah_lembar_cetak;
         $task->user_id = $request->owners;
 
         if ($request->has('target')) {

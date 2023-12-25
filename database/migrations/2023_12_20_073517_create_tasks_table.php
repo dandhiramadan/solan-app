@@ -26,6 +26,7 @@ return new class extends Migration {
             $table->integer('parent')->nullable();
             $table->integer('sortorder')->default(0);
             $table->integer('priority')->default(1);
+            $table->string('readonly')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

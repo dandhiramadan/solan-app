@@ -83,6 +83,7 @@ class FormSpk extends Component
     public $id = 0;
 
     public $state;
+    public $user_auth;
 
     public function rules()
     {
@@ -95,6 +96,7 @@ class FormSpk extends Component
     public function mount($state)
     {
         $this->state = $state;
+        $this->user_auth = Auth()->user()->id;
     }
 
     public function render()
@@ -105,7 +107,7 @@ class FormSpk extends Component
             'layout' => Instruction::where('spk_type', 'layout')->get(),
             'sample' => Instruction::where('spk_type', 'sample')->get(),
             'stock' => Instruction::where('spk_type', 'stock')->get(),
-            'workStep' => WorkStep::all(),
+            'workStep' => WorkStep::whereNotIn('description', ['Follow Up'])->get(),
         ]);
     }
 
@@ -144,7 +146,8 @@ class FormSpk extends Component
     {
         $this->validate();
 
-        $cekCustomerNumber = Instruction::where('purchase_order', $this->customerNumber)->where('state', 0)
+        $cekCustomerNumber = Instruction::where('purchase_order', $this->customerNumber)
+            ->where('state', 0)
             ->where('foc', 0)
             ->first();
 
@@ -152,9 +155,9 @@ class FormSpk extends Component
             session()->flash('error', 'Nomor Purchase Order sudah terpakai sebelumnya !!! ');
         } else {
             $cekSpkNumber = Instruction::where('spk_number', $this->spkNumber)->first();
-            if($cekSpkNumber){
+            if ($cekSpkNumber) {
                 session()->flash('error', 'Nomor SPK sudah terpakai sebelumnya !!! ');
-            }else{
+            } else {
                 try {
                     DB::beginTransaction();
                     $createSpk = Instruction::create([
@@ -162,16 +165,16 @@ class FormSpk extends Component
                         'spk_number' => $this->spkNumber,
                         'spk_type' => $this->spkType,
                         'taxes_type' => $this->customerTaxes,
-                        'state' => (($this->subSpk === null || $this->subSpk === false) && $this->spkParent === null ) ? 0 : ((($this->subSpk !== null || $this->subSpk !== false) && $this->spkParent === null) ? 1 : 2),
-                        'parent' => (($this->subSpk === null || $this->subSpk === false) && $this->spkParent === null ) ? null : ((($this->subSpk !== null || $this->subSpk !== false) && $this->spkParent === null) ? $this->spkNumber : $this->spkParent),
+                        'state' => ($this->subSpk === null || $this->subSpk === false) && $this->spkParent === null ? 0 : (($this->subSpk !== null || $this->subSpk !== false) && $this->spkParent === null ? 1 : 2),
+                        'parent' => ($this->subSpk === null || $this->subSpk === false) && $this->spkParent === null ? null : (($this->subSpk !== null || $this->subSpk !== false) && $this->spkParent === null ? $this->spkNumber : $this->spkParent),
                         'customer_name' => $this->customerName,
-                        'spk_fsc' => ($this->spkFsc === null || $this->spkFsc === false ) ? 0 : 1,
+                        'spk_fsc' => $this->spkFsc === null || $this->spkFsc === false ? 0 : 1,
                         'fsc_type' => $this->fscType,
                         'spk_number_fsc' => $this->spkNumberFsc,
                         'order_date' => $this->orderDate,
                         'delivery_date' => $this->deliveryDate,
                         'initial_delivery_date' => json_encode($this->deliveryDate),
-                        'foc' => ($this->focCustomerNumber === null || $this->focCustomerNumber === false) ? 0 : 1,
+                        'foc' => $this->focCustomerNumber === null || $this->focCustomerNumber === false ? 0 : 1,
                         'purchase_order' => $this->customerNumber,
                         'order_name' => $this->orderName,
                         'code_style' => $this->codeStyle,
@@ -186,9 +189,11 @@ class FormSpk extends Component
                         'spk_stock' => $this->spkStock,
                     ]);
 
-                    if($createSpk->state != 2){
-                        $updateSpkNumber = Spk::where('type', $this->spkType)->where('taxes', $this->customerTaxes)->first();
-                        if($updateSpkNumber){
+                    if ($createSpk->state != 2) {
+                        $updateSpkNumber = Spk::where('type', $this->spkType)
+                            ->where('taxes', $this->customerTaxes)
+                            ->first();
+                        if ($updateSpkNumber) {
                             $updateSpkNumber->increment('total');
                         }
                     }
@@ -200,19 +205,35 @@ class FormSpk extends Component
                     $hoursPerDay = 11;
                     $totalDuration = $days * $hoursPerDay;
 
-                    $createTaskJob = Task::create([
+                    $createProject = Task::create([
                         'instruction_id' => $createSpk->id,
+                        'user_id' => 1,
                         'text' => $createSpk->order_name,
                         'duration' => $totalDuration,
                         'start_date' => $createSpk->order_date,
                         'parent' => 0,
                         'sortorder' => 0,
-                        'progress' => 0,
-                        'type' => 'project',
+                        'progress' => 1,
+                        'type' => null,
+                        'readonly' => 'true',
                     ]);
 
-                    DB::commit();
+                    foreach ($this->langkahKerja as $data) {
+                        $createTask = Task::create([
+                            'instruction_id' => $createSpk->id,
+                            'user_id' => $this->user_auth,
+                            'text' => $data['description'],
+                            'duration' => 1,
+                            'start_date' => $createSpk->order_date,
+                            'parent' => $createProject->id,
+                            'sortorder' =>$data['sortorder'],
+                            'progress' => 0,
+                            'type' => 'task',
+                            'readonly' => null,
+                        ]);
+                    }
 
+                    DB::commit();
                 } catch (\Throwable $th) {
                     DB::rollBack();
                     session()->flash('error', 'Terjadi kesalahan !!! ' . $th->getMessage());

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Penjadwalan\Components;
 
+use App\Models\Task;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 

@@ -12,11 +12,13 @@ class GanttController extends Controller
 {
     public function get()
     {
-        $tasks = Task::orderBy('sortorder')->get();
+        $tasks = Task::orderBy('sortorder')->with('instruction')->get();
         $taskCollection = $tasks->map(function ($task) {
             return [
                 'id' => $task->id,
                 'instruction_id' => $task->instruction_id,
+                // 'spknumber' => $task->instruction->spk_number,
+                'spknumber' => 1,
                 'owners' => $task->user_id,
                 'type' => $task->type,
                 'text' => $task->text,
@@ -28,6 +30,8 @@ class GanttController extends Controller
                 'parent' => $task->parent,
                 'sortorder' => $task->sortorder,
                 'priority' => $task->priority,
+                'readonly' => $task->readonly,
+                'open' => true ,
             ];
         });
 
