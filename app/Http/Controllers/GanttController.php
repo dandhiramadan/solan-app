@@ -30,6 +30,7 @@ class GanttController extends Controller
                 'parent' => $task->parent,
                 'sortorder' => $task->sortorder,
                 'priority' => $task->priority,
+                'schedulestatus' => $task->schedule_status,
                 'readonly' => $task->readonly,
                 'open' => true ,
             ];

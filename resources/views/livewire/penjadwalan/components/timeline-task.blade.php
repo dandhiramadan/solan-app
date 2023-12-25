@@ -8,48 +8,222 @@
             /* overflow: hidden; */
         }
 
-        .scaleHeaderText
-        {
-	        font-size:12px!important;
+        .orange .gantt_cell,
+        .odd.orange .gantt_cell,
+        .orange .gantt_task_cell,
+        .odd.orange .gantt_task_cell {
+            background-color: #ff7745;
         }
 
-        .gridHeaderText
-        {
-	        font-size:12px;
-	        font-weight:bold;
-	        //color:white
+        .white .gantt_cell,
+        .odd.white .gantt_cell,
+        .white .gantt_task_cell,
+        .odd.white .gantt_task_cell {
+            background-color: #ffffff;
         }
 
-		.gantt_task_scale
-		{
-		    font-size: 12px!important;
-		}
+        .red .gantt_cell,
+        .odd.red .gantt_cell,
+        .red .gantt_task_cell,
+        .odd.red .gantt_task_cell {
+            background-color: #ff6b6b;
+        }
 
-		.gantt_grid_scale
-		{
-		    font-size: 12px!important;
-		}
+        .yellow .gantt_cell,
+        .odd.yellow .gantt_cell,
+        .yellow .gantt_task_cell,
+        .odd.yellow .gantt_task_cell {
+            background-color: #F3EDC8;
+        }
 
-		.gantt_task_content
-		{
-		    font-size: 12px!important;
-	  	}
+        .purple .gantt_cell,
+        .odd.purple .gantt_cell,
+        .purple .gantt_task_cell,
+        .odd.purple .gantt_task_cell {
+            background-color: #e785ff;
+        }
 
-		.gantt_tree_content
-		{
-		    font-size: 12px!important;
-	  	}
+        .green .gantt_cell,
+        .odd.green .gantt_cell,
+        .green .gantt_task_cell,
+        .odd.green .gantt_task_cell {
+            background-color: #BEE4BE;
+        }
 
-		.nested_task .gantt_add
-		{
-		   display: none !important;
-		}
+        .scaleHeaderText {
+            font-size: 12px !important;
+        }
+
+        .gridHeaderText {
+            font-size: 12px;
+            font-weight: bold;
+            //color:white
+        }
+
+        .gantt_task_scale {
+            font-size: 12px !important;
+        }
+
+        .gantt_grid_scale {
+            font-size: 12px !important;
+        }
+
+        .gantt_task_content {
+            font-size: 12px !important;
+        }
+
+        .gantt_tree_content {
+            font-size: 12px !important;
+        }
+
+        .nested_task .gantt_add {
+            display: none !important;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .legend-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            flex-grow: 0;
+        }
+
+        .gantt-legend {
+            position: absolute;
+            right: 2rem;
+            bottom: 2rem;
+            top: auto;
+            left: auto;
+
+            width: 300px;
+            height: auto;
+
+            font-family: Arial, Helvetica, sans-serif;
+            background: white;
+            border: 1px solid #cecece;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+
+
+            --level-padding: 10px;
+        }
+
+        .legend-head {
+            border-bottom: 1px solid #bebebe;
+            padding-left: var(--level-padding);
+        }
+
+        .legend-category {
+            padding-left: var(--level-padding);
+        }
+
+        .legend-list {
+            flex-direction: column;
+            padding-left: var(--level-padding);
+        }
+
+        .legend-row {
+            line-height: 1rem;
+            display: flex;
+            flex-direction: row;
+            margin: 5px;
+        }
+
+        .legend-label {
+            display: inline-block;
+            width: 0.7rem;
+            height: 1rem;
+            border-radius: 4px;
+            flex-grow: 0;
+            flex-shrink: 0;
+            margin: 0 5px;
+        }
+
+        .phase-white {
+            background-color: #ffffff;
+        }
+
+        .phase-red {
+            background-color: #ff6b6b;
+        }
+
+        .phase-yellow {
+            background-color: #F3EDC8;
+        }
+
+        .phase-purple {
+            background-color: #e785ff;
+        }
+
+        .phase-orange {
+            background-color: #ff7745;
+        }
+
+        .phase-repeat {
+            background: repeating-linear-gradient(45deg,
+                    #fafafa,
+                    #fafafa 2px,
+                    #8e8e8e 2px,
+                    #8e8e8e 4px);
+        }
     </style>
 @endpush
 <div>
     {{-- Care about people's approval and you will be their prisoner. --}}
-    Filter tasks: <input id='filter' type='field' style='width:150px' />
-    <div id="gantt_here" style='width:100%; height:100vh;'></div>
+    <div class="content-wrapper">
+        <div class="legend-controls">
+            <input type="button" value="Toggle Legend" id="legend-toggle">
+            Search : <input id='filter' type='field' style='width:150px' />
+        </div>
+        <div id="gantt_here" style='width:100%; height:100vh;'></div>
+    </div>
+
+    <div class="gantt-legend" id="gantt-legend" style="display: none;">
+        <header class="legend-head">
+            <h3>Legend</h3>
+        </header>
+        <section class="legend-category">
+            <h4>Left Colomn Priority</h4>
+            <div class="legend-list">
+                <div class="legend-row">
+                    <div class="legend-label phase-red"></div>
+                    <div>High</div>
+                </div>
+                <div class="legend-row">
+                    <div class="legend-label phase-yellow"></div>
+                    <div>Medium</div>
+                </div>
+                <div class="legend-row">
+                    <div class="legend-label phase-white"></div>
+                    <div>Normal</div>
+                </div>
+            </div>
+        </section>
+        <section class="legend-category">
+            <h4>Right Colomn Schedule Status</h4>
+            <div class="legend-list">
+                <div class="legend-row">
+                    <div class="legend-label phase-purple"></div>
+                    <div>Late Delivery</div>
+                </div>
+                <div class="legend-row">
+                    <div class="legend-label phase-orange"></div>
+                    <div>Late Schedule</div>
+                </div>
+                <div class="legend-row">
+                    <div class="legend-label phase-red"></div>
+                    <div>Late Delivery & Schedule</div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
 </div>
 
 @push('scripts')
@@ -330,35 +504,29 @@
         }
 
         //Gantt Scale Templates
-	    gantt.templates.scale_cell_class = function( task, date )
-	    {
-	        return "scaleHeaderText";
-	    };
+        gantt.templates.scale_cell_class = function(task, date) {
+            return "scaleHeaderText";
+        };
 
-		gantt.templates.task_class = function( st, end, item )
-		{
-			return item.$level == 0 ? "gantt_project" : ""
-		};
+        gantt.templates.task_class = function(st, end, item) {
+            return item.$level == 0 ? "gantt_project" : ""
+        };
 
-		//Gantt Grid Templates
-		gantt.templates.grid_row_class = function( start, end, task )
-		{
-		   if ( task.$level > 0 )
-		   {
-		      return "nested_task"
-		   }
-		   return "";
-		};
+        //Gantt Grid Templates
+        gantt.templates.grid_row_class = function(start, end, task) {
+            if (task.$level > 0) {
+                return "nested_task"
+            }
+            return "";
+        };
 
-		gantt.templates.grid_header_class = function( column, config )
-		{
-		    return "gridHeaderText";
-		};
+        gantt.templates.grid_header_class = function(column, config) {
+            return "gridHeaderText";
+        };
 
-		gantt.templates.grid_indent=function( task )
-		{
-		    return "<div style='width:5px; float:left; height:100%'></div>"
-		};
+        gantt.templates.grid_indent = function(task) {
+            return "<div style='width:5px; float:left; height:100%'></div>"
+        };
 
         // columns definition
         gantt.config.columns = [{
@@ -485,9 +653,15 @@
             },
             {
                 name: "spknumber",
-                label: "SPK",
+                label: "Spk",
                 align: "center",
                 min_width: 80,
+            },
+            {
+                name: "schedulestatus",
+                label: "Schedule State ",
+                align: "center",
+                min_width: 120,
             },
             // {
             //     name: "add",
@@ -500,6 +674,7 @@
         gantt.locale.labels.section_owner = "Owner";
         gantt.locale.labels.section_jumlah_lembar_cetak = "Jumlah Lembar Cetak";
         gantt.locale.labels.section_machine = "Machine";
+        gantt.locale.labels.section_schedulestatus = "Status Schedule";
         gantt.locale.labels.section_workstep = "Langkah Kerja";
 
         gantt.config.lightbox.sections = [{
@@ -560,12 +735,89 @@
                 ]
             },
             {
+                name: "schedulestatus",
+                height: 22,
+                map_to: "schedulestatus",
+                type: "textarea",
+                focus: true,
+            },
+            {
                 name: "time",
                 height: 25,
                 map_to: "auto",
                 type: "duration"
             }
         ];
+
+        //urgent bar warna
+        gantt.templates.grid_row_class = function(start_date, end_date, item) {
+            if (item.priority == 3) return "red";
+            if (item.priority == 2) return "yellow";
+            if (item.priority == 1) return "";
+            return "";
+        };
+        gantt.templates.task_row_class = function(start_date, end_date, item) {
+            if (item.schedulestatus == 'Late Delivery') return "purple";
+            if (item.schedulestatus == 'Late Schedule') return "orange";
+            if (item.schedulestatus == 'Late Delivery & Schedule') return "red";
+
+            return "";
+        };
+
+        (() => {
+            gantt.event(document.querySelector("#legend-toggle"), "click", function() {
+                if (getDisplayedLegend()) {
+                    hideLegend();
+                } else {
+                    showLegend();
+                }
+            });
+
+            function getDisplayedLegend() {
+                if (!gantt.$root) {
+                    return;
+                }
+
+                return gantt.$root.querySelector(".gantt-legend");
+            }
+
+            function createLegendElement() {
+                var legendTemplate = document.querySelector("#gantt-legend").cloneNode(true);
+                legendTemplate.id = "";
+                legendTemplate.style.display = "";
+                return legendTemplate;
+            }
+
+            function showLegend() {
+                if (getDisplayedLegend()) {
+                    return getDisplayedLegend();
+                }
+
+                if (!gantt.$root) {
+                    return;
+                }
+
+                var element = createLegendElement();
+
+                // add DOM event listeners to the `element` here
+                // alternatively, you can listen events at `gantt.$root` level
+                gantt.$root.appendChild(element);
+                return element;
+            }
+
+            function hideLegend() {
+                var element = getDisplayedLegend();
+                if (!element) {
+                    return;
+                }
+
+                if (element.parentNode) {
+                    element.parentNode.removeChild(element);
+                }
+                return element;
+            }
+        })();
+
 
         gantt.init("gantt_here");
         gantt.load("/api/data");

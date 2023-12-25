@@ -27,6 +27,7 @@ return new class extends Migration {
             $table->integer('sortorder')->default(0);
             $table->integer('priority')->default(1);
             $table->string('readonly')->nullable();
+            $table->string('schedule_status')->nullable()->default('Schedule Not Set');//On Schedule, Late Delivery, Late Schedule, On Track
             $table->timestamps();
             $table->softDeletes();
         });
