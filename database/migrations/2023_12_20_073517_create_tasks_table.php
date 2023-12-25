@@ -12,13 +12,19 @@ return new class extends Migration {
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedBigInteger('instruction_id')->nullable();
+            $table->foreign('instruction_id')->references('id')->on('instructions')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('state')->nullable();
+            $table->integer('jumlah')->nullable();
             $table->string('text');
             $table->integer('duration');
             $table->float('progress');
             $table->dateTime('start_date');
             $table->integer('parent');
             $table->integer('sortorder')->default(0);
-            $table->integer('type')->default(1);
+            $table->string('type');
             $table->timestamps();
             $table->softDeletes();
         });

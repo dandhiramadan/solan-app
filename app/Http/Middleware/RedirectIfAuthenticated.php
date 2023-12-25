@@ -26,26 +26,11 @@ class RedirectIfAuthenticated
                     case 'Follow Up':
                         return redirect()->route('dashboard.FollowUp');
                         break;
-                    case 'Stock':
-                        return redirect()->route('stock.dashboard');
+                    case 'Penjadwalan':
+                        return redirect()->route('dashboard.Penjadwalan');
                         break;
                     case 'Hitung Bahan':
-                        return redirect()->route('hitungBahan.dashboard');
-                        break;
-                    case 'RAB':
-                        return redirect()->route('rab.dashboard');
-                        break;
-                    case 'Penjadwalan':
-                        return redirect()->route('jadwal.dashboard');
-                        break;
-                    case 'Operator':
-                        return redirect()->route('operator.dashboard');
-                        break;
-                    case 'Accounting':
-                        return redirect()->route('accounting.dashboard');
-                        break;
-                    case 'Purchase':
-                        return redirect()->route('purchase.dashboard');
+                        return redirect()->route('dashboard.HitungBahan');
                         break;
                     // Tambahkan case untuk peran (role) lain jika diperlukan
                     default:

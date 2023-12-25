@@ -4,10 +4,12 @@ namespace App\Livewire\Auth;
 
 use Livewire\Component;
 use Livewire\Attributes\Rule;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Auth;
 
 #[Layout('components.auth.app-login')]
+#[Title('Login')]
 class LoginPage extends Component
 {
     #[Rule('required', message: 'Username harus diisi.')]
@@ -32,6 +34,12 @@ class LoginPage extends Component
             switch ($user->role) {
                 case 'Follow Up':
                     return redirect()->route('dashboard.FollowUp');
+                    break;
+                case 'Penjadwalan':
+                    return redirect()->route('dashboard.Penjadwalan');
+                    break;
+                case 'Hitung Bahan':
+                    return redirect()->route('dashboard.HitungBahan');
                     break;
 
                 default:

@@ -3,9 +3,11 @@
 namespace App\Livewire\FollowUp\Components;
 
 use Livewire\Component;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
 use App\Events\BroadcastingEvent;
 
+#[Title('Dashboard')]
 class Dashboard extends Component
 {
     public function render()
