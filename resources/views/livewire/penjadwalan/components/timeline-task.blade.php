@@ -2,43 +2,43 @@
     <style>
         html,
         body {
-            height: 100%;
+            height: 100vh;
             padding: 0px;
             margin: 0px;
             /* overflow: hidden; */
         }
 
-        /* .scaleHeaderText
+        .scaleHeaderText
         {
-	        font-size:11px!important;
+	        font-size:12px!important;
         }
 
         .gridHeaderText
         {
-	        font-size:11px;
+	        font-size:12px;
 	        font-weight:bold;
 	        //color:white
         }
 
 		.gantt_task_scale
 		{
-		    font-size: 11px!important;
+		    font-size: 12px!important;
 		}
 
 		.gantt_grid_scale
 		{
-		    font-size: 11px!important;
+		    font-size: 12px!important;
 		}
 
 		.gantt_task_content
 		{
-		    font-size: 11px!important;
+		    font-size: 12px!important;
 	  	}
 
 		.gantt_tree_content
 		{
-		    font-size: 11px!important;
-	  	} */
+		    font-size: 12px!important;
+	  	}
 
 		.nested_task .gantt_add
 		{
