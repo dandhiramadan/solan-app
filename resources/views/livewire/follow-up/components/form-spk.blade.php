@@ -113,8 +113,8 @@
                             <div class="form-check custom-option custom-option-basic">
                                 <label class="form-check-label custom-option-content" for="customRadioTemp5"
                                     style="padding: .422rem .875rem; padding-left: 2.77rem;">
-                                    <input name="subSpk" wire:model='subSpk' class="form-check-input"
-                                        type="checkbox" value="V" id="customRadioTemp5" />
+                                    <input name="subSpk" wire:model='subSpk' class="form-check-input" type="checkbox"
+                                        value="V" id="customRadioTemp5" />
                                     <span class="custom-option-header">
                                         <span class="h6 mb-0">Ya</span>
                                     </span>
@@ -450,9 +450,9 @@
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label class="form-label" for="File Contoh">File Contoh</label>
-                    <x-forms.filepond wire:model="file_contoh" multiple allowImagePreview imagePreviewMaxHeight="200"
+                    <x-forms.filepond wire:model="fileContoh" multiple allowImagePreview imagePreviewMaxHeight="200"
                         allowFileTypeValidation allowFileSizeValidation maxFileSize="1024mb" />
-                    @error('file_contoh')
+                    @error('fileContoh')
                         <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
                             role="alert">
                             {{ $message }}
@@ -461,9 +461,9 @@
                 </div>
                 <div class="col-md-4">
                     <label class="form-label" for="File Arsip">File Arsip</label>
-                    <x-forms.filepond wire:model="file_arsip" multiple allowImagePreview imagePreviewMaxHeight="200"
+                    <x-forms.filepond wire:model="fileArsip" multiple allowImagePreview imagePreviewMaxHeight="200"
                         allowFileTypeValidation allowFileSizeValidation maxFileSize="1024mb" />
-                    @error('file_arsip')
+                    @error('fileArsip')
                         <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
                             role="alert">
                             {{ $message }}
@@ -472,15 +472,73 @@
                 </div>
                 <div class="col-md-4">
                     <label class="form-label" for="File Accounting">File Accounting</label>
-                    <x-forms.filepond wire:model="file_accounting" multiple allowImagePreview
+                    <x-forms.filepond wire:model="fileAccounting" multiple allowImagePreview
                         imagePreviewMaxHeight="200" allowFileTypeValidation allowFileSizeValidation
                         maxFileSize="1024mb" />
-                    @error('file_accounting')
+                    @error('fileAccounting')
                         <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
                             role="alert">
                             {{ $message }}
                         </span>
                     @enderror
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-lg-6 col-md-12">
+                    <div class="card">
+                        <div class="card-header header-elements">
+                            <span class="me-2">Catatan</span>
+                            <div class="card-header-elements ms-auto">
+                                <button type="button" class="btn btn-xs btn-primary" wire:click="addCatatan">
+                                    <span class="tf-icon ti ti-plus ti-xs me-1"></span>Tambah Catatan
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                @foreach ($catatan as $key => $note)
+                                    <div class="col-lg-12 col-md-12">
+                                        <label for="exampleFormControlTextarea1" class="form-label">Tujuan</label>
+                                        <div class="input-group">
+                                            <select class="form-select @error('catatan.' . $key . '.tujuan') is-invalid @enderror" aria-label="Pilih Tujuan"
+                                                wire:model="catatan.{{ $key }}.tujuan">
+                                                <option label="Pilih Tujuan"></option>
+                                                @foreach ($workStep as $item)
+                                                <option value="{{ $item->description }}">{{ $item->description }}</option>
+                                                @endforeach
+                                            </select>
+                                            <button class="btn btn-outline-primary" type="button" id="button-addon1"
+                                                wire:click="removeCatatan({{ $key }})"><span
+                                                    class="tf-icon ti ti-x ti-xs me-1"></span>Delete</button>
+                                        </div>
+                                        @error('catatan.' . $key . '.tujuan')
+                                            <span class=""
+                                                style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
+                                                role="alert">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 mt-2">
+                                        <label for="exampleFormControlTextarea1" class="form-label">Catatan</label>
+                                        <div class="input-group">
+                                            <textarea class="form-control @error('catatan.' . $key . '.pesan') is-invalid @enderror" rows="3" placeholder="Catatan" wire:model="catatan.{{ $key }}.pesan"></textarea>
+                                        </div>
+                                    </div>
+
+                                    @error('catatan.' . $key . '.pesan')
+                                        <span class=""
+                                            style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
+                                            role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                    <div class="border-bottom border-bottom-dashed mb-3 mt-3"></div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

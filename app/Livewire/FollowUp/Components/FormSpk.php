@@ -5,8 +5,10 @@ namespace App\Livewire\FollowUp\Components;
 use Carbon\Carbon;
 use App\Models\Spk;
 use App\Models\Task;
+use App\Models\Catatan;
 use Livewire\Component;
 use App\Models\Customer;
+use App\Models\Document;
 use App\Models\WorkStep;
 use App\Models\Instruction;
 use Illuminate\Support\Str;
@@ -15,69 +17,44 @@ use Livewire\WithFileUploads;
 use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 #[Title('Form SPK')]
 class FormSpk extends Component
 {
     use WithFileUploads;
 
-    #[Rule('required', message: 'Tipe SPK harus diisi.')]
     public $spkType;
-
-    #[Rule('required', message: 'Customer harus diisi.')]
     public $customerSelected;
     public $customerName;
     public $customerTaxes;
-
     public $subSpk;
     public $spkParent;
-
-    #[Rule('required', message: 'SPK Number harus diisi.')]
     public $spkNumber;
-
     public $spkFsc;
     public $fscType;
     public $spkNumberFsc;
-
-    #[Rule('required', message: 'Tanggal PO Masuk harus diisi.')]
     public $orderDate;
-
-    #[Rule('required', message: 'Tanggal Permintaan Kirim harus diisi.')]
     public $deliveryDate;
-
     public $focCustomerNumber;
-
-    #[Rule('required', message: 'Customer number harus diisi.')]
     public $customerNumber;
-
-    #[Rule('required', message: 'Nama Order harus diisi.')]
     public $orderName;
-
     public $codeStyle;
-
-    #[Rule('required', message: 'Quantity harus diisi.')]
     public $quantity;
-
-    #[Rule('required', message: 'Followup harus diisi.')]
     public $followUp;
-
     public $price;
     public $ppn;
-
-    #[Rule('required', message: 'Panjang Barang harus diisi.')]
     public $panjangBarang;
-
-    #[Rule('required', message: 'Lebar Barang harus diisi.')]
     public $lebarBarang;
-
     public $spkLayout;
     public $spkSample;
     public $spkStock;
 
-    // #[Rule('required', message: 'File contoh harus diisi.')]
-    public $fileContoh;
-    public $fileArsip;
-    public $fileAccounting;
+    public $fileContoh = [];
+    public $fileArsip = [];
+    public $fileAccounting = [];
+
+    public $catatan = [];
 
     public $langkahKerja = [];
     public $id = 0;
@@ -128,6 +105,22 @@ class FormSpk extends Component
         $this->langkahKerja = array_values($this->langkahKerja);
     }
 
+    public function addCatatan()
+    {
+        $newCatatan = [
+            'tujuan' => null,
+            'pesan' => null,
+        ];
+
+        $this->catatan[] = $newCatatan;
+    }
+
+    public function removeCatatan($key)
+    {
+        unset($this->catatan[$key]);
+        $this->catatan = array_values($this->catatan);
+    }
+
     public function updateTaskOrder($list)
     {
         foreach ($list as $index => $item) {
@@ -144,7 +137,53 @@ class FormSpk extends Component
 
     public function save()
     {
-        $this->validate();
+        $this->validate(
+            [
+                'spkType' => 'required',
+                'customerSelected' => 'required',
+                'spkNumber' => 'required',
+                'orderDate' => 'required',
+                'deliveryDate' => 'required',
+                'customerNumber' => 'required',
+                'orderName' => 'required',
+                'quantity' => 'required',
+                'followUp' => 'required',
+                'panjangBarang' => 'required',
+                'lebarBarang' => 'required',
+                'fileContoh' => 'required',
+                'fileArsip' => 'required',
+                'fileAccounting' => 'required',
+            ],
+            [
+                'spkType.required' => 'Tipe SPK harus diisi.',
+                'customerSelected.required' => 'Pemesan harus diisi.',
+                'spkNumber.required' => 'SPK Number harus diisi.',
+                'orderDate.required' => 'Tanggal PO Masuk harus diisi.',
+                'deliveryDate.required' => 'Tanggal Permintaan Kirim harus diisi.',
+                'customerNumber.required' => 'Customer number harus diisi.',
+                'orderName.required' => 'Nama Order harus diisi.',
+                'quantity.required' => 'Quantity harus diisi.',
+                'followUp.required' => 'Followup harus diisi.',
+                'panjangBarang.required' => 'Panjang Barang harus diisi.',
+                'lebarBarang.required' => 'Lebar Barang harus diisi.',
+                'fileContoh.required' => 'File contoh harus diisi.',
+                'fileArsip.required' => 'File Arsip harus diisi.',
+                'fileAccounting.required' => 'File Accounting harus diisi.',
+            ],
+        );
+
+        if (isset($this->catatan)) {
+            $this->validate(
+                [
+                    'catatan.*.tujuan' => 'required',
+                    'catatan.*.pesan' => 'required',
+                ],
+                [
+                    'catatan.*.tujuan.required' => 'Tujuan harus diisi.',
+                    'catatan.*.pesan.required' => 'Catatan harus diisi.',
+                ],
+            );
+        }
 
         $cekCustomerNumber = Instruction::where('purchase_order', $this->customerNumber)
             ->where('state', 0)
@@ -235,6 +274,67 @@ class FormSpk extends Component
                         ]);
                     }
 
+                    $folder = 'public/' . $this->spkNumber . '/follow-up';
+                    foreach ($this->fileContoh as $file) {
+                        $lastDotPosition = strrpos($file->getClientOriginalName(), '.');
+                        $extension = substr($file->getClientOriginalName(), $lastDotPosition + 1);
+
+                        $uniqueId = uniqid();
+                        $fileName = $this->spkNumber . '-file-contoh-' . $uniqueId . '.' . $extension;
+                        Storage::putFileAs($folder, $file, $fileName);
+
+                        Document::create([
+                            'instruction_id' => $createSpk->id,
+                            'type_file' => 'contoh',
+                            'file_name' => $fileName,
+                            'file_path' => $folder,
+                        ]);
+                    }
+
+                    foreach ($this->fileArsip as $file) {
+                        $lastDotPosition = strrpos($file->getClientOriginalName(), '.');
+                        $extension = substr($file->getClientOriginalName(), $lastDotPosition + 1);
+
+                        $uniqueId = uniqid();
+                        $fileName = $this->spkNumber . '-file-arsip-' . $uniqueId . '.' . $extension;
+                        Storage::putFileAs($folder, $file, $fileName);
+
+                        Document::create([
+                            'instruction_id' => $createSpk->id,
+                            'type_file' => 'arsip',
+                            'file_name' => $fileName,
+                            'file_path' => $folder,
+                        ]);
+                    }
+
+                    foreach ($this->fileAccounting as $file) {
+                        $lastDotPosition = strrpos($file->getClientOriginalName(), '.');
+                        $extension = substr($file->getClientOriginalName(), $lastDotPosition + 1);
+
+                        $uniqueId = uniqid();
+                        $fileName = $this->spkNumber . '-file-arsip-accounting-' . $uniqueId . '.' . $extension;
+                        Storage::putFileAs($folder, $file, $fileName);
+
+                        Document::create([
+                            'instruction_id' => $createSpk->id,
+                            'type_file' => 'accounting',
+                            'file_name' => $fileName,
+                            'file_path' => $folder,
+                        ]);
+                    }
+
+                    if (isset($this->catatan)) {
+                        foreach ($this->catatan as $data) {
+                            $createCatatan = Catatan::create([
+                                'tujuan' => $data['tujuan'],
+                                'catatan' => $data['pesan'],
+                                'kategori' => 'catatan',
+                                'instruction_id' => $createSpk->id,
+                                'user_id' => $this->user_auth,
+                            ]);
+                        }
+                    }
+
                     DB::commit();
 
                     try {
@@ -243,7 +343,8 @@ class FormSpk extends Component
                             ->where('text', 'Follow Up')
                             ->first();
 
-                        $nextTask = Task::where('instruction_id', $createSpk->id)->where('sortorder', '>', $completedTask->sortorder)
+                        $nextTask = Task::where('instruction_id', $createSpk->id)
+                            ->where('sortorder', '>', $completedTask->sortorder)
                             ->orderBy('sortorder')
                             ->first();
 

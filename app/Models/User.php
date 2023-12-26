@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Task;
+use App\Models\Catatan;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -52,5 +53,10 @@ class User extends Authenticatable
     public function task()
     {
         return $this->hasOne(Task::class);
+    }
+
+    public function catatan()
+    {
+        return $this->hasOne(Catatan::class);
     }
 }
