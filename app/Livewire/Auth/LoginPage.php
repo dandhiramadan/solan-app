@@ -35,6 +35,9 @@ class LoginPage extends Component
                 case 'Follow Up':
                     return redirect()->route('dashboard.FollowUp');
                     break;
+                case 'Stock':
+                    return redirect()->route('dashboard.Stock');
+                    break;
                 case 'Penjadwalan':
                     return redirect()->route('dashboard.Penjadwalan');
                     break;

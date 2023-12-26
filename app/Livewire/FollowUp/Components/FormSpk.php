@@ -243,20 +243,19 @@ class FormSpk extends Component
                             ->where('text', 'Follow Up')
                             ->first();
 
-                        $nextTask = Task::where('sortorder', '>', $completedTask->sortorder)
+                        $nextTask = Task::where('instruction_id', $createSpk->id)->where('sortorder', '>', $completedTask->sortorder)
                             ->orderBy('sortorder')
                             ->first();
 
                         if ($nextTask) {
-                            $updateStatusPekerjaan = Task::where('instruction_id', $createSpk->id)->update([
-                                'status' => 'Pending Approved',
-                                'pekerjaan' => $nextTask->text,
-                            ]);
-
                             $nextTask->start_date = $now;
                             $nextTask->state = 'Pending Approved';
                             $nextTask->save();
 
+                            $updateStatusPekerjaan = Task::where('instruction_id', $createSpk->id)->update([
+                                'status' => 'Pending Approved',
+                                'pekerjaan' => $nextTask->text,
+                            ]);
                         }
 
                         $updateTaskFollowup = Task::where('instruction_id', $createSpk->id)

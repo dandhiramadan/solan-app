@@ -10,6 +10,7 @@ use App\Livewire\HitungBahan\Components\FormHitungBahan;
 use App\Livewire\FollowUp\Components\Dashboard as DashboardFollowup;
 use App\Livewire\HitungBahan\Components\Dashboard as DashboardHitungBahan;
 use App\Livewire\Penjadwalan\Components\Dashboard as DashboardPenjadwalan;
+use App\Livewire\Stock\Components\Dashboard as DashboardStock;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/dashboard', DashboardFollowup::class)->name('dashboard.FollowUp');
         Route::get('/form-spk/{state}', FormSpk::class)->name('formSpk.FollowUp');
         Route::get('/all-task', AllTask::class)->name('allTask.FollowUp');
+    });
+    Route::group(['prefix' => 'stock', 'middleware' => ['user-access:Stock']], function () {
+        Route::get('/dashboard', DashboardStock::class)->name('dashboard.Stock');
     });
     Route::group(['prefix' => 'penjadwalan', 'middleware' => ['user-access:Penjadwalan']], function () {
         Route::get('/dashboard', DashboardPenjadwalan::class)->name('dashboard.Penjadwalan');
