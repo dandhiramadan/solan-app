@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('order_status')->default('Running');
             $table->unsignedBigInteger('instruction_id')->nullable();
             $table->foreign('instruction_id')->references('id')->on('instructions')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->nullable();
@@ -27,7 +28,10 @@ return new class extends Migration {
             $table->integer('sortorder')->default(0);
             $table->integer('priority')->default(1);
             $table->string('readonly')->nullable();
-            $table->string('schedule_status')->nullable()->default('Schedule Not Set');//On Schedule, Late Delivery, Late Schedule, On Track
+            $table->string('schedule_status')->nullable()->default('Schedule Not Set'); //On Schedule, Late Delivery, Late Schedule, On Track
+            $table->string('status')->nullable(); //Pending Approved, Process, Complete
+            $table->string('pekerjaan')->nullable();
+            $table->string('state')->default('Not Running'); //Not Running, Running, Pause, Complete
             $table->timestamps();
             $table->softDeletes();
         });

@@ -3,7 +3,7 @@
 <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
     <div class="container-xxl">
     <div class="navbar-brand app-brand d-none d-xl-flex py-0 me-4">
-        <a href="/dashboard" class="app-brand-link gap-1">
+        <a href="" class="app-brand-link gap-1">
         <span class="app-brand-logo h-px-32 w-px-32">
             <!-- Add image -->
             <img src="{{ asset('assets/img/branding/logo.png') }}" alt="logo">

@@ -107,7 +107,7 @@ class FormSpk extends Component
             'layout' => Instruction::where('spk_type', 'layout')->get(),
             'sample' => Instruction::where('spk_type', 'sample')->get(),
             'stock' => Instruction::where('spk_type', 'stock')->get(),
-            'workStep' => WorkStep::whereNotIn('description', ['Follow Up'])->get(),
+            'workStep' => WorkStep::all(),
         ]);
     }
 
@@ -198,6 +198,7 @@ class FormSpk extends Component
                         }
                     }
 
+                    $now = Carbon::now();
                     $orderDate = Carbon::parse($this->orderDate);
                     $deliveryDate = Carbon::parse($this->deliveryDate);
 
@@ -210,23 +211,24 @@ class FormSpk extends Component
                         'user_id' => 1,
                         'text' => $createSpk->order_name,
                         'duration' => $totalDuration,
-                        'start_date' => $createSpk->order_date,
+                        'start_date' => $now,
                         'parent' => 0,
                         'sortorder' => 0,
                         'progress' => 1,
                         'type' => null,
                         'readonly' => 'true',
+                        'state' => 'Process',
                     ]);
 
                     foreach ($this->langkahKerja as $data) {
                         $createTask = Task::create([
                             'instruction_id' => $createSpk->id,
-                            'user_id' => $this->user_auth,
+                            'user_id' => null,
                             'text' => $data['description'],
                             'duration' => 1,
-                            'start_date' => $createSpk->order_date,
+                            'start_date' => $now,
                             'parent' => $createProject->id,
-                            'sortorder' =>$data['sortorder'],
+                            'sortorder' => $data['sortorder'],
                             'progress' => 0,
                             'type' => 'task',
                             'readonly' => null,
@@ -234,6 +236,43 @@ class FormSpk extends Component
                     }
 
                     DB::commit();
+
+                    try {
+                        DB::beginTransaction();
+                        $completedTask = Task::where('instruction_id', $createSpk->id)
+                            ->where('text', 'Follow Up')
+                            ->first();
+
+                        $nextTask = Task::where('sortorder', '>', $completedTask->sortorder)
+                            ->orderBy('sortorder')
+                            ->first();
+
+                        if ($nextTask) {
+                            $updateStatusPekerjaan = Task::where('instruction_id', $createSpk->id)->update([
+                                'status' => 'Pending Approved',
+                                'pekerjaan' => $nextTask->text,
+                            ]);
+
+                            $nextTask->start_date = $now;
+                            $nextTask->state = 'Pending Approved';
+                            $nextTask->save();
+
+                        }
+
+                        $updateTaskFollowup = Task::where('instruction_id', $createSpk->id)
+                            ->where('text', 'Follow Up')
+                            ->update([
+                                'user_id' => $this->user_auth,
+                                'state' => 'Process',
+                                'duration' => 1,
+                                'start_date' => $now,
+                            ]);
+
+                        DB::commit();
+                    } catch (\Throwable $th) {
+                        DB::rollBack();
+                        session()->flash('error', 'Terjadi kesalahan !!! ' . $th->getMessage());
+                    }
                 } catch (\Throwable $th) {
                     DB::rollBack();
                     session()->flash('error', 'Terjadi kesalahan !!! ' . $th->getMessage());
