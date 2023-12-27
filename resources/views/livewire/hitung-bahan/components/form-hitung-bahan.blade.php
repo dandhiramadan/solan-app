@@ -18,217 +18,245 @@
         </div>
     @endif
 
-    <div class="card mb-4">
-        <h5 class="card-header">Form New SPK</h5>
-        <div class="card-body">
-            <div class="row mb-3">
-                <div class="col-md-6 mb-2">
-                    <x-forms.number wire:model.live="quantityItems" :placeholder="'Quantity'"></x-forms.number>
-                </div>
-                <div class="col-md-6 mb-2">
-                    <div wire:ignore>
-                        <label class="form-label" for="Machine">Machine</label>
-                        <select x-init="$($el).select2({
-                            placeholder: 'Pilih Machine',
-                            allowClear: true,
-                        });
-                        $($el).on('change', function() {
-                            @this.set('machineSelected', $($el).val())
-                        })" name="machineSelected" wire:model.live="machineSelected"
-                            id="machineSelected" class="select2 form-select form-select-lg" data-allow-clear="true">
-                            <option label="Pilih Machine"></option>
-                            @foreach ($machine as $data)
-                                <option value="{{ $data->id }}">{{ $data->name }}</option>
-                            @endforeach
-                        </select>
+    @if ($showCalculate)
+        <div class="card mb-4">
+            <h5 class="card-header">Form New SPK</h5>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-2">
+                        <x-forms.number wire:model.live="quantityItems" :placeholder="'Quantity'"></x-forms.number>
                     </div>
-                    @error('machineSelected')
-                        <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
-                            role="alert">
-                            {{ $message }}
-                        </span>
-                    @enderror
-                </div>
-                <div class="col-md-4 mb-2">
-                    <x-forms.number wire:model.live="planoLength" :placeholder="'Panjang Bahan'"></x-forms.number>
-                </div>
-                <div class="col-md-4 mb-2">
-                    <x-forms.number wire:model.live="planoWidth" :placeholder="'Lebar Bahan'"></x-forms.number>
-                </div>
-                <div class="col-md-4 mb-2">
-                    <div wire:ignore>
-                        <label class="form-label" for="Orientation Layout Bahan">Orientation Layout Bahan</label>
-                        <select x-init="$($el).select2({
-                            placeholder: 'Pilih Orientation Layout Bahan',
-                            allowClear: true,
-                        });
-                        $($el).on('change', function() {
-                            @this.set('orientationPlano', $($el).val())
-                        })" name="orientationPlano" wire:model.live="orientationPlano"
-                            id="orientationPlano" class="select2 form-select form-select-lg" data-allow-clear="true">
-                            <option label="Pilih Orientation Layout Bahan"></option>
-                            <option value="landscape">Landscape</option>
-                            <option value="potrait">Potrait</option>
-                            <option value="auto rotate">Auto Rotate</option>
-                        </select>
-                    </div>
-                    @error('orientationPlano')
-                        <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
-                            role="alert">
-                            {{ $message }}
-                        </span>
-                    @enderror
-                </div>
-                <div class="col-md-4 mb-2">
-                    <x-forms.number wire:model.live="itemsLength" :placeholder="'Panjang Barang Jadi'"></x-forms.number>
-                </div>
-                <div class="col-md-4 mb-2">
-                    <x-forms.number wire:model.live="itemsWidth" :placeholder="'Lebar Barang Jadi'"></x-forms.number>
-                </div>
-                <div class="col-md-4 mb-2">
-                    <div wire:ignore>
-                        <label class="form-label" for="Orientation Layout Setting">Orientation Layout Setting</label>
-                        <select x-init="$($el).select2({
-                            placeholder: 'Pilih Orientation Layout Setting',
-                            allowClear: true,
-                        });
-                        $($el).on('change', function() {
-                            @this.set('orientationSheet', $($el).val())
-                        })" name="orientationSheet" wire:model.live="orientationSheet"
-                            id="orientationSheet" class="select2 form-select form-select-lg" data-allow-clear="true">
-                            <option label="Pilih Orientation Layout Setting"></option>
-                            <option value="landscape">Landscape</option>
-                            <option value="potrait">Potrait</option>
-                            <option value="auto rotate">Auto Rotate</option>
-                        </select>
-                    </div>
-                    @error('orientationSheet')
-                        <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
-                            role="alert">
-                            {{ $message }}
-                        </span>
-                    @enderror
-                </div>
-                <div class="col-md-4 mb-2">
-                    <div class="row">
-                        <label class="form-label" for="Pond">Pond</label>
-                        <div class="col-md mb-md-0 mb-2">
-                            <div class="form-check custom-option custom-option-basic">
-                                <label class="form-check-label custom-option-content" for="pondSelected1">
-                                    <input name="pondSelected"
-                                        class="form-check-input @error('pondSelected') is-invalid @enderror"
-                                        type="radio" value="Y" id="pondSelected1" wire:model.live="pondSelected" />
-                                    <span class="custom-option-header">
-                                        <span class="h6 mb-0">Ya</span>
-                                    </span>
-                                </label>
-                            </div>
+                    <div class="col-md-6 mb-2">
+                        <div wire:ignore>
+                            <label class="form-label" for="Machine">Machine</label>
+                            <select x-init="$($el).select2({
+                                placeholder: 'Pilih Machine',
+                                allowClear: true,
+                            });
+                            $($el).on('change', function() {
+                                @this.set('machineSelected', $($el).val())
+                            })" name="machineSelected" wire:model.live="machineSelected"
+                                id="machineSelected" class="select2 form-select form-select-lg" data-allow-clear="true">
+                                <option label="Pilih Machine"></option>
+                                @foreach ($machine as $data)
+                                    <option value="{{ $data->id }}">{{ $data->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="col-md">
-                            <div class="form-check custom-option custom-option-basic">
-                                <label class="form-check-label custom-option-content" for="pondSelected2">
-                                    <input name="pondSelected"
-                                        class="form-check-input @error('pondSelected') is-invalid @enderror"
-                                        type="radio" value="" id="pondSelected2" wire:model.live="pondSelected" />
-                                    <span class="custom-option-header">
-                                        <span class="h6 mb-0">Tidak</span>
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
-                        @error('pondSelected')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        @error('machineSelected')
+                            <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
+                                role="alert">
+                                {{ $message }}
+                            </span>
                         @enderror
                     </div>
-                </div>
-                <div class="col-md-4 mb-2">
-                    <div class="row">
-                        <label class="form-label" for="Potong Jadi">Potong Jadi</label>
-                        <div class="col-md mb-md-0 mb-2">
-                            <div class="form-check custom-option custom-option-basic">
-                                <label class="form-check-label custom-option-content" for="potongJadiSelected1">
-                                    <input name="potongJadiSelected"
-                                        class="form-check-input @error('potongJadiSelected') is-invalid @enderror"
-                                        type="radio" value="Y" id="potongJadiSelected1" wire:model.live="potongJadiSelected" />
-                                    <span class="custom-option-header">
-                                        <span class="h6 mb-0">Ya</span>
-                                    </span>
-                                </label>
-                            </div>
+                    <div class="col-md-4 mb-2">
+                        <x-forms.number wire:model.live="planoLength" :placeholder="'Panjang Bahan'"></x-forms.number>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <x-forms.number wire:model.live="planoWidth" :placeholder="'Lebar Bahan'"></x-forms.number>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <div wire:ignore>
+                            <label class="form-label" for="Orientation Layout Bahan">Orientation Layout Bahan</label>
+                            <select x-init="$($el).select2({
+                                placeholder: 'Pilih Orientation Layout Bahan',
+                                allowClear: true,
+                            });
+                            $($el).on('change', function() {
+                                @this.set('orientationPlano', $($el).val())
+                            })" name="orientationPlano" wire:model.live="orientationPlano"
+                                id="orientationPlano" class="select2 form-select form-select-lg"
+                                data-allow-clear="true">
+                                <option label="Pilih Orientation Layout Bahan"></option>
+                                <option value="landscape">Landscape</option>
+                                <option value="potrait">Potrait</option>
+                                <option value="auto rotate">Auto Rotate</option>
+                            </select>
                         </div>
-                        <div class="col-md">
-                            <div class="form-check custom-option custom-option-basic">
-                                <label class="form-check-label custom-option-content" for="potongJadiSelected2">
-                                    <input name="potongJadiSelected"
-                                        class="form-check-input @error('potongJadiSelected') is-invalid @enderror"
-                                        type="radio" value="" id="potongJadiSelected2" wire:model.live="potongJadiSelected" />
-                                    <span class="custom-option-header">
-                                        <span class="h6 mb-0">Tidak</span>
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
-                        @error('potongJadiSelected')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        @error('orientationPlano')
+                            <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
+                                role="alert">
+                                {{ $message }}
+                            </span>
                         @enderror
                     </div>
-                </div>
-                <div class="col-md-4 mb-2">
-                    <div class="row">
-                        <label class="form-label" for="Jarak Potong Jadi">Jarak Potong Jadi</label>
-                        <div class="col-md mb-md-0 mb-2">
-                            <div class="form-check custom-option custom-option-basic">
-                                <label class="form-check-label custom-option-content" for="jarakPotongJadiSelected1">
-                                    <input name="jarakPotongJadiSelected"
-                                        class="form-check-input @error('jarakPotongJadiSelected') is-invalid @enderror"
-                                        type="radio" value="Y" id="jarakPotongJadiSelected1" wire:model.live="jarakPotongJadiSelected" />
-                                    <span class="custom-option-header">
-                                        <span class="h6 mb-0">Ya</span>
-                                    </span>
-                                </label>
-                            </div>
+                    <div class="col-md-4 mb-2">
+                        <x-forms.number wire:model.live="itemsLength" :placeholder="'Panjang Barang Jadi'"></x-forms.number>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <x-forms.number wire:model.live="itemsWidth" :placeholder="'Lebar Barang Jadi'"></x-forms.number>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <div wire:ignore>
+                            <label class="form-label" for="Orientation Layout Setting">Orientation Layout
+                                Setting</label>
+                            <select x-init="$($el).select2({
+                                placeholder: 'Pilih Orientation Layout Setting',
+                                allowClear: true,
+                            });
+                            $($el).on('change', function() {
+                                @this.set('orientationSheet', $($el).val())
+                            })" name="orientationSheet" wire:model.live="orientationSheet"
+                                id="orientationSheet" class="select2 form-select form-select-lg"
+                                data-allow-clear="true">
+                                <option label="Pilih Orientation Layout Setting"></option>
+                                <option value="landscape">Landscape</option>
+                                <option value="potrait">Potrait</option>
+                                <option value="auto rotate">Auto Rotate</option>
+                            </select>
                         </div>
-                        <div class="col-md">
-                            <div class="form-check custom-option custom-option-basic">
-                                <label class="form-check-label custom-option-content" for="jarakPotongJadiSelected2">
-                                    <input name="jarakPotongJadiSelected"
-                                        class="form-check-input @error('jarakPotongJadiSelected') is-invalid @enderror"
-                                        type="radio" value="" id="jarakPotongJadiSelected2" wire:model.live="jarakPotongJadiSelected" />
-                                    <span class="custom-option-header">
-                                        <span class="h6 mb-0">Tidak</span>
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
-                        @error('jarakPotongJadiSelected')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        @error('orientationSheet')
+                            <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
+                                role="alert">
+                                {{ $message }}
+                            </span>
                         @enderror
                     </div>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-8">
-                    <div class="fabric-canvas-wrapper-setting" style="border: solid 1px grey;">
-                        <canvas id="canvasSetting"></canvas>
+                    <div class="col-md-4 mb-2">
+                        <div class="row">
+                            <label class="form-label" for="Pond">Pond</label>
+                            <div class="col-md mb-md-0 mb-2">
+                                <div class="form-check custom-option custom-option-basic">
+                                    <label class="form-check-label custom-option-content" for="pondSelected1">
+                                        <input name="pondSelected" class="form-check-input" type="radio"
+                                            value="Y" id="pondSelected1" wire:model.live="pondSelected" />
+                                        <span class="custom-option-header">
+                                            <span class="h6 mb-0">Ya</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-check custom-option custom-option-basic">
+                                    <label class="form-check-label custom-option-content" for="pondSelected2">
+                                        <input name="pondSelected" class="form-check-input" type="radio"
+                                            value="N" id="pondSelected2" wire:model.live="pondSelected" />
+                                        <span class="custom-option-header">
+                                            <span class="h6 mb-0">Tidak</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            @error('pondSelected')
+                                <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
+                                    role="alert">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <div class="row">
+                            <label class="form-label" for="Potong Jadi">Potong Jadi</label>
+                            <div class="col-md mb-md-0 mb-2">
+                                <div class="form-check custom-option custom-option-basic">
+                                    <label class="form-check-label custom-option-content" for="potongJadiSelected1">
+                                        <input name="potongJadiSelected" class="form-check-input" type="radio"
+                                            value="Y" id="potongJadiSelected1"
+                                            wire:model.live="potongJadiSelected" />
+                                        <span class="custom-option-header">
+                                            <span class="h6 mb-0">Ya</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-check custom-option custom-option-basic">
+                                    <label class="form-check-label custom-option-content" for="potongJadiSelected2">
+                                        <input name="potongJadiSelected" class="form-check-input" type="radio"
+                                            value="N" id="potongJadiSelected2"
+                                            wire:model.live="potongJadiSelected" />
+                                        <span class="custom-option-header">
+                                            <span class="h6 mb-0">Tidak</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            @error('potongJadiSelected')
+                                <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
+                                    role="alert">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <div class="row">
+                            <label class="form-label" for="Jarak Potong Jadi">Jarak Potong Jadi</label>
+                            <div class="col-md mb-md-0 mb-2">
+                                <div class="form-check custom-option custom-option-basic">
+                                    <label class="form-check-label custom-option-content"
+                                        for="jarakPotongJadiSelected1">
+                                        <input name="jarakPotongJadiSelected" class="form-check-input" type="radio"
+                                            value="Y" id="jarakPotongJadiSelected1"
+                                            wire:model.live="jarakPotongJadiSelected" />
+                                        <span class="custom-option-header">
+                                            <span class="h6 mb-0">Ya</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-check custom-option custom-option-basic">
+                                    <label class="form-check-label custom-option-content"
+                                        for="jarakPotongJadiSelected2">
+                                        <input name="jarakPotongJadiSelected" class="form-check-input" type="radio"
+                                            value="N" id="jarakPotongJadiSelected2"
+                                            wire:model.live="jarakPotongJadiSelected" />
+                                        <span class="custom-option-header">
+                                            <span class="h6 mb-0">Tidak</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            @error('jarakPotongJadiSelected')
+                                <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
+                                    role="alert">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-8">
-                    <div class="fabric-canvas-wrapper-bahan" style="border: solid 1px grey;">
-                        <canvas id="canvasBahan"></canvas>
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        @if ($showPreviewSetting)
+                            <img src="{{ asset(Storage::url($folderTmpSetting . '/' . $fileNameSetting)) }}">
+                        @endif
+                        @if ($showCanvasSetting)
+                            <div class="fabric-canvas-wrapper-setting" style="border: solid 1px grey;">
+                                <canvas id="canvasSetting"></canvas>
+                            </div>
+                        @endif
                     </div>
                 </div>
-            </div>
-            <div class="pt-4">
-                <button type="button" class="btn btn-primary me-sm-3 me-1" wire:click='calculate' wire:key='calculate'>Generate</button>
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        @if ($showPreviewBahan)
+                            <img src="{{ asset(Storage::url($folderTmpBahan . '/' . $fileNameBahan)) }}">
+                        @endif
+                        @if ($showCanvasBahan)
+                            <div class="fabric-canvas-wrapper-bahan" style="border: solid 1px grey;">
+                                <canvas id="canvasBahan"></canvas>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                <div class="pt-4">
+                    <button type="button" class="btn btn-info me-sm-3 me-1" wire:click.prevent='calculate'>Calculate</button>
+                    <button type="button" class="btn btn-primary me-sm-3 me-1" wire:click='generate'
+                        wire:key='generate'>Save to Form</button>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
+
+    <div id="layoutSettingCalculate"></div>
 </div>
 
 @push('scripts')
-<script src="/assets/plugins/fabricjs/fabric.js"></script>
+    <script src="/assets/plugins/fabricjs/fabric.js"></script>
     <script>
         document.addEventListener('livewire:init', () => {
             Livewire.on('createLayoutSetting', (data) => {
@@ -361,8 +389,19 @@
                 }
 
                 resizeCanvas();
-                // var pngURL = canvas.toDataURL();
-                // console.log(pngURL);
+
+                function saveCanvasSetting() {
+                    var dataURL = canvas.toDataURL('image/png');
+                    var dataJSON = canvas.toJSON();
+                    delete dataJSON.version;
+                    var dataJSON = JSON.stringify(dataJSON);
+
+                    // Display the image
+                    @this.setLayoutSettingDataUrl(dataURL);
+                    @this.setLayoutSettingDataJson(dataJSON);
+                }
+
+                saveCanvasSetting();
             });
 
             Livewire.on('createLayoutSettingAutoRotate', (data) => {
@@ -493,6 +532,19 @@
                 }
 
                 resizeCanvas();
+
+                function saveCanvasSetting() {
+                    var dataURL = canvas.toDataURL('image/png');
+                    var dataJSON = canvas.toJSON();
+                    delete dataJSON.version;
+                    var dataJSON = JSON.stringify(dataJSON);
+
+                    // Display the image
+                    @this.setLayoutSettingDataUrl(dataURL);
+                    @this.setLayoutSettingDataJson(dataJSON);
+                }
+
+                saveCanvasSetting();
             });
 
             Livewire.on('createLayoutBahan', (data) => {
@@ -623,6 +675,19 @@
                     }
                 }
                 resizeCanvas();
+
+                function saveCanvasBahan() {
+                    var dataURL = canvas.toDataURL('image/png');
+                    var dataJSON = canvas.toJSON();
+                    delete dataJSON.version;
+                    var dataJSON = JSON.stringify(dataJSON);
+
+                    // Display the image
+                    @this.setLayoutBahanDataUrl(dataURL);
+                    @this.setLayoutBahanDataJson(dataJSON);
+                }
+
+                saveCanvasBahan();
             });
 
             Livewire.on('createLayoutBahanAutoRotate', (data) => {
@@ -861,6 +926,19 @@
                 }
 
                 resizeCanvas();
+
+                function saveCanvasBahan() {
+                    var dataURL = canvas.toDataURL('image/png');
+                    var dataJSON = canvas.toJSON();
+                    delete dataJSON.version;
+                    var dataJSON = JSON.stringify(dataJSON);
+
+                    // Display the image
+                    @this.setLayoutBahanDataUrl(dataURL);
+                    @this.setLayoutBahanDataJson(dataJSON);
+                }
+
+                saveCanvasBahan();
             });
 
             Livewire.on('createLayoutBahanAutoRotateSheet', (data) => {
@@ -1101,6 +1179,19 @@
                 }
 
                 resizeCanvas();
+
+                function saveCanvasBahan() {
+                    var dataURL = canvas.toDataURL('image/png');
+                    var dataJSON = canvas.toJSON();
+                    delete dataJSON.version;
+                    var dataJSON = JSON.stringify(dataJSON);
+
+                    // Display the image
+                    @this.setLayoutBahanDataUrl(dataURL);
+                    @this.setLayoutBahanDataJson(dataJSON);
+                }
+
+                saveCanvasBahan();
             });
         });
     </script>

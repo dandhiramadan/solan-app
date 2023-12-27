@@ -5,12 +5,16 @@ namespace App\Livewire\HitungBahan\Components;
 use App\Models\Machine;
 use Livewire\Component;
 use App\Models\Instruction;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\Attributes\Title;
+use Illuminate\Support\Facades\Storage;
 
 #[Title('Form Hitung Bahan')]
 class FormHitungBahan extends Component
 {
+    public $spk;
+
     #[Rule('required', message: 'Quantity harus diisi.')]
     public $quantityItems;
 
@@ -33,13 +37,13 @@ class FormHitungBahan extends Component
     public $maximalWidthBahan;
 
     //jarak
-    // #[Rule('required', message: 'Pond harus diisi.')]
+    #[Rule('required', message: 'Pond harus diisi.')]
     public $pondSelected;
 
-    // #[Rule('required', message: 'Potong Jadi harus diisi.')]
+    #[Rule('required', message: 'Potong Jadi harus diisi.')]
     public $potongJadiSelected;
 
-    // #[Rule('required', message: 'Jarak Potong harus diisi.')]
+    #[Rule('required', message: 'Jarak Potong harus diisi.')]
     public $jarakPotongJadiSelected;
 
     public $sheetMarginTop = 1;
@@ -65,11 +69,28 @@ class FormHitungBahan extends Component
     public $resultPlano = [];
 
     public $maxItemsOnPlano;
+    public $showCalculate = true;
+
+    public $layoutSettingDataJson;
+    public $layoutSettingDataUrl;
+
+    public $layoutBahanDataJson;
+    public $layoutBahanDataUrl;
+
+    public $folderTmpSetting;
+    public $fileNameSetting;
+    public $showPreviewSetting = false;
+    public $showCanvasSetting = true;
+
+    public $folderTmpBahan;
+    public $fileNameBahan;
+    public $showPreviewBahan = false;
+    public $showCanvasBahan = true;
 
     public function mount($id)
     {
-        $spk = Instruction::find($id);
-        $this->quantityItems = $spk->quantity - $spk->quantity_stock;
+        $this->spk = Instruction::find($id);
+        $this->quantityItems = $this->spk->quantity - $this->spk->quantity_stock;
     }
 
     public function render()
@@ -81,9 +102,9 @@ class FormHitungBahan extends Component
 
     private function calculateSheetDimensions($itemsLength, $itemsWidth, $gapBetweenItems, $minimalLengthSheet, $minimalWidthSheet, $maximalLengthSheet, $maximalWidthSheet, $sheetMarginTop, $sheetMarginBottom, $sheetMarginLeft, $sheetMarginRight, $orientationSheet)
     {
-        if($itemsLength > $itemsWidth){
+        if ($itemsLength > $itemsWidth) {
             $orientationSheet = 'landscape';
-        }else{
+        } else {
             $orientationSheet = 'potrait';
         }
 
@@ -182,9 +203,9 @@ class FormHitungBahan extends Component
 
     private function calculateAllSheetDimensions($itemsLength, $itemsWidth, $gapBetweenItems, $minimalLengthSheet, $minimalWidthSheet, $maximalLengthSheet, $maximalWidthSheet, $sheetMarginTop, $sheetMarginBottom, $sheetMarginLeft, $sheetMarginRight, $orientationSheet)
     {
-        if($itemsLength > $itemsWidth){
+        if ($itemsLength > $itemsWidth) {
             $orientationSheet = 'landscape';
-        }else{
+        } else {
             $orientationSheet = 'potrait';
         }
 
@@ -643,8 +664,11 @@ class FormHitungBahan extends Component
     public function calculate()
     {
         $this->validate();
+        $this->showPreviewSetting = false;
+        $this->showCanvasSetting = true;
+        $this->showPreviewBahan = false;
+        $this->showCanvasBahan = true;
 
-        $this->skipRender();
         // //hitungJarakAntarBarang
         if ($this->pondSelected === 'Y' && $this->potongJadiSelected === 'N' && $this->jarakPotongJadiSelected === 'N') {
             $this->gapBetweenItems = 0.4;
@@ -698,5 +722,43 @@ class FormHitungBahan extends Component
 
             $resultAllPlanoPotrait = $this->calculateNumSheetsAutoRotateSizeSheetInPlano($resultAllSheet, $this->planoLength, $this->planoWidth);
         }
+    }
+
+    public function setLayoutSettingDataUrl($dataURL)
+    {
+        $this->folderTmpSetting = 'public/' . $this->spk->spk_number . '/hitung-bahan/tmp-setting/';
+        $this->layoutSettingDataUrl = $dataURL;
+        $base64ImageSetting = $dataURL;
+        $uniqueIdSetting = uniqid();
+        $this->fileNameSetting = $uniqueIdSetting . '.png';
+        $imageSetting = base64_decode(substr($base64ImageSetting, strpos($base64ImageSetting, ',') + 1));
+        Storage::put($this->folderTmpSetting . $this->fileNameSetting, $imageSetting);
+
+        $this->showPreviewSetting = true;
+        $this->showCanvasSetting = false;
+    }
+
+    public function setLayoutSettingDataJson($dataJson)
+    {
+        $this->layoutSettingDataJson = $dataJson;
+    }
+
+    public function setLayoutBahanDataUrl($dataURL)
+    {
+        $this->folderTmpBahan = 'public/' . $this->spk->spk_number . '/hitung-bahan/tmp-bahan/';
+        $this->layoutBahanDataUrl = $dataURL;
+        $base64ImageBahan = $dataURL;
+        $uniqueIdBahan = uniqid();
+        $this->fileNameBahan = $uniqueIdBahan . '.png';
+        $imageBahan = base64_decode(substr($base64ImageBahan, strpos($base64ImageBahan, ',') + 1));
+        Storage::put($this->folderTmpBahan . $this->fileNameBahan, $imageBahan);
+
+        $this->showPreviewBahan = true;
+        $this->showCanvasBahan = false;
+    }
+
+    public function setLayoutBahanDataJson($dataJson)
+    {
+        $this->layoutBahanDataJson = $dataJson;
     }
 }

@@ -7,7 +7,7 @@ use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
 
-class ProcessTask extends Component
+class RejectTask extends Component
 {
     use WithPagination;
     public $search;
@@ -32,7 +32,7 @@ class ProcessTask extends Component
 
     public function render()
     {
-        return view('livewire.stock.components.process-task', [
+        return view('livewire.stock.components.reject-task', [
             'pendingApproved' => Task::where('order_status', 'Running')
                 ->where('text', 'Cari/Ambil Stock')
                 ->where('status', 'Pending Approved')

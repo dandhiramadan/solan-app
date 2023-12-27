@@ -9,11 +9,17 @@
 
             </div>
             <div class="row">
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-3 col-md-12">
                     @livewire('stock.components.pending-approved-task')
                 </div>
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-3 col-md-12">
                     @livewire('stock.components.process-task')
+                </div>
+                <div class="col-lg-3 col-md-12">
+                    @livewire('stock.components.waiting-stk-task')
+                </div>
+                <div class="col-lg-3 col-md-12">
+                    @livewire('stock.components.reject-task')
                 </div>
             </div>
         </div>

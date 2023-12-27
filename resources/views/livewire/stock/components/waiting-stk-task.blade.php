@@ -2,38 +2,38 @@
     {{-- Stop trying to control. --}}
     <div class="row">
         <div class="col-lg-12 mb-3 col-md-12">
-            <div class="card shadow-none bg-transparent border border-info mb-3">
+            <div class="card shadow-none bg-transparent border border-secondary mb-3">
                 <div class="card-body">
                     <div class="card-title header-elements">
-                        <h5 class="m-0 me-2">Process</h5>
+                        <h5 class="m-0 me-2">Waiting STK</h5>
                         <div class="card-title-elements ms-auto">
-                            <span class="badge bg-info rounded-pill">{{ $pendingApprovedCount }}</span>
+                            <span class="badge bg-secondary rounded-pill">{{ $pendingApprovedCount }}</span>
                         </div>
                     </div>
                     <div class="accordion mt-3">
                         @forelse ($pendingApproved as $data)
                             <div class="accordion-item card">
                                 <li class="d-flex align-items-center accordion-button collapsed"
-                                    data-bs-toggle="collapse" data-bs-target="#process-{{ $data->id }}"
+                                    data-bs-toggle="collapse" data-bs-target="#waiting-stk-{{ $data->id }}"
                                     aria-expanded="false" role="button">
-                                    <div class="badge bg-label-info me-3 rounded p-2">
+                                    <div class="badge bg-label-secondary me-3 rounded p-2">
                                         <i class="ti ti-package ti-sm"></i>
                                     </div>
                                     <div
                                         class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                         <div class="me-2">
                                             <h6 class="mb-0">{{ $data->instruction->spk_number }}</h6>
-                                            <span class="badge rounded-pill bg-label-info">Process</span>
-                                            <span class="badge rounded-pill bg-label-info">{{ $data->pekerjaan }}</span>
+                                            <span class="badge rounded-pill bg-label-secondary">{{ $data->status }}</span>
+                                            <span class="badge rounded-pill bg-label-secondary">{{ $data->pekerjaan }}</span>
                                         </div>
                                     </div>
                                 </li>
-                                <div id="process-{{ $data->id }}" class="accordion-collapse collapse">
+                                <div id="waiting-stk-{{ $data->id }}" class="accordion-collapse collapse">
                                     <ul class="p-2 m-1" data-bs-toggle="offcanvas"
                                     data-bs-target="#offcanvasScroll"
                                     aria-controls="offcanvasScroll" role="button" @click="$dispatch('show-off-canvas', {id:{{ $data->instruction_id }}})">
                                         <li class="d-flex justify-content-center align-items-center mb-3">
-                                            <a href="form-request-stock/{{ $data->id }}" class="btn btn-outline-info me-3">
+                                            <a href="form-request-stock/{{ $data->id }}" class="btn btn-outline-secondary me-3">
                                                 <span class="ti-xs ti ti-clock-play me-1"></span>Mulai Kerjakan
                                             </a>
                                             {{-- <button data-bs-toggle="offcanvas"
@@ -44,7 +44,7 @@
                                         </li>
                                         <div class="border-bottom border-bottom-dashed"></div>
                                         <li class="d-flex align-items-center mb-3 mt-3">
-                                            <div class="badge bg-label-info me-3 rounded p-2">
+                                            <div class="badge bg-label-secondary me-3 rounded p-2">
                                                 <i class="ti ti-user ti-sm"></i>
                                             </div>
                                             <div
@@ -57,7 +57,7 @@
                                         </li>
                                         <div class="border-bottom border-bottom-dashed"></div>
                                         <li class="d-flex align-items-center mb-3 mt-3">
-                                            <div class="badge bg-label-info me-3 rounded p-2">
+                                            <div class="badge bg-label-secondary me-3 rounded p-2">
                                                 <i class="ti ti-tag ti-sm"></i>
                                             </div>
                                             <div
@@ -70,7 +70,7 @@
                                         </li>
                                         <div class="border-bottom border-bottom-dashed"></div>
                                         <li class="d-flex align-items-center mb-3 mt-3">
-                                            <div class="badge bg-label-info me-3 rounded p-2">
+                                            <div class="badge bg-label-secondary me-3 rounded p-2">
                                                 <i class="ti ti-file-star ti-sm"></i>
                                             </div>
                                             <div
@@ -83,7 +83,7 @@
                                         </li>
                                         <div class="border-bottom border-bottom-dashed"></div>
                                         <li class="d-flex align-items-center mb-3 mt-3">
-                                            <div class="badge bg-label-info me-3 rounded p-2">
+                                            <div class="badge bg-label-secondary me-3 rounded p-2">
                                                 <i class="ti ti-calendar ti-sm"></i>
                                             </div>
                                             <div
@@ -96,7 +96,7 @@
                                         </li>
                                         <div class="border-bottom border-bottom-dashed"></div>
                                         <li class="d-flex align-items-center mb-3 mt-3">
-                                            <div class="badge bg-label-info me-3 rounded p-2">
+                                            <div class="badge bg-label-secondary me-3 rounded p-2">
                                                 <i class="ti ti-truck-delivery ti-sm"></i>
                                             </div>
                                             <div
@@ -109,7 +109,7 @@
                                         </li>
                                         <div class="border-bottom border-bottom-dashed"></div>
                                         <li class="d-flex align-items-center mb-3 mt-3">
-                                            <div class="badge bg-label-info me-3 rounded p-2">
+                                            <div class="badge bg-label-secondary me-3 rounded p-2">
                                                 <i class="ti ti-square-asterisk ti-sm"></i>
                                             </div>
                                             <div
@@ -122,7 +122,7 @@
                                         </li>
                                         <div class="border-bottom border-bottom-dashed"></div>
                                         <li class="d-flex align-items-center mb-3 mt-3">
-                                            <div class="badge bg-label-info me-3 rounded p-2">
+                                            <div class="badge bg-label-secondary me-3 rounded p-2">
                                                 <i class="ti ti-user-star ti-sm"></i>
                                             </div>
                                             <div
@@ -135,7 +135,7 @@
                                         </li>
                                         <div class="border-bottom border-bottom-dashed"></div>
                                         <li class="d-flex align-items-center mb-3 mt-3">
-                                            <div class="badge bg-label-info me-3 rounded p-2">
+                                            <div class="badge bg-label-secondary me-3 rounded p-2">
                                                 <i class="ti ti-ruler-measure ti-sm"></i>
                                             </div>
                                             <div
@@ -148,7 +148,7 @@
                                         </li>
                                         <div class="border-bottom border-bottom-dashed"></div>
                                         <li class="d-flex align-items-center mb-3 mt-3">
-                                            <div class="badge bg-label-info me-3 rounded p-2">
+                                            <div class="badge bg-label-secondary me-3 rounded p-2">
                                                 <i class="ti ti-packages ti-sm"></i>
                                             </div>
                                             <div
