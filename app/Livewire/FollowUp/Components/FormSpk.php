@@ -280,8 +280,10 @@ class FormSpk extends Component
                         $extension = substr($file->getClientOriginalName(), $lastDotPosition + 1);
 
                         $uniqueId = uniqid();
-                        $fileName = $this->spkNumber . '-file-contoh-' . $uniqueId . '.' . $extension;
-                        Storage::putFileAs($folder, $file, $fileName);
+                        $fileName = $this->spkNumber . '-file-arsip-accounting-' . $uniqueId . '.' . $extension;
+
+                        // Store the file with the specified filename
+                        $file->storeAs($folder, $fileName);
 
                         Document::create([
                             'instruction_id' => $createSpk->id,
@@ -296,8 +298,10 @@ class FormSpk extends Component
                         $extension = substr($file->getClientOriginalName(), $lastDotPosition + 1);
 
                         $uniqueId = uniqid();
-                        $fileName = $this->spkNumber . '-file-arsip-' . $uniqueId . '.' . $extension;
-                        Storage::putFileAs($folder, $file, $fileName);
+                        $fileName = $this->spkNumber . '-file-arsip-accounting-' . $uniqueId . '.' . $extension;
+
+                        // Store the file with the specified filename
+                        $file->storeAs($folder, $fileName);
 
                         Document::create([
                             'instruction_id' => $createSpk->id,
@@ -313,7 +317,8 @@ class FormSpk extends Component
 
                         $uniqueId = uniqid();
                         $fileName = $this->spkNumber . '-file-arsip-accounting-' . $uniqueId . '.' . $extension;
-                        Storage::putFileAs($folder, $file, $fileName);
+                        // Store the file with the specified filename
+                        $file->storeAs($folder, $fileName);
 
                         Document::create([
                             'instruction_id' => $createSpk->id,

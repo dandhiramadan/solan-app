@@ -52,11 +52,11 @@ class User extends Authenticatable
 
     public function task()
     {
-        return $this->hasOne(Task::class);
+        return $this->hasMany(Task::class);
     }
 
     public function catatan()
     {
-        return $this->hasOne(Catatan::class);
+        return $this->hasMany(Catatan::class);
     }
 }

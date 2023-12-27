@@ -18,16 +18,16 @@ class Instruction extends Model
 
     public function task()
     {
-        return $this->hasOne(Task::class);
+        return $this->hasMany(Task::class);
     }
 
     public function document()
     {
-        return $this->hasOne(Document::class);
+        return $this->hasMany(Document::class);
     }
 
     public function catatan()
     {
-        return $this->hasOne(Catatan::class);
+        return $this->hasMany(Catatan::class);
     }
 }
