@@ -26,38 +26,36 @@
                         </div>
                         @endif
                     @empty
-
+                        Tidak ada catatan
                     @endforelse
-
                 </div>
             </div>
-
             <div class="nav-align-top mb-4">
                 <ul class="nav nav-pills mb-3" role="tablist">
                     <li class="nav-item">
                         <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home"
+                            data-bs-target="#navs-pills-top-details" aria-controls="navs-pills-top-details"
                             aria-selected="true">
                             Details
                         </button>
                     </li>
                     <li class="nav-item">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile"
+                            data-bs-target="#navs-pills-top-task" aria-controls="navs-pills-top-task"
                             aria-selected="false">
-                            Work Step
+                            Task
                         </button>
                     </li>
                     <li class="nav-item">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-top-messages" aria-controls="navs-pills-top-messages"
+                            data-bs-target="#navs-pills-top-activity" aria-controls="navs-pills-top-activity"
                             aria-selected="false">
                             Activity
                         </button>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane fade show active" id="navs-pills-top-home" role="tabpanel">
+                    <div class="tab-pane fade show active" id="navs-pills-top-details" role="tabpanel">
                         @forelse ($document as $data)
                             @if ($data['type_file'] == 'contoh')
                                 <div class="card mb-3">
@@ -168,19 +166,112 @@
                             <input class="form-control" type="text" wire:model="ppn" readonly />
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
-                        <p>
-                            Donut dragée jelly pie halvah. Danish gingerbread bonbon cookie wafer candy oat cake ice
-                            cream. Gummies halvah tootsie roll muffin biscuit icing dessert gingerbread. Pastry ice
-                            cream
-                            cheesecake fruitcake.
-                        </p>
-                        <p class="mb-0">
-                            Jelly-o jelly beans icing pastry cake cake lemon drops. Muffin muffin pie tiramisu halvah
-                            cotton candy liquorice caramels.
-                        </p>
+                    <div class="tab-pane fade" id="navs-pills-top-task" role="tabpanel">
+                        @forelse ($task as $data)
+                        <div class="accordion mt-3" id="task">
+                            <div class="card accordion-item active">
+                              <h2 class="accordion-header d-flex align-items-center">
+                                <button
+                                  type="button"
+                                  class="accordion-button"
+                                  data-bs-toggle="collapse"
+                                  data-bs-target="#task-{{ $data['id'] }}"
+                                  aria-expanded="true">
+                                  <i class="ti ti-star ti-xs me-2"></i>
+                                  {{ $data['text'] }}
+                                </button>
+                              </h2>
+                              <div id="task-{{ $data['id'] }}" class="accordion-collapse collapse show">
+                                <div class="accordion-body">
+                                    <ul class="p-2 m-1">
+                                        <div class="border-bottom border-bottom-dashed"></div>
+                                        <li class="d-flex align-items-center mb-3 mt-3">
+                                            <div class="badge bg-label-primary me-3 rounded p-2">
+                                                <i class="ti ti-calendar ti-sm"></i>
+                                            </div>
+                                            <div
+                                                class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                <div class="me-2">
+                                                    <h6 class="mb-0">{{ $data['start_date'] ?? '-'}}</h6>
+                                                    <small class="text-muted d-block">Dijadwalkan</small>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <div class="border-bottom border-bottom-dashed"></div>
+                                        <li class="d-flex align-items-center mb-3 mt-3">
+                                            <div class="badge bg-label-primary me-3 rounded p-2">
+                                                <i class="ti ti-target-arrow ti-sm"></i>
+                                            </div>
+                                            <div
+                                                class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                <div class="me-2">
+                                                    <h6 class="mb-0">{{ $data['initial_duration'] ?? '-'}} Jam</h6>
+                                                    <small class="text-muted d-block">Target Selesai</small>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <div class="border-bottom border-bottom-dashed"></div>
+                                        <li class="d-flex align-items-center mb-3 mt-3">
+                                            <div class="badge bg-label-primary me-3 rounded p-2">
+                                                <i class="ti ti-player-play ti-sm"></i>
+                                            </div>
+                                            <div
+                                                class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                <div class="me-2">
+                                                    <h6 class="mb-0">{{ $data['user_start_date'] ?? '-'}}</h6>
+                                                    <small class="text-muted d-block">Dikerjakan</small>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <div class="border-bottom border-bottom-dashed"></div>
+                                        <li class="d-flex align-items-center mb-3 mt-3">
+                                            <div class="badge bg-label-primary me-3 rounded p-2">
+                                                <i class="ti ti-flag ti-sm"></i>
+                                            </div>
+                                            <div
+                                                class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                <div class="me-2">
+                                                    <h6 class="mb-0">{{ $data['finish_date'] ?? '-'}}</h6>
+                                                    <small class="text-muted d-block">Selesai</small>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <div class="border-bottom border-bottom-dashed"></div>
+                                        <li class="d-flex align-items-center mb-3 mt-3">
+                                            <div class="badge bg-label-primary me-3 rounded p-2">
+                                                <i class="ti ti-hourglass ti-sm"></i>
+                                            </div>
+                                            <div
+                                                class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                <div class="me-2">
+                                                    <h6 class="mb-0">{{ $data['duration'] ?? '-'}} Jam</h6>
+                                                    <small class="text-muted d-block">Duration</small>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <div class="border-bottom border-bottom-dashed"></div>
+                                        <li class="d-flex align-items-center mb-3 mt-3">
+                                            <div class="badge bg-label-primary me-3 rounded p-2">
+                                                <i class="ti ti-file ti-sm"></i>
+                                            </div>
+                                            <div
+                                                class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                <div class="me-2">
+                                                    <h6 class="mb-0">{{ $data['jumlah_lembar_cetak'] ?? '-'}}</h6>
+                                                    <small class="text-muted d-block">Total Lembar Cetak</small>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        @empty
+
+                        @endforelse
                     </div>
-                    <div class="tab-pane fade" id="navs-pills-top-messages" role="tabpanel">
+                    <div class="tab-pane fade" id="navs-pills-top-activity" role="tabpanel">
                         <p>
                             Oat cake chupa chups dragée donut toffee. Sweet cotton candy jelly beans macaroon gummies
                             cupcake gummi bears cake chocolate.

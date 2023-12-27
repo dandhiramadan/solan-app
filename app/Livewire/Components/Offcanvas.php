@@ -2,13 +2,14 @@
 
 namespace App\Livewire\Components;
 
+use App\Models\Task;
 use Livewire\Component;
 use App\Models\Instruction;
 use Livewire\Attributes\On;
 
 class Offcanvas extends Component
 {
-    public $spk_number, $spk_type, $taxes_type, $parent, $customer_name, $fsc_type, $spk_number_fsc, $order_date, $delivery_date, $purchase_order, $order_name, $code_style, $request_quantity, $quantity_stock, $quantity, $followup, $price, $ppn, $panjang_barang, $lebar_barang, $spk_layout, $spk_sample, $spk_stock, $document = [], $catatan = [];
+    public $spk_number, $spk_type, $taxes_type, $parent, $customer_name, $fsc_type, $spk_number_fsc, $order_date, $delivery_date, $purchase_order, $order_name, $code_style, $request_quantity, $quantity_stock, $quantity, $followup, $price, $ppn, $panjang_barang, $lebar_barang, $spk_layout, $spk_sample, $spk_stock, $document = [], $catatan = [], $task = [];
 
     #[On('show-off-canvas')]
     public function showOffCanvas($id)
@@ -40,6 +41,8 @@ class Offcanvas extends Component
 
         $this->document = $instruction->document;
         $this->catatan = $instruction->catatan;
+
+        $this->task = Task::orderBy('sortorder')->where('instruction_id', $id)->whereNot('type', null)->with('instruction', 'user')->get();
     }
 
     public function render()

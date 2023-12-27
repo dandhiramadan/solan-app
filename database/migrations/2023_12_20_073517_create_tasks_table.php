@@ -21,9 +21,12 @@ return new class extends Migration {
             $table->string('text');
             $table->integer('target_lembar_cetak')->nullable();
             $table->integer('jumlah_lembar_cetak')->nullable();
+            $table->integer('initial_duration')->nullable();
             $table->integer('duration');
             $table->float('progress');
-            $table->dateTime('start_date');
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('finish_date')->nullable();
+            $table->dateTime('user_start_date')->nullable();
             $table->integer('parent')->nullable();
             $table->integer('sortorder')->default(0);
             $table->integer('priority')->default(1);
