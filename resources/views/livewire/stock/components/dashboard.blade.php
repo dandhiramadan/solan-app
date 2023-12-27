@@ -157,4 +157,7 @@
                 </div>
             </div> --}}
         </div>
+
+
+    @livewire('components.offcanvas')
     </div>
