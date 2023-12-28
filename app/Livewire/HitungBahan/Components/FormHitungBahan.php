@@ -87,6 +87,9 @@ class FormHitungBahan extends Component
     public $showPreviewBahan = false;
     public $showCanvasBahan = true;
 
+    public $detailResultSetting;
+    public $detailResultBahan;
+
     public function mount($id)
     {
         $this->spk = Instruction::find($id);
@@ -653,8 +656,6 @@ class FormHitungBahan extends Component
             }
         }
 
-        // dd($results);
-
         $this->dispatch('createLayoutBahanAutoRotateSheet', $bestDimensionPlano);
         $this->dispatch('createLayoutSettingAutoRotate', $bestDimensionPlano);
 
@@ -695,17 +696,21 @@ class FormHitungBahan extends Component
 
         if ($this->orientationSheet == 'landscape') {
             $resultSheetLandscape = $this->calculateSheetDimensions($this->itemsLength, $this->itemsWidth, $this->gapBetweenItems, $this->minimalLengthSheet, $this->minimalWidthSheet, $this->maximalLengthSheet, $this->maximalWidthSheet, $this->sheetMarginTop, $this->sheetMarginBottom, $this->sheetMarginLeft, $this->sheetMarginRight, $this->orientationSheet);
+            $this->detailResultSetting = $resultSheetLandscape;
 
             if ($this->orientationPlano == 'landscape') {
                 $resultPlanoLandscape = $this->calculateNumSheetsInPlano($resultSheetLandscape['sheetLength'], $resultSheetLandscape['sheetWidth'], $resultSheetLandscape['itemsPerSheet'], $this->planoLength, $this->planoWidth, $this->orientationPlano);
+                $this->detailResultBahan = $resultPlanoLandscape;
             } elseif ($this->orientationPlano == 'potrait') {
                 $resultPlanoPotrait = $this->calculateNumSheetsInPlano($resultSheetLandscape['sheetLength'], $resultSheetLandscape['sheetWidth'], $resultSheetLandscape['itemsPerSheet'], $this->planoLength, $this->planoWidth, $this->orientationPlano);
+                $this->detailResultBahan = $resultPlanoPotrait;
             } else {
                 $resultAllSheetLandscape = $this->calculateSheetDimensions($this->itemsLength, $this->itemsWidth, $this->gapBetweenItems, $this->minimalLengthSheet, $this->minimalWidthSheet, $this->maximalLengthSheet, $this->maximalWidthSheet, $this->sheetMarginTop, $this->sheetMarginBottom, $this->sheetMarginLeft, $this->sheetMarginRight, $this->orientationSheet);
                 $resultAllPlanoLandscape = $this->calculateNumSheetsAutoRotateInPlano($resultAllSheetLandscape, $this->planoLength, $this->planoWidth, 'landscape');
             }
         } elseif ($this->orientationSheet == 'potrait') {
             $resultSheetPotrait = $this->calculateSheetDimensions($this->itemsLength, $this->itemsWidth, $this->gapBetweenItems, $this->minimalLengthSheet, $this->minimalWidthSheet, $this->maximalLengthSheet, $this->maximalWidthSheet, $this->sheetMarginTop, $this->sheetMarginBottom, $this->sheetMarginLeft, $this->sheetMarginRight, $this->orientationSheet);
+            $this->detailResultSetting = $resultSheetLandscape;
 
             if ($this->orientationPlano == 'landscape') {
                 $resultPlanoLandscape = $this->calculateNumSheetsInPlano($resultSheetPotrait['sheetLength'], $resultSheetPotrait['sheetWidth'], $resultSheetPotrait['itemsPerSheet'], $this->planoLength, $this->planoWidth, $this->orientationPlano);

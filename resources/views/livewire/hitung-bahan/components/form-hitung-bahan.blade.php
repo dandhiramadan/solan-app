@@ -22,7 +22,7 @@
         <div class="card mb-4">
             <h5 class="card-header">Form New SPK</h5>
             <div class="card-body">
-                <div class="row mb-3">
+                <div class="row">
                     <div class="col-md-6 mb-2">
                         <x-forms.number wire:model.live="quantityItems" :placeholder="'Quantity'"></x-forms.number>
                     </div>
@@ -219,40 +219,103 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-md-8">
-                        @if ($showPreviewSetting)
-                            <img src="{{ asset(Storage::url($folderTmpSetting . '/' . $fileNameSetting)) }}">
-                        @endif
-                        @if ($showCanvasSetting)
-                            <div class="fabric-canvas-wrapper-setting" style="border: solid 1px grey;">
-                                <canvas id="canvasSetting"></canvas>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-8">
-                        @if ($showPreviewBahan)
-                            <img src="{{ asset(Storage::url($folderTmpBahan . '/' . $fileNameBahan)) }}">
-                        @endif
-                        @if ($showCanvasBahan)
-                            <div class="fabric-canvas-wrapper-bahan" style="border: solid 1px grey;">
-                                <canvas id="canvasBahan"></canvas>
-                            </div>
-                        @endif
-                    </div>
-                </div>
                 <div class="pt-4">
-                    <button type="button" class="btn btn-info me-sm-3 me-1" wire:click.prevent='calculate'>Calculate</button>
-                    <button type="button" class="btn btn-primary me-sm-3 me-1" wire:click='generate'
-                        wire:key='generate'>Save to Form</button>
+                    @if ($showPreviewSetting)
+                        <button type="button" class="btn btn-info me-sm-3 me-1"
+                            wire:click.prevent='calculate'>Recalculate</button>
+                    @else
+                        <button type="button" class="btn btn-info me-sm-3 me-1"
+                            wire:click.prevent='calculate'>Calculate</button>
+                    @endif
+
+                    @if ($showPreviewSetting)
+                        <button type="button" class="btn btn-primary me-sm-3 me-1" wire:click='generate'
+                            wire:key='generate'>Save to Form</button>
+                    @endif
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <div class="fabric-canvas-wrapper-setting">
+                            @if ($showPreviewSetting)
+                                <h5 class="card-header">Layout Setting</h5>
+                                <img src="{{ asset(Storage::url($folderTmpSetting . '/' . $fileNameSetting)) }}">
+                            @endif
+                            <canvas id="canvasSetting"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <h5 class="card-header">Details Setting</h5>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-2">
+                                        <label for="Panjang Lembar Cetak" class="form-label">Panjang Lembar Cetak</label>
+                                        <input class="form-control" type="text" wire:model.defer="detailResultSetting.sheetLength" readonly />
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <label for="Lebar Lembar" class="form-label">Lebar Lembar</label>
+                                        <input class="form-control" type="text" wire:model.defer="detailResultSetting.sheetWidth" readonly />
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <label for="Panjang Barang Jadi" class="form-label">Panjang Barang Jadi</label>
+                                        <input class="form-control" type="text" wire:model.defer="detailResultSetting.itemsLength" readonly />
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <label for="Lebar Barang Jadi" class="form-label">Lebar Barang Jadi</label>
+                                        <input class="form-control" type="text" wire:model.defer="detailResultSetting.itemsWidth" readonly />
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <label for="Panjang Naik" class="form-label">Panjang Naik</label>
+                                        <input class="form-control" type="text" wire:model.defer="detailResultSetting.col" readonly />
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <label for="Lebar Naik" class="form-label">Lebar Naik</label>
+                                        <input class="form-control" type="text" wire:model.defer="detailResultSetting.row" readonly />
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <label for="Jarak Atas" class="form-label">Jarak Atas</label>
+                                        <input class="form-control" type="text" wire:model.defer="detailResultSetting.sheetMarginTop" readonly />
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <label for="Jarak Bawah" class="form-label">Jarak Bawah</label>
+                                        <input class="form-control" type="text" wire:model.defer="detailResultSetting.sheetMarginBottom" readonly />
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <label for="Jarak Kiri" class="form-label">Jarak Kiri</label>
+                                        <input class="form-control" type="text" wire:model.defer="detailResultSetting.sheetMarginLeft" readonly />
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <label for="Jarak Kanan" class="form-label">Jarak Kanan</label>
+                                        <input class="form-control" type="text" wire:model.defer="detailResultSetting.sheetMarginRight" readonly />
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <label for="Jarak Antar Barang" class="form-label">Jarak Antar Barang</label>
+                                        <input class="form-control" type="text" wire:model.defer="detailResultSetting.gapBetweenItems" readonly />
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <label for="1 Lembar Cetak" class="form-label">1 Lembar Cetak (Barang Jadi)</label>
+                                        <input class="form-control" type="text" wire:model.defer="detailResultSetting.itemsPerSheet" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <div class="fabric-canvas-wrapper-bahan">
+                            @if ($showPreviewBahan)
+                                <h5 class="card-header">Layout Bahan</h5>
+                                <img src="{{ asset(Storage::url($folderTmpBahan . '/' . $fileNameBahan)) }}">
+                            @endif
+                            <canvas id="canvasBahan"></canvas>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     @endif
-
-    <div id="layoutSettingCalculate"></div>
 </div>
 
 @push('scripts')
@@ -873,7 +936,7 @@
                     }
                 }
 
-                // Loop untuk baris
+                // Loop untuk extra 2
                 for (let i = 0; i < row_extra_2; i++) {
                     // Loop untuk kolom
                     for (let j = 0; j < col_extra_2; j++) {
