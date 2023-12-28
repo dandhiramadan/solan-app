@@ -374,10 +374,14 @@ class FormSpk extends Component
                             ]);
 
                         DB::commit();
+
+
+                        $this->redirectRoute('formSpk.FollowUp', ['state' => 'create']);
                     } catch (\Throwable $th) {
                         DB::rollBack();
                         session()->flash('error', 'Terjadi kesalahan !!! ' . $th->getMessage());
                     }
+
                 } catch (\Throwable $th) {
                     DB::rollBack();
                     session()->flash('error', 'Terjadi kesalahan !!! ' . $th->getMessage());

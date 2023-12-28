@@ -7,10 +7,11 @@ use App\Livewire\FollowUp\Components\FormSpk;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Livewire\Penjadwalan\Components\TimelineTask;
 use App\Livewire\HitungBahan\Components\FormHitungBahan;
+use App\Livewire\Stock\Components\Dashboard as DashboardStock;
+use App\Livewire\HitungBahan\Components\FormOtomatisHitungBahan;
 use App\Livewire\FollowUp\Components\Dashboard as DashboardFollowup;
 use App\Livewire\HitungBahan\Components\Dashboard as DashboardHitungBahan;
 use App\Livewire\Penjadwalan\Components\Dashboard as DashboardPenjadwalan;
-use App\Livewire\Stock\Components\Dashboard as DashboardStock;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +48,8 @@ Route::group(['middleware' => ['auth']], function () {
     });
     Route::group(['prefix' => 'hitung-bahan', 'middleware' => ['user-access:Hitung Bahan']], function () {
         Route::get('/dashboard', DashboardHitungBahan::class)->name('dashboard.HitungBahan');
-        Route::get('/form-hitung-bahan/{id}', FormHitungBahan::class)->name('timelineTask.HitungBahan');
+        Route::get('/form-otomatis-hitung-bahan/{id}', FormOtomatisHitungBahan::class)->name('formOtomatis.HitungBahan');
+        Route::get('/form-hitung-bahan/{state}/{id}', FormHitungBahan::class)->name('FormCreate.HitungBahan');
     });
 });
 
