@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Task;
 use App\Models\Catatan;
 use App\Models\Document;
+use App\Models\LayoutSetting;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,5 +30,10 @@ class Instruction extends Model
     public function catatan()
     {
         return $this->hasMany(Catatan::class);
+    }
+
+    public function layoutSetting()
+    {
+        return $this->hasMany(LayoutSetting::class);
     }
 }

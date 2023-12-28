@@ -6,8 +6,10 @@ use App\Models\Machine;
 use Livewire\Component;
 use App\Models\Instruction;
 use Livewire\Attributes\On;
+use App\Models\LayoutSetting;
 use Livewire\Attributes\Rule;
 use Livewire\Attributes\Title;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 #[Title('Form Hitung Bahan')]
@@ -439,10 +441,10 @@ class FormHitungBahan extends Component
 
             if ($totalItems > $maxTotalItems) {
                 $totalPlano = $this->quantityItems / $totalItems;
-                    $totalPlano = (int) ceil($totalPlano);
-                    if ($totalPlano != floor($totalPlano)) {
-                        $totalPlano += 1;
-                    }
+                $totalPlano = (int) ceil($totalPlano);
+                if ($totalPlano != floor($totalPlano)) {
+                    $totalPlano += 1;
+                }
 
                 $bestDimensionPlano = [
                     'col' => (int) $dataPlano['col'],
@@ -618,10 +620,10 @@ class FormHitungBahan extends Component
             if ($totalItems > $maxTotalItems) {
                 $maxTotalItems = $totalItems;
                 $totalPlano = $this->quantityItems / $totalItems;
-                    $totalPlano = (int) ceil($totalPlano);
-                    if ($totalPlano != floor($totalPlano)) {
-                        $totalPlano += 1;
-                    }
+                $totalPlano = (int) ceil($totalPlano);
+                if ($totalPlano != floor($totalPlano)) {
+                    $totalPlano += 1;
+                }
                 $bestDimensionPlano = [
                     'colSheet' => (int) $dataPlano['colSheet'],
                     'rowSheet' => (int) $dataPlano['rowSheet'],
@@ -792,6 +794,31 @@ class FormHitungBahan extends Component
 
     public function saveToForm()
     {
+        try {
+            DB::beginTransaction();
+            $createLayoutSetting = LayoutSetting::create([
+                'instruction_id' => $this->spk->id,
+                'sortorder' => 1,
+                'state' => null,
+                'panjang_barang_jadi' => $this->detailResultSetting['itemsLength'],
+                'lebar_barang_jadi' => $this->detailResultSetting['itemsWidth'],
+                'panjang_naik' => $this->detailResultSetting['col'],
+                'lebar_naik' => $this->detailResultSetting['row'],
+                'jarak_panjang' => $this->detailResultSetting['gapBetweenItems'],
+                'jarak_lebar' => $this->detailResultSetting['gapBetweenItems'],
+                'sisi_atas' => $this->detailResultSetting['sheetMarginTop'],
+                'sisi_bawah' => $this->detailResultSetting['sheetMarginBottom'],
+                'sisi_kiri' => $this->detailResultSetting['sheetMarginLeft'],
+                'sisi_kanan' => $this->detailResultSetting['sheetMarginRight'],
+                'jarak_tambahan_vertical' => null,
+                'jarak_tambahan_horizontal' => null,
+                'dataJSON' => $this->layoutBahanDataJson,
+            ]);
 
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            session()->flash('error', 'Terjadi kesalahan !!! ' . $th->getMessage());
+        }
     }
 }
