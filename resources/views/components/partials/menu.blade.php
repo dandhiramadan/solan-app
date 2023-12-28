@@ -20,14 +20,14 @@
 
         <!-- Form SPK -->
         <li class="menu-item">
-        <a href="form-spk" class="menu-link menu-toggle">
+        <a href="dashbord" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons ti ti-file"></i>
             <div data-i18n="Form SPK">Form SPK</div>
         </a>
 
         <ul class="menu-sub">
             <li class="menu-item">
-            <a href="form-spk" class="menu-link">
+            <a href="form-spk/create" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-file-invoice"></i>
                 <div data-i18n="New SPK">New SPK</div>
             </a>

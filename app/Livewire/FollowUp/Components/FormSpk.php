@@ -375,8 +375,8 @@ class FormSpk extends Component
 
                         DB::commit();
 
-
                         $this->redirectRoute('formSpk.FollowUp', ['state' => 'create']);
+                        session()->flash('success', 'Data berhasil disimpan.');
                     } catch (\Throwable $th) {
                         DB::rollBack();
                         session()->flash('error', 'Terjadi kesalahan !!! ' . $th->getMessage());
@@ -559,4 +559,40 @@ class FormSpk extends Component
 
         $this->spkNumberFsc = 'FSC-' . sprintf($this->spkNumber) . '(' . sprintf($this->fscType) . ')';
     }
+
+    // public function sampleRecord()
+    // {
+    //     $this->validate([
+    //         'spk_number' => 'required',
+    //         'customer' => 'required',
+    //         'order_date' => 'required',
+    //         'order_name' => 'required',
+    //     ]);
+
+    //     $customer = Customer::find($this->customer);
+    //     $customer_name = $customer ? $customer->name : '';
+
+    //     $reader = IOFactory::createReader('Xlsx');
+    //     $reader->setLoadSheetsOnly('Sheet1');
+    //     $spreadsheet = $reader->load('samplerecord.xlsx');
+
+    //     $spreadsheet->getActiveSheet()->setCellValue('B4', $this->order_date);
+    //     $spreadsheet->getActiveSheet()->setCellValue('J4', $this->spk_number);
+    //     $spreadsheet->getActiveSheet()->setCellValue('C5', $this->order_name);
+    //     $spreadsheet->getActiveSheet()->setCellValue('I5', $customer_name);
+
+    //     // Generate the Excel file in memory
+    //     $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+
+    //     // Set the response headers for download
+    //     $response = new StreamedResponse(function () use ($writer) {
+    //         $writer->save('php://output');
+    //     });
+
+    //     $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    //     $response->headers->set('Content-Disposition', 'attachment;filename="Sample-Record-' . $this->spk_number . '.xlsx"');
+    //     $response->headers->set('Cache-Control', 'max-age=0');
+
+    //     return $response;
+    // }
 }
