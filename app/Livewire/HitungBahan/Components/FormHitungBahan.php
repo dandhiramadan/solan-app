@@ -87,8 +87,8 @@ class FormHitungBahan extends Component
     public $showPreviewBahan = false;
     public $showCanvasBahan = true;
 
-    public $detailResultSetting;
-    public $detailResultBahan;
+    public $detailResultSetting = [];
+    public $detailResultBahan = [];
 
     public function mount($id)
     {
@@ -325,6 +325,7 @@ class FormHitungBahan extends Component
                         'wasteCutWidth' => (float) $planoWidth - $cutSheetWidth,
                         'orientationPlano' => (float) $orientationPlano,
                         'itemsPerPlano' => (int) $itemsPerSheet * ($col_counter * $row_counter),
+                        'totalPlano' => (int) ceil($this->quantityItems / ($itemsPerSheet * ($col_counter * $row_counter))),
                     ];
                 }
             }
@@ -437,6 +438,12 @@ class FormHitungBahan extends Component
             $totalItems = $dataPlano['itemsPerPlano'] + $dataPlano['item_per_plano_extra_1'] + $dataPlano['item_per_plano_extra_2'];
 
             if ($totalItems > $maxTotalItems) {
+                $totalPlano = $this->quantityItems / $totalItems;
+                    $totalPlano = (int) ceil($totalPlano);
+                    if ($totalPlano != floor($totalPlano)) {
+                        $totalPlano += 1;
+                    }
+
                 $bestDimensionPlano = [
                     'col' => (int) $dataPlano['col'],
                     'row' => (int) $dataPlano['row'],
@@ -459,6 +466,8 @@ class FormHitungBahan extends Component
                     'col_extra_2' => (int) $dataPlano['col_extra_2'],
                     'row_extra_2' => (int) $dataPlano['row_extra_2'],
                     'item_per_plano_extra_2' => (int) $dataPlano['item_per_plano_extra_2'],
+
+                    'totalPlano' => (int) $totalPlano,
                 ];
             }
         }
@@ -608,7 +617,11 @@ class FormHitungBahan extends Component
             // Perbarui jika totalItems lebih besar dari $maxTotalItems
             if ($totalItems > $maxTotalItems) {
                 $maxTotalItems = $totalItems;
-
+                $totalPlano = $this->quantityItems / $totalItems;
+                    $totalPlano = (int) ceil($totalPlano);
+                    if ($totalPlano != floor($totalPlano)) {
+                        $totalPlano += 1;
+                    }
                 $bestDimensionPlano = [
                     'colSheet' => (int) $dataPlano['colSheet'],
                     'rowSheet' => (int) $dataPlano['rowSheet'],
@@ -652,6 +665,8 @@ class FormHitungBahan extends Component
                     'sheetMarginBottom' => $dataPlano['sheetMarginBottom'],
                     'sheetMarginLeft' => $dataPlano['sheetMarginLeft'],
                     'sheetMarginRight' => $dataPlano['sheetMarginRight'],
+
+                    'totalPlano' => (int) $totalPlano,
                 ];
             }
         }
@@ -659,7 +674,7 @@ class FormHitungBahan extends Component
         $this->dispatch('createLayoutBahanAutoRotateSheet', $bestDimensionPlano);
         $this->dispatch('createLayoutSettingAutoRotate', $bestDimensionPlano);
 
-        return $results;
+        return $bestDimensionPlano;
     }
 
     public function calculate()
@@ -707,15 +722,18 @@ class FormHitungBahan extends Component
             } else {
                 $resultAllSheetLandscape = $this->calculateSheetDimensions($this->itemsLength, $this->itemsWidth, $this->gapBetweenItems, $this->minimalLengthSheet, $this->minimalWidthSheet, $this->maximalLengthSheet, $this->maximalWidthSheet, $this->sheetMarginTop, $this->sheetMarginBottom, $this->sheetMarginLeft, $this->sheetMarginRight, $this->orientationSheet);
                 $resultAllPlanoLandscape = $this->calculateNumSheetsAutoRotateInPlano($resultAllSheetLandscape, $this->planoLength, $this->planoWidth, 'landscape');
+                $this->detailResultBahan = $resultAllPlanoLandscape;
             }
         } elseif ($this->orientationSheet == 'potrait') {
             $resultSheetPotrait = $this->calculateSheetDimensions($this->itemsLength, $this->itemsWidth, $this->gapBetweenItems, $this->minimalLengthSheet, $this->minimalWidthSheet, $this->maximalLengthSheet, $this->maximalWidthSheet, $this->sheetMarginTop, $this->sheetMarginBottom, $this->sheetMarginLeft, $this->sheetMarginRight, $this->orientationSheet);
-            $this->detailResultSetting = $resultSheetLandscape;
+            $this->detailResultSetting = $resultSheetPotrait;
 
             if ($this->orientationPlano == 'landscape') {
                 $resultPlanoLandscape = $this->calculateNumSheetsInPlano($resultSheetPotrait['sheetLength'], $resultSheetPotrait['sheetWidth'], $resultSheetPotrait['itemsPerSheet'], $this->planoLength, $this->planoWidth, $this->orientationPlano);
+                $this->detailResultBahan = $resultPlanoLandscape;
             } elseif ($this->orientationPlano == 'potrait') {
                 $resultPlanoPotrait = $this->calculateNumSheetsInPlano($resultSheetPotrait['sheetLength'], $resultSheetPotrait['sheetWidth'], $resultSheetPotrait['itemsPerSheet'], $this->planoLength, $this->planoWidth, $this->orientationPlano);
+                $this->detailResultBahan = $resultPlanoPotrait;
             } else {
                 $resultAllSheetPotrait = $this->calculateSheetDimensions($this->itemsLength, $this->itemsWidth, $this->gapBetweenItems, $this->minimalLengthSheet, $this->minimalWidthSheet, $this->maximalLengthSheet, $this->maximalWidthSheet, $this->sheetMarginTop, $this->sheetMarginBottom, $this->sheetMarginLeft, $this->sheetMarginRight, $this->orientationSheet);
                 $resultAllPlanoPotrait = $this->calculateNumSheetsAutoRotateInPlano($resultAllSheetPotrait, $this->planoLength, $this->planoWidth, 'potrait');
@@ -726,7 +744,12 @@ class FormHitungBahan extends Component
             $resultAllSheet = array_merge($resultSheetLandscape, $resultSheetPotrait);
 
             $resultAllPlanoPotrait = $this->calculateNumSheetsAutoRotateSizeSheetInPlano($resultAllSheet, $this->planoLength, $this->planoWidth);
+
+            $this->detailResultSetting = $resultAllPlanoPotrait;
+            $this->detailResultBahan = $resultAllPlanoPotrait;
         }
+
+        // dd($this->detailResultBahan);
     }
 
     public function setLayoutSettingDataUrl($dataURL)
@@ -765,5 +788,10 @@ class FormHitungBahan extends Component
     public function setLayoutBahanDataJson($dataJson)
     {
         $this->layoutBahanDataJson = $dataJson;
+    }
+
+    public function saveToForm()
+    {
+
     }
 }

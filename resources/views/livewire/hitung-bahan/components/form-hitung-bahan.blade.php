@@ -222,15 +222,15 @@
                 <div class="pt-4">
                     @if ($showPreviewSetting)
                         <button type="button" class="btn btn-info me-sm-3 me-1"
-                            wire:click.prevent='calculate'>Recalculate</button>
+                            wire:click.prevent='calculate' wire:key='recalculate'>Recalculate</button>
                     @else
                         <button type="button" class="btn btn-info me-sm-3 me-1"
-                            wire:click.prevent='calculate'>Calculate</button>
+                            wire:click.prevent='calculate' wire:key='calculate'>Calculate</button>
                     @endif
 
                     @if ($showPreviewSetting)
-                        <button type="button" class="btn btn-primary me-sm-3 me-1" wire:click='generate'
-                            wire:key='generate'>Save to Form</button>
+                        <button type="button" class="btn btn-primary me-sm-3 me-1" wire:click.prevent='saveToForm'
+                            wire:key='saveToForm'>Save to Form</button>
                     @endif
                 </div>
                 <div class="row mb-3">
@@ -244,6 +244,7 @@
                         </div>
                     </div>
                     <div class="col-md-4">
+                        @if ($showPreviewSetting)
                         <div class="card">
                             <h5 class="card-header">Details Setting</h5>
                             <div class="card-body">
@@ -299,6 +300,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -311,7 +313,41 @@
                             <canvas id="canvasBahan"></canvas>
                         </div>
                     </div>
-
+                    <div class="col-md-4">
+                        @if ($showPreviewBahan)
+                        <div class="card">
+                            <h5 class="card-header">Details Bahan</h5>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-2">
+                                        <label for="Panjang Lembar Cetak" class="form-label">Panjang Lembar Cetak</label>
+                                        <input class="form-control" type="text" wire:model.defer="detailResultBahan.sheetLength" readonly />
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <label for="Lebar Lembar" class="form-label">Lebar Lembar</label>
+                                        <input class="form-control" type="text" wire:model.defer="detailResultBahan.sheetWidth" readonly />
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <label for="Panjang Plano" class="form-label">Panjang Plano</label>
+                                        <input class="form-control" type="text" wire:model.defer="detailResultBahan.planoLength" readonly />
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <label for="Lebar Plano" class="form-label">Lebar Plano</label>
+                                        <input class="form-control" type="text" wire:model.defer="detailResultBahan.planoWidth" readonly />
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <label for="1 Plano (Barang Jadi)" class="form-label">1 Plano (Barang Jadi)</label>
+                                        <input class="form-control" type="text" wire:model.defer="detailResultBahan.totalItems" readonly />
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <label for="Total Plano" class="form-label">Total Plano</label>
+                                        <input class="form-control" type="text" wire:model.defer="detailResultBahan.totalPlano" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
