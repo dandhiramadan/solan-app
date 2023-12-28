@@ -5,6 +5,7 @@ namespace App\Livewire\HitungBahan\Components;
 use App\Models\Machine;
 use Livewire\Component;
 use App\Models\Instruction;
+use App\Models\LayoutBahan;
 use Livewire\Attributes\On;
 use App\Models\LayoutSetting;
 use Livewire\Attributes\Rule;
@@ -314,6 +315,11 @@ class FormHitungBahan extends Component
                 $cutSheetWidth = $sheetWidth * $row_counter;
 
                 if ($cutSheetLength <= $planoLength && $cutSheetWidth <= $planoWidth) {
+                    $totalPlano = $this->quantityItems / ($itemsPerSheet * ($col_counter * $row_counter));
+                    $totalPlano = (int) ceil($totalPlano);
+                    if ($totalPlano != floor($totalPlano)) {
+                        $totalPlano += 1;
+                    }
                     $results = [
                         'col' => (int) $col_counter,
                         'row' => (int) $row_counter,
@@ -327,7 +333,8 @@ class FormHitungBahan extends Component
                         'wasteCutWidth' => (float) $planoWidth - $cutSheetWidth,
                         'orientationPlano' => (float) $orientationPlano,
                         'itemsPerPlano' => (int) $itemsPerSheet * ($col_counter * $row_counter),
-                        'totalPlano' => (int) ceil($this->quantityItems / ($itemsPerSheet * ($col_counter * $row_counter))),
+                        'totalItems' => (int) $itemsPerSheet * ($col_counter * $row_counter),
+                        'totalPlano' => (int) $totalPlano,
                     ];
                 }
             }
@@ -751,7 +758,6 @@ class FormHitungBahan extends Component
             $this->detailResultBahan = $resultAllPlanoPotrait;
         }
 
-        // dd($this->detailResultBahan);
     }
 
     public function setLayoutSettingDataUrl($dataURL)
@@ -812,6 +818,31 @@ class FormHitungBahan extends Component
                 'sisi_kanan' => $this->detailResultSetting['sheetMarginRight'],
                 'jarak_tambahan_vertical' => null,
                 'jarak_tambahan_horizontal' => null,
+                'dataJSON' => $this->layoutSettingDataJson,
+            ]);
+
+            $createLayoutBahan = LayoutBahan::create([
+                'instruction_id' => $this->spk->id,
+                'sortorder' => 1,
+                'state' => null,
+                'include_belakang' => null,
+                'panjang_plano' => $this->detailResultBahan['planoLength'],
+                'lebar_plano' => $this->detailResultBahan['planoWidth'],
+                'panjang_lembar_cetak' => $this->detailResultBahan['sheetLength'],
+                'lebar_lembar_cetak' => $this->detailResultBahan['sheetWidth'],
+                'jenis_bahan' => null,
+                'gramasi' => null,
+                'one_plano' => $this->detailResultBahan['totalItems'],
+                'sumber_bahan' => null,
+                'merk_bahan' => null,
+                'supplier' => null,
+                'jumlah_lembar_cetak' => null,
+                'jumlah_incit' => null,
+                'total_lembar_cetak' => null,
+                'harga_bahan' => null,
+                'jumlah_bahan' => $this->detailResultBahan['totalPlano'],
+                'panjang_sisa_bahan' => null,
+                'lebar_sisa_bahan' => null,
                 'dataJSON' => $this->layoutBahanDataJson,
             ]);
 

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Task;
 use App\Models\Catatan;
 use App\Models\Document;
+use App\Models\LayoutBahan;
 use App\Models\LayoutSetting;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -35,5 +36,10 @@ class Instruction extends Model
     public function layoutSetting()
     {
         return $this->hasMany(LayoutSetting::class);
+    }
+
+    public function layoutBahan()
+    {
+        return $this->hasMany(LayoutBahan::class);
     }
 }
