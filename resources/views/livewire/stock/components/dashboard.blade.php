@@ -23,7 +23,7 @@
                 </div>
             </div>
         </div>
-
-
-    @livewire('components.offcanvas')
+        @livewire('components.offcanvas')
     </div>
+</div>
+
