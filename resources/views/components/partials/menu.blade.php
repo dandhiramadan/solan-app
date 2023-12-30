@@ -56,6 +56,41 @@
                 <!-- Form SPK -->
                 <li class="menu-item @if (request()->routeIs('formSpk.FollowUp')) active @endif">
                     <a href="{{ route('formSpk.FollowUp', ['state' => 'create']) }}" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons ti ti-category"></i>
+                        <div data-i18n="Products">Products</div>
+                    </a>
+
+                    <ul class="menu-sub">
+                        <li class="menu-item @if (request()->routeIs('formSpk.FollowUp')) active @endif">
+                            <a href="{{ route('formSpk.FollowUp', ['state' => 'create']) }}" class="menu-link">
+                                <i class="menu-icon tf-icons ti ti-file-plus"></i>
+                                <div data-i18n="Add Product">Add Product</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @if (request()->routeIs('formSpk.FollowUp')) active @endif">
+                            <a href="{{ route('formSpk.FollowUp', ['state' => 'create']) }}" class="menu-link">
+                                <i class="menu-icon tf-icons ti ti-file-spreadsheet"></i>
+                                <div data-i18n="List Product">List Product</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @if (request()->routeIs('formSpk.FollowUp')) active @endif">
+                            <a href="{{ route('formSpk.FollowUp', ['state' => 'create']) }}" class="menu-link">
+                                <i class="menu-icon tf-icons ti ti-file-plus"></i>
+                                <div data-i18n="Add Accessories">Add Accessories</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @if (request()->routeIs('formSpk.FollowUp')) active @endif">
+                            <a href="{{ route('formSpk.FollowUp', ['state' => 'create']) }}" class="menu-link">
+                                <i class="menu-icon tf-icons ti ti-file-spreadsheet"></i>
+                                <div data-i18n="List Accessories">List Accessories</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Form SPK -->
+                <li class="menu-item @if (request()->routeIs('formSpk.FollowUp')) active @endif">
+                    <a href="{{ route('formSpk.FollowUp', ['state' => 'create']) }}" class="menu-link menu-toggle">
                         <i class="menu-icon tf-icons ti ti-package"></i>
                         <div data-i18n="Stock">Stock</div>
                     </a>
@@ -63,8 +98,20 @@
                     <ul class="menu-sub">
                         <li class="menu-item @if (request()->routeIs('formSpk.FollowUp')) active @endif">
                             <a href="{{ route('formSpk.FollowUp', ['state' => 'create']) }}" class="menu-link">
-                                <i class="menu-icon tf-icons ti ti-package"></i>
-                                <div data-i18n="Stock Management">Stock Management</div>
+                                <i class="menu-icon tf-icons ti ti-file-plus"></i>
+                                <div data-i18n="Add Stock">Add Stock</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @if (request()->routeIs('formSpk.FollowUp')) active @endif">
+                            <a href="{{ route('formSpk.FollowUp', ['state' => 'create']) }}" class="menu-link">
+                                <i class="menu-icon tf-icons ti ti-file-spreadsheet"></i>
+                                <div data-i18n="List Stock">List Stock</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @if (request()->routeIs('formSpk.FollowUp')) active @endif">
+                            <a href="{{ route('formSpk.FollowUp', ['state' => 'create']) }}" class="menu-link">
+                                <i class="menu-icon tf-icons ti ti-history"></i>
+                                <div data-i18n="History Stock">History Stock</div>
                             </a>
                         </li>
                     </ul>
