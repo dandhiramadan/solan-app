@@ -26,7 +26,9 @@
                         </div>
                         @endif
                     @empty
+                    <div class="mb-3">
                         Tidak ada catatan
+                    </div>
                     @endforelse
                 </div>
             </div>

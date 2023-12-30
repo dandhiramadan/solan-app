@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\FollowUp\Components\AllTask;
 use App\Livewire\FollowUp\Components\FormSpk;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Livewire\Stock\Components\FormRequestStock;
 use App\Livewire\Penjadwalan\Components\TimelineTask;
 use App\Livewire\HitungBahan\Components\FormHitungBahan;
 use App\Livewire\Stock\Components\Dashboard as DashboardStock;
@@ -41,6 +42,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
     Route::group(['prefix' => 'stock', 'middleware' => ['user-access:Stock']], function () {
         Route::get('/dashboard', DashboardStock::class)->name('dashboard.Stock');
+        Route::get('/form-request-stock/{state}/{id}', FormRequestStock::class)->name('formRequestStock.Stock');
     });
     Route::group(['prefix' => 'penjadwalan', 'middleware' => ['user-access:Penjadwalan']], function () {
         Route::get('/dashboard', DashboardPenjadwalan::class)->name('dashboard.Penjadwalan');
