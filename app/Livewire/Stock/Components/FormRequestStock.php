@@ -9,9 +9,11 @@ use Livewire\Attributes\Title;
 #[Title('Form Request Stock')]
 class FormRequestStock extends Component
 {
-    public function mount($id)
+    public $id, $state;
+    public function mount($state, $id)
     {
-        $this->dataSpk = Instruction::find($id);
+        $this->id = $id;
+        $this->state = $state;
     }
 
     public function render()
