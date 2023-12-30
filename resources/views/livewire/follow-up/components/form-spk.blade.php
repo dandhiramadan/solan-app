@@ -21,7 +21,7 @@
     <!-- Basic Layout -->
     <div class="card mb-4">
         <h5 class="card-header">Form New SPK</h5>
-        <form class="card-body" wire:submit="save">
+        <div class="card-body">
             <div class="row mb-3">
                 <div class="col-md-6 mb-2">
                     <div class="row">
@@ -30,8 +30,8 @@
                             <div class="form-check custom-option custom-option-basic">
                                 <label class="form-check-label custom-option-content" for="customRadioTemp1"
                                     style="padding: .422rem .875rem; padding-left: 2.77rem;">
-                                    <input name="spkType" wire:model.defer='spkType' class="form-check-input"
-                                        type="radio" value="layout" id="customRadioTemp1" />
+                                    <input name="spkType" wire:model.defer='spkType' class="form-check-input" type="radio"
+                                        value="layout" id="customRadioTemp1" />
                                     <span class="custom-option-header">
                                         <span class="h6 mb-0">Layout</span>
                                     </span>
@@ -42,8 +42,8 @@
                             <div class="form-check custom-option custom-option-basic">
                                 <label class="form-check-label custom-option-content" for="customRadioTemp2"
                                     style="padding: .422rem .875rem; padding-left: 2.77rem;">
-                                    <input name="spkType" wire:model.defer='spkType' class="form-check-input"
-                                        type="radio" value="sample" id="customRadioTemp2" />
+                                    <input name="spkType" wire:model.defer='spkType' class="form-check-input" type="radio"
+                                        value="sample" id="customRadioTemp2" />
                                     <span class="custom-option-header">
                                         <span class="h6 mb-0">Sample</span>
                                     </span>
@@ -54,8 +54,8 @@
                             <div class="form-check custom-option custom-option-basic">
                                 <label class="form-check-label custom-option-content" for="customRadioTemp3"
                                     style="padding: .422rem .875rem; padding-left: 2.77rem;">
-                                    <input name="spkType" wire:model.defer='spkType' class="form-check-input"
-                                        type="radio" value="production" id="customRadioTemp3" />
+                                    <input name="spkType" wire:model.defer='spkType' class="form-check-input" type="radio"
+                                        value="production" id="customRadioTemp3" />
                                     <span class="custom-option-header">
                                         <span class="h6 mb-0">Production</span>
                                     </span>
@@ -66,8 +66,8 @@
                             <div class="form-check custom-option custom-option-basic">
                                 <label class="form-check-label custom-option-content" for="customRadioTemp4"
                                     style="padding: .422rem .875rem; padding-left: 2.77rem;">
-                                    <input name="spkType" wire:model.defer='spkType' class="form-check-input"
-                                        type="radio" value="stock" id="customRadioTemp4" />
+                                    <input name="spkType" wire:model.defer='spkType' class="form-check-input" type="radio"
+                                        value="stock" id="customRadioTemp4" />
                                     <span class="custom-option-header">
                                         <span class="h6 mb-0">Stock</span>
                                     </span>
@@ -100,8 +100,7 @@
                         </select>
                     </div>
                     @error('customerSelected')
-                        <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
-                            role="alert">
+                        <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;" role="alert">
                             {{ $message }}
                         </span>
                     @enderror
@@ -137,8 +136,7 @@
                                 $($el).on('change', function() {
                                     @this.set('spkParent', $($el).val())
                                 })" name="spkParent" wire:model.defer="spkParent"
-                                    id="spkParent" class="select2 form-select form-select-lg"
-                                    data-allow-clear="true">
+                                    id="spkParent" class="select2 form-select form-select-lg" data-allow-clear="true">
                                     <option label="Pilih Parent"></option>
                                     @foreach ($parent as $data)
                                         <option value="{{ $data->spk_number }}">[ {{ $data->spk_number }}
@@ -175,8 +173,8 @@
                             <div class="form-check custom-option custom-option-basic">
                                 <label class="form-check-label custom-option-content" for="customRadioTemp6"
                                     style="padding: .422rem .875rem; padding-left: 2.77rem;">
-                                    <input name="spkFsc" wire:model='spkFsc' class="form-check-input"
-                                        type="checkbox" value="V" id="customRadioTemp6" />
+                                    <input name="spkFsc" wire:model='spkFsc' class="form-check-input" type="checkbox"
+                                        value="V" id="customRadioTemp6" />
                                     <span class="custom-option-header">
                                         <span class="h6 mb-0">Ya</span>
                                     </span>
@@ -198,9 +196,8 @@
                                 });
                                 $($el).on('change', function() {
                                     @this.set('fscType', $($el).val())
-                                })" name="fscType" wire:model.defer="fscType"
-                                    id="fscType" class="select2 form-select form-select-lg"
-                                    data-allow-clear="true">
+                                })" name="fscType" wire:model.defer="fscType" id="fscType"
+                                    class="select2 form-select form-select-lg" data-allow-clear="true">
                                     <option label="Pilih Tipe FSC"></option>
                                     <option value="FS">FS</option>
                                     <option value="FM">FM</option>
@@ -243,8 +240,7 @@
                                 <label class="form-check-label custom-option-content" for="customRadioTemp7"
                                     style="padding: .422rem .875rem; padding-left: 2.77rem;">
                                     <input name="focCustomerNumber" wire:model.live='focCustomerNumber'
-                                        class="form-check-input" type="checkbox" value="V"
-                                        id="customRadioTemp7" />
+                                        class="form-check-input" type="checkbox" value="V" id="customRadioTemp7" />
                                     <span class="custom-option-header">
                                         <span class="h6 mb-0">Ya</span>
                                     </span>
@@ -307,8 +303,7 @@
                                 $($el).on('change', function() {
                                     @this.set('spkLayout', $($el).val())
                                 })" name="spkLayout" wire:model.defer="spkLayout"
-                                    id="spkLayout" class="select2 form-select form-select-lg"
-                                    data-allow-clear="true">
+                                    id="spkLayout" class="select2 form-select form-select-lg" data-allow-clear="true">
                                     <option label="Pilih SPK Layout"></option>
                                     @foreach ($layout as $data)
                                         <option value="{{ $data->spk_number }}">{{ $data->spk_number }} -
@@ -333,8 +328,7 @@
                                 $($el).on('change', function() {
                                     @this.set('spkSample', $($el).val())
                                 })" name="spkSample" wire:model.defer="spkSample"
-                                    id="spkSample" class="select2 form-select form-select-lg"
-                                    data-allow-clear="true">
+                                    id="spkSample" class="select2 form-select form-select-lg" data-allow-clear="true">
                                     <option label="Pilih SPK Sample"></option>
                                     @foreach ($sample as $data)
                                         <option value="{{ $data->spk_number }}">{{ $data->spk_number }} -
@@ -359,8 +353,7 @@
                                 $($el).on('change', function() {
                                     @this.set('spkStock', $($el).val())
                                 })" name="spkStock" wire:model.defer="spkStock"
-                                    id="spkStock" class="select2 form-select form-select-lg"
-                                    data-allow-clear="true">
+                                    id="spkStock" class="select2 form-select form-select-lg" data-allow-clear="true">
                                     <option label="Pilih SPK Stock"></option>
                                     @foreach ($stock as $data)
                                         <option value="{{ $data->spk_number }}">{{ $data->spk_number }} -
@@ -399,8 +392,7 @@
                                             <span class="ti ti-arrows-move-vertical"></span>
                                         </button>
                                         <input type="text" class="form-control"
-                                            wire:model.defer="langkahKerja.{{ $key }}.description"
-                                            readonly />
+                                            wire:model.defer="langkahKerja.{{ $key }}.description" readonly />
                                         @if ($data['description'] == 'Laminating Doff' || $data['description'] == 'Laminating Gloss')
                                             <select class="form-select" aria-label="Pilih"
                                                 wire:model.defer="langkahKerja.{{ $key }}.state">
@@ -472,9 +464,8 @@
                 </div>
                 <div class="col-md-4">
                     <label class="form-label" for="File Accounting">File Accounting</label>
-                    <x-forms.filepond wire:model="fileAccounting" multiple allowImagePreview
-                        imagePreviewMaxHeight="200" allowFileTypeValidation allowFileSizeValidation
-                        maxFileSize="1024mb" />
+                    <x-forms.filepond wire:model="fileAccounting" multiple allowImagePreview imagePreviewMaxHeight="200"
+                        allowFileTypeValidation allowFileSizeValidation maxFileSize="1024mb" />
                     @error('fileAccounting')
                         <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
                             role="alert">
@@ -501,11 +492,14 @@
                                     <div class="col-lg-12 col-md-12">
                                         <label for="exampleFormControlTextarea1" class="form-label">Tujuan</label>
                                         <div class="input-group">
-                                            <select class="form-select @error('catatan.' . $key . '.tujuan') is-invalid @enderror" aria-label="Pilih Tujuan"
+                                            <select
+                                                class="form-select @error('catatan.' . $key . '.tujuan') is-invalid @enderror"
+                                                aria-label="Pilih Tujuan"
                                                 wire:model="catatan.{{ $key }}.tujuan">
                                                 <option label="Pilih Tujuan"></option>
                                                 @foreach ($workStep as $item)
-                                                <option value="{{ $item->description }}">{{ $item->description }}</option>
+                                                    <option value="{{ $item->description }}">{{ $item->description }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                             <button class="btn btn-outline-primary" type="button" id="button-addon1"
@@ -523,13 +517,13 @@
                                     <div class="col-lg-12 col-md-12 mt-2">
                                         <label for="exampleFormControlTextarea1" class="form-label">Catatan</label>
                                         <div class="input-group">
-                                            <textarea class="form-control @error('catatan.' . $key . '.pesan') is-invalid @enderror" rows="3" placeholder="Catatan" wire:model="catatan.{{ $key }}.pesan"></textarea>
+                                            <textarea class="form-control @error('catatan.' . $key . '.pesan') is-invalid @enderror" rows="3"
+                                                placeholder="Catatan" wire:model="catatan.{{ $key }}.pesan"></textarea>
                                         </div>
                                     </div>
 
                                     @error('catatan.' . $key . '.pesan')
-                                        <span class=""
-                                            style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
+                                        <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
                                             role="alert">
                                             {{ $message }}
                                         </span>
@@ -543,13 +537,15 @@
             </div>
 
             <div class="pt-4">
-                <button type="button" class="btn btn-info me-sm-3 me-1">Download Sample Record</button>
-                <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+                <button type="button" class="btn btn-info me-sm-3 me-1" wire:click='sampleRecord'>Download Sample
+                    Record</button>
+                <button type="submit" class="btn btn-primary me-sm-3 me-1" wire:click='save'>Submit</button>
             </div>
-        </form>
+        </div>
+
     </div>
 </div>
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/gh/livewire/sortable@v1.x.x/dist/livewire-sortable.js"></script>
+    <script src="/asset/plugins/livewire-sortable/livewire-sortable.js"></script>
 @endpush

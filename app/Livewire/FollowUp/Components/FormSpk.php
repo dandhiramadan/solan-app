@@ -18,6 +18,8 @@ use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 #[Title('Form SPK')]
 class FormSpk extends Component
@@ -57,18 +59,10 @@ class FormSpk extends Component
     public $catatan = [];
 
     public $langkahKerja = [];
-    public $id = 0;
+    public $idLangkahKerja = 0;
 
     public $state;
     public $user_auth;
-
-    public function rules()
-    {
-        return [
-            'langkahKerja' => 'required|array|min:1',
-            'langkahKerja.*.description' => 'required|string',
-        ];
-    }
 
     public function mount($state)
     {
@@ -90,10 +84,10 @@ class FormSpk extends Component
 
     public function addLangkahKerja($description)
     {
-        $this->id++;
+        $this->idLangkahKerja++;
         $this->langkahKerja[] = [
             'description' => $description,
-            'sortorder' => $this->id,
+            'sortorder' => $this->idLangkahKerja,
             'state' => null,
             'jumlah' => null,
         ];
@@ -153,6 +147,8 @@ class FormSpk extends Component
                 'fileContoh' => 'required',
                 'fileArsip' => 'required',
                 'fileAccounting' => 'required',
+                'langkahKerja' => 'required|array|min:1',
+                'langkahKerja.*.description' => 'required|string',
             ],
             [
                 'spkType.required' => 'Tipe SPK harus diisi.',
@@ -560,39 +556,51 @@ class FormSpk extends Component
         $this->spkNumberFsc = 'FSC-' . sprintf($this->spkNumber) . '(' . sprintf($this->fscType) . ')';
     }
 
-    // public function sampleRecord()
-    // {
-    //     $this->validate([
-    //         'spk_number' => 'required',
-    //         'customer' => 'required',
-    //         'order_date' => 'required',
-    //         'order_name' => 'required',
-    //     ]);
+    public function sampleRecord()
+    {
+        $this->validate(
+            [
+                'spkType' => 'required',
+                'customerSelected' => 'required',
+                'spkNumber' => 'required',
+                'orderDate' => 'required',
+                'deliveryDate' => 'required',
+                'orderName' => 'required',
+            ],
+            [
+                'spkType.required' => 'Tipe SPK harus diisi.',
+                'customerSelected.required' => 'Pemesan harus diisi.',
+                'spkNumber.required' => 'SPK Number harus diisi.',
+                'orderDate.required' => 'Tanggal PO Masuk harus diisi.',
+                'deliveryDate.required' => 'Tanggal Permintaan Kirim harus diisi.',
+                'orderName.required' => 'Nama Order harus diisi.',
+            ],
+        );
 
-    //     $customer = Customer::find($this->customer);
-    //     $customer_name = $customer ? $customer->name : '';
+        $customer = Customer::find($this->customerSelected);
+        $customer_name = $customer ? $customer->name : '';
 
-    //     $reader = IOFactory::createReader('Xlsx');
-    //     $reader->setLoadSheetsOnly('Sheet1');
-    //     $spreadsheet = $reader->load('samplerecord.xlsx');
+        $reader = IOFactory::createReader('Xlsx');
+        $reader->setLoadSheetsOnly('Sheet1');
+        $spreadsheet = $reader->load('files/samplerecord.xlsx');
 
-    //     $spreadsheet->getActiveSheet()->setCellValue('B4', $this->order_date);
-    //     $spreadsheet->getActiveSheet()->setCellValue('J4', $this->spk_number);
-    //     $spreadsheet->getActiveSheet()->setCellValue('C5', $this->order_name);
-    //     $spreadsheet->getActiveSheet()->setCellValue('I5', $customer_name);
+        $spreadsheet->getActiveSheet()->setCellValue('B4', $this->orderDate);
+        $spreadsheet->getActiveSheet()->setCellValue('J4', $this->spkNumber);
+        $spreadsheet->getActiveSheet()->setCellValue('C5', $this->orderName);
+        $spreadsheet->getActiveSheet()->setCellValue('I5', $customer_name);
 
-    //     // Generate the Excel file in memory
-    //     $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        // Generate the Excel file in memory
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
 
-    //     // Set the response headers for download
-    //     $response = new StreamedResponse(function () use ($writer) {
-    //         $writer->save('php://output');
-    //     });
+        // Set the response headers for download
+        $response = new StreamedResponse(function () use ($writer) {
+            $writer->save('php://output');
+        });
 
-    //     $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    //     $response->headers->set('Content-Disposition', 'attachment;filename="Sample-Record-' . $this->spk_number . '.xlsx"');
-    //     $response->headers->set('Cache-Control', 'max-age=0');
+        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $response->headers->set('Content-Disposition', 'attachment;filename="Sample-Record-' . $this->spkNumber . '.xlsx"');
+        $response->headers->set('Cache-Control', 'max-age=0');
 
-    //     return $response;
-    // }
+        return $response;
+    }
 }
