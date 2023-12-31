@@ -15,6 +15,15 @@ class Product extends Model
     protected $table = 'products';
     protected $guarded = [];
 
+    public function scopeSearch($query, $keyword)
+    {
+        return $query->where('name', 'like', '%' . $keyword . '%')
+                     ->orWhere('customer_name', 'like', '%' . $keyword . '%')
+                     ->orWhere('panjang', 'like', '%' . $keyword . '%')
+                     ->orWhere('lebar', 'like', '%' . $keyword . '%')
+                     ->orWhere('catatan', 'like', '%' . $keyword . '%');
+    }
+
     public function stocks()
     {
         return $this->hasMany(Stock::class);

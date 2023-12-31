@@ -64,13 +64,13 @@
                         <li class="menu-item @if (request()->routeIs('managementProducts.Stock')) active @endif">
                             <a href="{{ route('managementProducts.Stock') }}" class="menu-link">
                                 <i class="menu-icon tf-icons ti ti-file-plus"></i>
-                                <div data-i18n="Management Products">Management Products</div>
+                                <div data-i18n="Manage Products">Manage Products</div>
                             </a>
                         </li>
                         <li class="menu-item @if (request()->routeIs('managementAccessories.Stock')) active @endif">
                             <a href="{{ route('managementAccessories.Stock') }}" class="menu-link">
                                 <i class="menu-icon tf-icons ti ti-file-plus"></i>
-                                <div data-i18n="Management Accessories">Management Accessories</div>
+                                <div data-i18n="Manage Accessories">Manage Accessories</div>
                             </a>
                         </li>
                     </ul>

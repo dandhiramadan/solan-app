@@ -2,22 +2,7 @@
     {{-- Stop trying to control. --}}
     <h4 class="py-3 mb-4"><span class="text-muted fw-light">Products /</span> Management Product</h4>
 
-    @if (session()->has('success'))
-        <div class="alert alert-success d-flex align-items-center" role="alert">
-            <span class="alert-icon text-success me-2">
-                <i class="ti ti-check ti-xs"></i>
-            </span>
-            {{ session('success') }}
-        </div>
-    @endif
-    @if (session()->has('error'))
-        <div class="alert alert-danger d-flex align-items-center" role="alert">
-            <span class="alert-icon text-danger me-2">
-                <i class="ti ti-ban ti-xs"></i>
-            </span>
-            {{ session('error') }}
-        </div>
-    @endif
+    @livewire('components.flash-message')
 
     <div class="card">
         <div class="card-header header-elements">
@@ -92,7 +77,7 @@
                         </tr>
                     @empty
                         <tr>
-                            No Data
+                            <td>No Data</td>
                         </tr>
                     @endforelse
                 </tbody>

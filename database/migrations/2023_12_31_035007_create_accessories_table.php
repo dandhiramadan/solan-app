@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('accessories', function (Blueprint $table) {
             $table->id();
             $table->string('description');
-            $table->string('condition');
             $table->text('catatan')->nullable();
             $table->timestamps();
             $table->softDeletes();

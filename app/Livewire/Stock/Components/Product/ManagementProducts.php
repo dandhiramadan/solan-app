@@ -30,7 +30,7 @@ class ManagementProducts extends Component
     {
         return view('livewire.stock.components.product.management-products',[
             'customer' => Customer::all(),
-            'products' => Product::paginate($this->paginate),
+            'products' => Product::search($this->search)->paginate($this->paginate),
         ]);
     }
 

@@ -8,6 +8,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+
+                    @livewire('components.flash-message')
+
                     <div class="row mb-3">
                         <div class="col-md-6 mb-2">
                             <x-forms.text wire:model.defer="name" :placeholder="'Nama Product'"></x-forms.text>
