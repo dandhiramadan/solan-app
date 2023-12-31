@@ -15,6 +15,7 @@ class ModalProduct extends Component
     #[On('show-modal-create')]
     public function openModalCreate($title, $action)
     {
+        $this->reset();
         $this->title = $title;
         $this->action = $action;
     }
@@ -24,6 +25,7 @@ class ModalProduct extends Component
     #[On('show-modal-edit')]
     public function openModalEdit($title, $action, $id)
     {
+        $this->reset();
         $this->title = $title;
         $this->action = $action;
         $this->dataProduct = Product::find($id);
@@ -37,6 +39,7 @@ class ModalProduct extends Component
     #[On('show-modal-details')]
     public function openModalDetails($title, $action, $id)
     {
+        $this->reset();
         $this->title = $title;
         $this->action = $action;
         $this->dataProduct = Product::find($id);

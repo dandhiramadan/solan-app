@@ -14,17 +14,18 @@
                         </div>
                         <div class="col-md-6 mb-2">
                             <div wire:ignore>
-                            <label class="form-label" for="Pemesan">Pemesan</label>
+                                <label class="form-label" for="Pemesan">Pemesan</label>
                                 <select x-init="$($el).select2({
                                     placeholder: 'Pilih Pemesan',
                                     allowClear: true,
+                                    width: '100%',
                                 });
                                 $($el).on('change', function() {
                                     $wire.set('customerSelected', $($el).val())
                                 });
                                 $($el).val($($el).val());
                                 $($el).trigger('change');" name="customerSelected"
-                                    wire:model.live="customerSelected" id="customerSelected"
+                                    wire:model.defer="customerSelected" id="customerSelected"
                                     class="select2 form-select form-select-lg" data-allow-clear="true">
                                     <option label="Pilih Pemesan"></option>
                                     @foreach ($customer as $data)
