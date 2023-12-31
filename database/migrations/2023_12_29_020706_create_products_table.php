@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('nama_barang');
-            $table->string('panjang_barang');
-            $table->string('lebar_barang');
+            $table->string('customer_name');
+            $table->string('panjang');
+            $table->string('lebar');
             $table->text('catatan')->nullable();
             $table->timestamps();
             $table->softDeletes();
