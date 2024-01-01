@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Product;
+use App\Models\LogStock;
 use App\Models\Accessory;
 use App\Models\HistoryStock;
 use Illuminate\Database\Eloquent\Model;
@@ -26,5 +27,10 @@ class Stock extends Model
     {
         return $this->belongsToMany(Accessory::class, 'product_accessory_stock')
             ->withPivot('quantity')->withTimestamps();
+    }
+
+    public function logstocks()
+    {
+        return $this->hasMany(LogStock::class);
     }
 }

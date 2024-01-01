@@ -36,11 +36,11 @@
                                         <thead>
                                             <tr>
                                                 <th>Kondisi</th>
-                                                <th>Quantity</th>
                                                 <th>Recipient</th>
                                                 <th>Sender</th>
                                                 <th>Rack</th>
                                                 <th>Row</th>
+                                                <th>Quantity</th>
                                             </tr>
                                         </thead>
                                         <tbody class="table-border-bottom-0">
@@ -51,11 +51,11 @@
                                             @forelse ($dataStock as $data)
                                                 <tr>
                                                     <td>{{ $data['description'] }}</td>
-                                                    <td>{{ $data['quantity'] }}</td>
                                                     <td>{{ $data['receiver'] }}</td>
                                                     <td>{{ $data['giver'] }}</td>
                                                     <td>{{ $data['rack'] }}</td>
                                                     <td>{{ $data['row'] }}</td>
+                                                    <td>{{ $data['quantity'] }}</td>
                                                 </tr>
 
                                                 @php

@@ -11,15 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stocks', function (Blueprint $table) {
+        Schema::create('log_stocks', function (Blueprint $table) {
             $table->id();
-            $table->string('receiver');
-            $table->string('giver');
-            $table->string('rack');
-            $table->string('row');
-            $table->string('type');
-            $table->integer('total_quantity');
-            $table->text('catatan')->nullable();
+            $table->text('description');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stocks');
+        Schema::dropIfExists('log_stocks');
     }
 };

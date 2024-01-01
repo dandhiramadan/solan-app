@@ -5,6 +5,7 @@ namespace App\Livewire\Stock\Components\Stock;
 use App\Models\Stock;
 use App\Models\Product;
 use Livewire\Component;
+use App\Models\LogStock;
 use App\Models\Accessory;
 use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 class GoodReceiptStock extends Component
 {
     public $accessories = [];
-    public $productSelected, $sender, $recipient, $catatan, $rak, $baris;
+    public $productSelected, $sender, $recipient, $catatan, $rak, $baris, $totalQuantity;
 
     public function addAccessoryInput()
     {
@@ -62,33 +63,45 @@ class GoodReceiptStock extends Component
 
             $product = Product::find($this->productSelected);
 
+            foreach ($this->accessories as $accessory) {
+                $this->totalQuantity += $accessory['quantity'];
+            }
+
             $stock = Stock::create([
                 'giver' => $this->sender,
                 'receiver' => $this->recipient,
                 'rack' => $this->rak,
                 'row' => $this->baris,
                 'type' => 'In',
+                'total_quantity' => $this->totalQuantity,
                 'catatan' => $this->catatan,
             ]);
 
-            // Attach accessories to the pivot table
+            $accessoriesToSync = [];
+
+            // Prepare data for sync
             foreach ($this->accessories as $accessory) {
-                $product->accessories()->attach($accessory['id'], ['product_id' => $product->id, 'stock_id' => $stock->id, 'quantity' => $accessory['quantity']]);
+                // Check if the accessory is already attached
+                $existingQuantity = $product->accessories()->find($accessory['id'])->pivot->quantity ?? 0;
+
+                // Calculate the new quantity by adding to the existing quantity
+                $newQuantity = currency_convert($existingQuantity) + currency_convert($accessory['quantity']);
+
+                $accessoriesToSync[$accessory['id']] = [
+                    'quantity' => $newQuantity,
+                    'stock_id' => $stock->id,
+                    'product_id' => $product->id,
+                ];
+
+                $dataAccessories = Accessory::find($accessory['id']);
+
+                $createLog = LogStock::create([
+                    'description' => 'Stock ditambahkan untuk product ' . $product->name . ', dikirim oleh ' . $this->sender . ', diterima oleh ' . $this->recipient . ', kondisi stock ' . $dataAccessories->description . ', dengan total quantity ' . $this->totalQuantity,
+                ]);
             }
 
-            // $accessoriesToSync = [];
-
-            // // Prepare data for sync
-            // foreach ($this->accessories as $accessory) {
-            //     $accessoriesToSync[$accessory['id']] = [
-            //         'quantity' => $accessory['quantity'],
-            //         'stock_id' => $stock->id,
-            //         'product_id' => $product->id,
-            //     ];
-            // }
-
-            // // Sync accessories using the prepared data
-            // $product->accessories()->syncWithoutDetaching($accessoriesToSync);
+            // Sync accessories using the prepared data
+            $product->accessories()->syncWithoutDetaching($accessoriesToSync);
 
             DB::commit();
 

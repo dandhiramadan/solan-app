@@ -22,6 +22,7 @@ class ModalStock extends Component
         $dataStock = Product::with('accessories', 'stocks')
             ->where('id', $id)
             ->get();
+
         $dataTransformed = [];
 
         foreach ($dataStock as $item) {
