@@ -14,6 +14,11 @@ class LogStock extends Model
     protected $table = 'log_stocks';
     protected $guarded = [];
 
+    public function scopeSearch($query, $keyword)
+    {
+        return $query->where('description', 'like', '%' . $keyword . '%');
+    }
+
     public function stocks()
     {
         return $this->belongsTo(Stock::class);

@@ -96,7 +96,7 @@ class GoodReceiptStock extends Component
                 $dataAccessories = Accessory::find($accessory['id']);
 
                 $createLog = LogStock::create([
-                    'description' => 'Stock ditambahkan untuk product ' . $product->name . ', dikirim oleh ' . $this->sender . ', diterima oleh ' . $this->recipient . ', kondisi stock ' . $dataAccessories->description . ', dengan total quantity ' . $this->totalQuantity,
+                    'description' => 'Penambahan untuk product ' . $product->name . ', dikirim oleh ' . $this->sender . ', diterima oleh ' . $this->recipient . ', kondisi stock ' . $dataAccessories->description . ', dengan total quantity ' . $this->totalQuantity,
                 ]);
             }
 
