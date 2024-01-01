@@ -76,6 +76,20 @@ class GoodReceiptStock extends Component
                 $product->accessories()->attach($accessory['id'], ['product_id' => $product->id, 'stock_id' => $stock->id, 'quantity' => $accessory['quantity']]);
             }
 
+            // $accessoriesToSync = [];
+
+            // // Prepare data for sync
+            // foreach ($this->accessories as $accessory) {
+            //     $accessoriesToSync[$accessory['id']] = [
+            //         'quantity' => $accessory['quantity'],
+            //         'stock_id' => $stock->id,
+            //         'product_id' => $product->id,
+            //     ];
+            // }
+
+            // // Sync accessories using the prepared data
+            // $product->accessories()->syncWithoutDetaching($accessoriesToSync);
+
             DB::commit();
 
             $this->redirectRoute('goodReceiptStock.Stock');

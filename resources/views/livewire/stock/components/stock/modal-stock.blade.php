@@ -49,21 +49,23 @@
                                             @endphp
 
                                             @forelse ($dataStock as $data)
-                                            <tr>
-                                                <td>{{ $data['description'] }}</td>
-                                                <td>{{ $data['quantity'] }}</td>
-                                                <td>{{ $data['receiver'] }}</td>
-                                                <td>{{ $data['giver'] }}</td>
-                                                <td>{{ $data['rack'] }}</td>
-                                                <td>{{ $data['row'] }}</td>
-                                            </tr>
+                                                <tr>
+                                                    <td>{{ $data['description'] }}</td>
+                                                    <td>{{ $data['quantity'] }}</td>
+                                                    <td>{{ $data['receiver'] }}</td>
+                                                    <td>{{ $data['giver'] }}</td>
+                                                    <td>{{ $data['rack'] }}</td>
+                                                    <td>{{ $data['row'] }}</td>
+                                                </tr>
 
-                                            @php
-                                                $totalQuantity += $data['quantity'];
-                                            @endphp
+                                                @php
+                                                    $totalQuantity += $data['quantity'];
+                                                @endphp
 
                                             @empty
-                                                -
+                                                <tr>
+                                                    <td colspan="6">-</td>
+                                                </tr>
                                             @endforelse
                                             <tr>
                                                 <td colspan="5">Total Quantity</td>

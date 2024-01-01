@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\DB;
 
 class ModalStock extends Component
 {
-    public $title, $dataStock = [];
+    public $title,
+        $dataStock = [];
     public $name, $customerSelected, $panjang, $lebar, $catatan;
 
     #[On('show-modal-details')]
@@ -18,18 +19,20 @@ class ModalStock extends Component
     {
         $this->reset();
         $this->title = $title;
-        $dataStock = Product::with('accessories', 'stocks')->get()->toArray();
+        $dataStock = Product::with('accessories', 'stocks')
+            ->where('id', $id)
+            ->get();
         $dataTransformed = [];
 
-        foreach ($dataStock as $product) {
-            foreach ($product['stocks'] as $stock) {
+        foreach ($dataStock as $item) {
+            foreach ($item['stocks'] as $key => $stock) {
                 $dataTransformed[] = [
-                    'quantity' => $stock['pivot']['quantity'],
-                    'description' => $product['accessories'][0]['description'], // Ubah indeks sesuai kebutuhan Anda
-                    'receiver' => $stock['receiver'],
-                    'giver' => $stock['giver'],
-                    'rack' => $stock['rack'],
-                    'row' => $stock['row'],
+                    'quantity' => $stock->pivot->quantity,
+                    'description' => $item['accessories'][$key]['description'],
+                    'receiver' => $stock->receiver,
+                    'giver' => $stock->giver,
+                    'rack' => $stock->rack,
+                    'row' => $stock->row,
                 ];
             }
         }
