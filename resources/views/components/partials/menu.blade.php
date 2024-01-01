@@ -77,19 +77,13 @@
                 </li>
 
                 <!-- Form SPK -->
-                <li class="menu-item @if (request()->routeIs('adjustmentStock.Stock') or request()->routeIs('goodReceiptStock.Stock') or request()->routeIs('listStock.Stock') or request()->routeIs('historyStock.Stock')) active @endif">
+                <li class="menu-item @if (request()->routeIs('goodReceiptStock.Stock') or request()->routeIs('listStock.Stock') or request()->routeIs('historyStock.Stock')) active @endif">
                     <a href="{{ route('adjustmentStock.Stock') }}" class="menu-link menu-toggle">
                         <i class="menu-icon tf-icons ti ti-package"></i>
                         <div data-i18n="Stock">Stock</div>
                     </a>
 
                     <ul class="menu-sub">
-                        <li class="menu-item @if (request()->routeIs('adjustmentStock.Stock')) active @endif">
-                            <a href="{{ route('adjustmentStock.Stock') }}" class="menu-link">
-                                <i class="menu-icon tf-icons ti ti-file-plus"></i>
-                                <div data-i18n="Adjustment Stock">Adjustment Stock</div>
-                            </a>
-                        </li>
                         <li class="menu-item @if (request()->routeIs('goodReceiptStock.Stock')) active @endif">
                             <a href="{{ route('goodReceiptStock.Stock') }}" class="menu-link">
                                 <i class="menu-icon tf-icons ti ti-file-plus"></i>

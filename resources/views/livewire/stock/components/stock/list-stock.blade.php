@@ -1,6 +1,9 @@
 <div>
     {{-- The best athlete wants his opponent at his best. --}}
     <h4 class="py-3 mb-4"><span class="text-muted fw-light">Stock /</span> List Stock</h4>
+
+    @livewire('components.flash-message')
+
     <div class="card">
         <div class="card-header header-elements">
             <h5 class="card-title mb-0">Data Stock</h5>
@@ -67,8 +70,12 @@
                                     <div class="dropdown-menu">
                                         <button class="dropdown-item"data-bs-toggle="modal"
                                             data-bs-target="#modalScrollable"
-                                            @click="$dispatch('show-modal-details', { 'title': 'Details Stock', 'id': {{ $data->id }}})"><i
+                                            @click="$dispatch('show-modal-details', { 'title': 'Details Stock', 'action': 'details-stock', 'id': {{ $data->id }}})"><i
                                                 class="ti ti-eye me-1"></i> View Details</button>
+                                        <button class="dropdown-item"data-bs-toggle="modal"
+                                            data-bs-target="#modalScrollable"
+                                            @click="$dispatch('show-modal-adjustment', { 'title': 'Adjustment Stock', 'action': 'adjustment', 'id': {{ $data->id }}})"><i
+                                                class="ti ti-pencil me-1"></i> Adjustment</button>
                                     </div>
                                 </div>
                             </td>

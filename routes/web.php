@@ -51,7 +51,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/form-request-stock/{state}/{id}', FormRequestStock::class)->name('formRequestStock.Stock');
         Route::get('/management-products', ManagementProducts::class)->name('managementProducts.Stock');
         Route::get('/management-accessories', ManagementAccessories::class)->name('managementAccessories.Stock');
-        Route::get('/adjustment-stock', AdjustmentStock::class)->name('adjustmentStock.Stock');
         Route::get('/good-receipt-stock', GoodReceiptStock::class)->name('goodReceiptStock.Stock');
         Route::get('/list-stock', ListStock::class)->name('listStock.Stock');
         Route::get('/history-stock', HistoryStock::class)->name('historyStock.Stock');
