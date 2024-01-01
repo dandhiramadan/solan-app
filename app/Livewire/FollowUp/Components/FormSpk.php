@@ -260,6 +260,7 @@ class FormSpk extends Component
                             'instruction_id' => $createSpk->id,
                             'user_id' => null,
                             'text' => $data['description'],
+                            'state_text' => $data['state_text'] ?? null,
                             'duration' => 1,
                             'start_date' => $now,
                             'parent' => $createProject->id,

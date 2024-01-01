@@ -395,16 +395,12 @@
                                             wire:model.defer="langkahKerja.{{ $key }}.description" readonly />
                                         @if ($data['description'] == 'Laminating Doff' || $data['description'] == 'Laminating Gloss')
                                             <select class="form-select" aria-label="Pilih"
-                                                wire:model.defer="langkahKerja.{{ $key }}.state">
+                                                wire:model.defer="langkahKerja.{{ $key }}.state_text">
                                                 <option label="Pilih"></option>
-                                                <option value="depan">Depan</option>
-                                                <option value="belakang">Belakang</option>
-                                                <option value="depan/belakang">Depan/Belakang</option>
+                                                <option value="Depan">Depan</option>
+                                                <option value="Belakang">Belakang</option>
+                                                <option value="Depan Belakang">Depan Belakang</option>
                                             </select>
-                                            <input type="text" class="form-control"
-                                                wire:model.defer="langkahKerja.{{ $key }}.jumlah"
-                                                placeholder="Jumlah" /><span class="input-group-text"
-                                                id="basic-addon13">Muka</span>
                                         @endif
                                         <button class="btn btn-outline-primary" type="button"
                                             wire:click="removeLangkahKerja({{ $key }})">Delete</button>

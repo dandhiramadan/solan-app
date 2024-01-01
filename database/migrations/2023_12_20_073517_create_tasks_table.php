@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('type')->nullable();
             $table->string('text');
+            $table->string('state_text')->nullable();
             $table->integer('target_lembar_cetak')->nullable();
             $table->integer('jumlah_lembar_cetak')->nullable();
             $table->integer('initial_duration')->nullable();
