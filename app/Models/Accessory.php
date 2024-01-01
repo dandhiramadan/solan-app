@@ -22,7 +22,13 @@ class Accessory extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'product_accessory', 'product_id', 'accessory_id')
+        return $this->belongsToMany(Product::class, 'product_accessory_stock')
+            ->withPivot('quantity');
+    }
+
+    public function stocks()
+    {
+        return $this->belongsToMany(Stock::class, 'product_accessory_stock')
             ->withPivot('quantity');
     }
 }

@@ -14,6 +14,7 @@ class AccessoriesTableSeeder extends Seeder
     public function run(): void
     {
         $accessories= [
+            ['description' => 'Original', 'catatan' => 'Tanpa Aksesoris' ],
             ['description' => 'Bor', 'catatan' => null ],
             ['description' => 'Tali', 'catatan' => null ],
             ['description' => 'Mata Itik', 'catatan' => null ],

@@ -9,7 +9,7 @@
         <h5 class="card-header">Form Good Receipt</h5>
         <div class="card-body">
             <div class="row mb-3">
-                <div class="col-md-6 mb-2">
+                <div class="col-md-12 mb-2">
                     <div wire:ignore>
                         <label class="form-label" for="Product">Product</label>
                         <select x-init="$($el).select2({
@@ -39,9 +39,6 @@
                 </div>
 
                 <div class="col-md-6 mb-2">
-                    <x-forms.number wire:model.defer="totalQuantity" :placeholder="'Total Quantity'"></x-forms.number>
-                </div>
-                <div class="col-md-6 mb-2">
                     <x-forms.text wire:model.defer="sender" :placeholder="'Sender'"></x-forms.text>
                 </div>
                 <div class="col-md-6 mb-2">
@@ -68,29 +65,62 @@
                     </span>
                 @enderror
 
-                <h3>Accessories</h3>
-                <button type="button" wire:click="addAccessoryInput">Add Accessories</button>
-                @foreach ($accessories as $key => $accessory)
-                    <div>
-                        <select class="form-select" aria-label="Pilih"
-                            wire:model.defer="accessories.{{ $key }}.id">
-                            <option label="Pilih"></option>
-                            @foreach ($dataAccessories as $data)
+                <div class="col-lg-12 mt-3">
+                    <div class="card">
+                        <div class="card-header header-elements">
+                            <span class="me-2">Condition</span>
 
-                            <option value="{{ $data->id }}">{{ $data->description }}</option>
+                            <div class="card-header-elements ms-auto">
+                                <button type="button" class="btn btn-xs btn-primary" wire:click="addAccessoryInput">
+                                    <span class="tf-icon ti ti-plus ti-xs me-1"></span>Add Condition
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            @foreach ($accessories as $key => $accessory)
+                                <div class="row mb-2">
+                                    <div class="col-md-6">
+                                        <small class="text-light fw-medium d-block mb-2">Condition Product</small>
+                                        <div class="input-group">
+                                            <select class="form-select"
+                                                wire:model.defer="accessories.{{ $key }}.id">
+                                                <option label="Pilih Condition Product"></option>
+                                                @foreach ($dataAccessories as $data)
+                                                    <option value="{{ $data->id }}">{{ $data->description }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        @error('accessories.*.id')
+                                            <span class=""
+                                                style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
+                                                role="alert">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-6">
+                                        <small class="text-light fw-medium d-block mb-2">Quantity</small>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control"
+                                                placeholder="Quantity"wire:model.defer="accessories.{{ $key }}.quantity" />
+
+                                            <button class="btn btn-outline-primary" type="button"
+                                                wire:click="removeAccessoryInput({{ $key }})">Delete</button>
+                                        </div>
+                                        @error('accessories.*.quantity')
+                                            <span class=""
+                                                style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
+                                                role="alert">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
                             @endforeach
-                        </select>
-                        <input wire:model.defer="accessories.{{ $key }}.quantity" type="number"
-                            placeholder="Quantity" min="1" required>
+                        </div>
                     </div>
-                @endforeach
-                @error('accessories.*.id')
-                    <span>{{ $message }}</span>
-                @enderror
-                @error('accessories.*.quantity')
-                    <span>{{ $message }}</span>
-                @enderror
-
+                </div>
 
                 <div class="pt-4">
                     <button type="button" class="btn btn-primary me-sm-3 me-1" wire:click='store'>Submit</button>

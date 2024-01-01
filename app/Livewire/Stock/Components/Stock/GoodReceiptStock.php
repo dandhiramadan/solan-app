@@ -13,11 +13,17 @@ use Illuminate\Support\Facades\DB;
 class GoodReceiptStock extends Component
 {
     public $accessories = [];
-    public $productSelected, $totalQuantity, $sender, $recipient, $catatan, $rak, $baris;
+    public $productSelected, $sender, $recipient, $catatan, $rak, $baris;
 
     public function addAccessoryInput()
     {
         $this->accessories[] = ['id' => null, 'quantity' => null];
+    }
+
+    public function removeAccessoryInput($key)
+    {
+        unset($this->accessories[$key]);
+        $this->accessories = array_values($this->accessories);
     }
 
     public function render()
@@ -33,19 +39,21 @@ class GoodReceiptStock extends Component
         $this->validate(
             [
                 'productSelected' => 'required',
-                'totalQuantity' => 'required',
                 'sender' => 'required',
                 'recipient' => 'required',
                 'rak' => 'required',
                 'baris' => 'required',
+                'accessories.*.id' => 'required',
+                'accessories.*.quantity' => 'required',
             ],
             [
                 'productSelected.required' => 'Product harus diisi.',
-                'totalQuantity.required' => 'Total Quantity harus diisi.',
                 'sender.required' => 'Sender harus diisi.',
                 'recipient.required' => 'Receipient harus diisi.',
                 'rak.required' => 'Rak harus diisi.',
                 'baris.required' => 'Baris harus diisi.',
+                'accessories.*.id.required' => 'Kondisi harus diisi',
+                'accessories.*.id.quantity' => 'Quantity harus diisi',
             ],
         );
 
@@ -55,19 +63,17 @@ class GoodReceiptStock extends Component
             $product = Product::find($this->productSelected);
 
             $stock = Stock::create([
-                'product_id' => $this->productSelected,
-                'total_quantity' => $this->totalQuantity,
                 'giver' => $this->sender,
                 'receiver' => $this->recipient,
                 'rack' => $this->rak,
                 'row' => $this->baris,
-                // 'catatan' => $this->catatan,
+                'type' => 'In',
+                'catatan' => $this->catatan,
             ]);
 
             // Attach accessories to the pivot table
             foreach ($this->accessories as $accessory) {
-
-                $product->accessories()->attach($accessory['id'], $accessory['quantity']);
+                $product->accessories()->attach($accessory['id'], ['product_id' => $product->id, 'stock_id' => $stock->id, 'quantity' => $accessory['quantity']]);
             }
 
             DB::commit();

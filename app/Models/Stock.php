@@ -16,8 +16,15 @@ class Stock extends Model
     protected $table = 'stocks';
     protected $guarded = [];
 
-    public function product()
+    public function products()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsToMany(Product::class, 'product_accessory_stock')
+            ->withPivot('quantity');
+    }
+
+    public function accessories()
+    {
+        return $this->belongsToMany(Accessory::class, 'product_accessory_stock')
+            ->withPivot('quantity');
     }
 }

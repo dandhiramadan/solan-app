@@ -24,14 +24,15 @@ class Product extends Model
                      ->orWhere('catatan', 'like', '%' . $keyword . '%');
     }
 
-    public function stocks()
-    {
-        return $this->hasMany(Stock::class);
-    }
-
     public function accessories()
     {
-        return $this->belongsToMany(Accessory::class, 'product_accessory', 'product_id', 'accessory_id')
+        return $this->belongsToMany(Accessory::class, 'product_accessory_stock')
+            ->withPivot('quantity');
+    }
+
+    public function stocks()
+    {
+        return $this->belongsToMany(Stock::class, 'product_accessory_stock')
             ->withPivot('quantity');
     }
 }
