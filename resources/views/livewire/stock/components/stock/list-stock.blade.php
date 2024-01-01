@@ -1,9 +1,9 @@
 <div>
     {{-- The best athlete wants his opponent at his best. --}}
-
+    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Stock /</span> List Stock</h4>
     <div class="card">
         <div class="card-header header-elements">
-            <h5 class="card-title mb-0">List Stock</h5>
+            <h5 class="card-title mb-0">Data Stock</h5>
         </div>
 
         <div class="card-header">

@@ -27,12 +27,12 @@ class Product extends Model
     public function accessories()
     {
         return $this->belongsToMany(Accessory::class, 'product_accessory_stock')
-            ->withPivot('quantity');
+            ->withPivot('quantity')->withTimestamps();
     }
 
     public function stocks()
     {
         return $this->belongsToMany(Stock::class, 'product_accessory_stock')
-            ->withPivot('quantity');
+            ->withPivot('quantity')->withTimestamps();
     }
 }
