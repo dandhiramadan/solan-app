@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id');
-            $table->integer('quantity');
-            $table->enum('type', ['in', 'out']);
-            $table->text('keterangan')->nullable();
+            $table->integer('total_quantity');
+            $table->string('receiver');
+            $table->string('giver');
+            $table->string('rack');
+            $table->string('row');
             $table->timestamps();
             $table->softDeletes();
 

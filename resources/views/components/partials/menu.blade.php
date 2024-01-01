@@ -77,27 +77,33 @@
                 </li>
 
                 <!-- Form SPK -->
-                <li class="menu-item @if (request()->routeIs('formSpk.FollowUp')) active @endif">
-                    <a href="{{ route('formSpk.FollowUp', ['state' => 'create']) }}" class="menu-link menu-toggle">
+                <li class="menu-item @if (request()->routeIs('adjustmentStock.Stock') or request()->routeIs('goodReceiptStock.Stock') or request()->routeIs('listStock.Stock') or request()->routeIs('historyStock.Stock')) active @endif">
+                    <a href="{{ route('adjustmentStock.Stock') }}" class="menu-link menu-toggle">
                         <i class="menu-icon tf-icons ti ti-package"></i>
                         <div data-i18n="Stock">Stock</div>
                     </a>
 
                     <ul class="menu-sub">
-                        <li class="menu-item @if (request()->routeIs('formSpk.FollowUp')) active @endif">
-                            <a href="{{ route('formSpk.FollowUp', ['state' => 'create']) }}" class="menu-link">
+                        <li class="menu-item @if (request()->routeIs('adjustmentStock.Stock')) active @endif">
+                            <a href="{{ route('adjustmentStock.Stock') }}" class="menu-link">
                                 <i class="menu-icon tf-icons ti ti-file-plus"></i>
-                                <div data-i18n="Add Stock">Add Stock</div>
+                                <div data-i18n="Adjustment Stock">Adjustment Stock</div>
                             </a>
                         </li>
-                        <li class="menu-item @if (request()->routeIs('formSpk.FollowUp')) active @endif">
-                            <a href="{{ route('formSpk.FollowUp', ['state' => 'create']) }}" class="menu-link">
+                        <li class="menu-item @if (request()->routeIs('goodReceiptStock.Stock')) active @endif">
+                            <a href="{{ route('goodReceiptStock.Stock') }}" class="menu-link">
+                                <i class="menu-icon tf-icons ti ti-file-plus"></i>
+                                <div data-i18n="Good Receipt Stock">Good Receipt Stock</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @if (request()->routeIs('listStock.Stock')) active @endif">
+                            <a href="{{ route('listStock.Stock') }}" class="menu-link">
                                 <i class="menu-icon tf-icons ti ti-file-spreadsheet"></i>
                                 <div data-i18n="List Stock">List Stock</div>
                             </a>
                         </li>
-                        <li class="menu-item @if (request()->routeIs('formSpk.FollowUp')) active @endif">
-                            <a href="{{ route('formSpk.FollowUp', ['state' => 'create']) }}" class="menu-link">
+                        <li class="menu-item @if (request()->routeIs('historyStock.Stock')) active @endif">
+                            <a href="{{ route('historyStock.Stock') }}" class="menu-link">
                                 <i class="menu-icon tf-icons ti ti-history"></i>
                                 <div data-i18n="History Stock">History Stock</div>
                             </a>

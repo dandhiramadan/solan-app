@@ -9,6 +9,7 @@ use Database\Seeders\UsersTableSeeder;
 use Database\Seeders\MachinesTableSeeder;
 use Database\Seeders\CustomersTableSeeder;
 use Database\Seeders\WorkStepsTableSeeder;
+use Database\Seeders\AccessoriesTableSeeder;
 use Database\Seeders\InstructionsTableSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+        $this->call(AccessoriesTableSeeder::class);
         $this->call(CustomersTableSeeder::class);
         $this->call(UsersTableSeeder::class);
         $this->call(MachinesTableSeeder::class);

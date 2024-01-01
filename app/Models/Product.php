@@ -31,6 +31,7 @@ class Product extends Model
 
     public function accessories()
     {
-        return $this->belongsToMany(Accessory::class, 'product_accessory');
+        return $this->belongsToMany(Accessory::class, 'product_accessory', 'product_id', 'accessory_id')
+            ->withPivot('quantity');
     }
 }

@@ -5,9 +5,13 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\FollowUp\Components\AllTask;
 use App\Livewire\FollowUp\Components\FormSpk;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Livewire\Stock\Components\Stock\ListStock;
 use App\Livewire\Stock\Components\FormRequestStock;
 use App\Livewire\Penjadwalan\Components\TimelineTask;
+use App\Livewire\Stock\Components\Stock\HistoryStock;
 use App\Livewire\HitungBahan\Components\FormHitungBahan;
+use App\Livewire\Stock\Components\Stock\AdjustmentStock;
+use App\Livewire\Stock\Components\Stock\GoodReceiptStock;
 use App\Livewire\Stock\Components\Product\ManagementProducts;
 use App\Livewire\Stock\Components\Dashboard as DashboardStock;
 use App\Livewire\HitungBahan\Components\FormOtomatisHitungBahan;
@@ -47,6 +51,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/form-request-stock/{state}/{id}', FormRequestStock::class)->name('formRequestStock.Stock');
         Route::get('/management-products', ManagementProducts::class)->name('managementProducts.Stock');
         Route::get('/management-accessories', ManagementAccessories::class)->name('managementAccessories.Stock');
+        Route::get('/adjustment-stock', AdjustmentStock::class)->name('adjustmentStock.Stock');
+        Route::get('/good-receipt-stock', GoodReceiptStock::class)->name('goodReceiptStock.Stock');
+        Route::get('/list-stock', ListStock::class)->name('listStock.Stock');
+        Route::get('/history-stock', HistoryStock::class)->name('historyStock.Stock');
     });
     Route::group(['prefix' => 'penjadwalan', 'middleware' => ['user-access:Penjadwalan']], function () {
         Route::get('/dashboard', DashboardPenjadwalan::class)->name('dashboard.Penjadwalan');
