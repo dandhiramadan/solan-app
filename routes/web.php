@@ -12,6 +12,7 @@ use App\Livewire\Stock\Components\Stock\HistoryStock;
 use App\Livewire\HitungBahan\Components\FormHitungBahan;
 use App\Livewire\Stock\Components\Stock\AdjustmentStock;
 use App\Livewire\Stock\Components\Stock\GoodReceiptStock;
+use App\Livewire\HitungBahan\Components\KalkulasiOtomatis;
 use App\Livewire\Stock\Components\Product\ManagementProducts;
 use App\Livewire\Stock\Components\Dashboard as DashboardStock;
 use App\Livewire\HitungBahan\Components\FormOtomatisHitungBahan;
@@ -62,6 +63,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'hitung-bahan', 'middleware' => ['user-access:Hitung Bahan']], function () {
         Route::get('/dashboard', DashboardHitungBahan::class)->name('dashboard.HitungBahan');
         Route::get('/form-otomatis-hitung-bahan/{id}', FormOtomatisHitungBahan::class)->name('formOtomatis.HitungBahan');
+        Route::get('/kalkulasi-otomatis/{id}', KalkulasiOtomatis::class)->name('kalkulasiOtomatis.HitungBahan');
         Route::get('/form-hitung-bahan/{state}/{id}', FormHitungBahan::class)->name('FormCreate.HitungBahan');
     });
 });
