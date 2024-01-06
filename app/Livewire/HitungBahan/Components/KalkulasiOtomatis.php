@@ -155,11 +155,6 @@ class KalkulasiOtomatis extends Component
                     $wastePlanoLength = $planoLength - ($currentSheetLength * $colomnSheet);
                     $wastePlanoWidth = $planoWidth - ($currentSheetWidth * $rowSheet);
 
-                    $colomnSheet = floor($planoLength / $tempSheetLength);
-                    $rowSheet = floor($planoWidth / $tempSheetWidth);
-                    $wastePlanoLength = $planoLength - ($tempSheetLength * $colomnSheet);
-                    $wastePlanoWidth = $planoWidth - ($tempSheetWidth * $rowSheet);
-
                     $resultSheet = [
                         'planoLength' => (float) $planoLength,
                         'planoWidth' => (float) $planoWidth,
