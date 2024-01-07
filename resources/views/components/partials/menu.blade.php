@@ -78,7 +78,7 @@
 
                 <!-- Form SPK -->
                 <li class="menu-item @if (request()->routeIs('goodReceiptStock.Stock') or request()->routeIs('listStock.Stock') or request()->routeIs('historyStock.Stock')) active @endif">
-                    <a href="{{ route('adjustmentStock.Stock') }}" class="menu-link menu-toggle">
+                    <a href="{{ route('goodReceiptStock.Stock') }}" class="menu-link menu-toggle">
                         <i class="menu-icon tf-icons ti ti-package"></i>
                         <div data-i18n="Stock">Stock</div>
                     </a>

@@ -237,8 +237,10 @@
                     </div>
                 </div>
             </div>
-
             <button type="button" class="btn btn-info me-sm-3 me-1" wire:click='calculate'>Calculate</button>
+            @if ($showPreviewSetting)
+                <button type="button" class="btn btn-primary me-sm-3 me-1" wire:click='store'>Save</button>
+            @endif
         </div>
     </div>
 
@@ -314,51 +316,55 @@
                         <div class="row">
                             <div class="col-md-6 mb-2">
                                 <label for="Panjang Lembar Cetak" class="form-label">Panjang Lembar Cetak</label>
-                                <input class="form-control" type="text" wire:model.defer="detailResultSetting.sheetLength" readonly />
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetLength" readonly />
                             </div>
                             <div class="col-md-6 mb-2">
                                 <label for="Lebar Lembar" class="form-label">Lebar Lembar</label>
-                                <input class="form-control" type="text" wire:model.defer="detailResultSetting.sheetWidth" readonly />
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetWidth" readonly />
                             </div>
                             <div class="col-md-6 mb-2">
                                 <label for="Panjang Barang Jadi" class="form-label">Panjang Barang Jadi</label>
-                                <input class="form-control" type="text" wire:model.defer="detailResultSetting.itemsLength" readonly />
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.itemsLength" readonly />
                             </div>
                             <div class="col-md-6 mb-2">
                                 <label for="Lebar Barang Jadi" class="form-label">Lebar Barang Jadi</label>
-                                <input class="form-control" type="text" wire:model.defer="detailResultSetting.itemsWidth" readonly />
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.itemsWidth" readonly />
                             </div>
                             <div class="col-md-6 mb-2">
                                 <label for="Panjang Naik" class="form-label">Panjang Naik</label>
-                                <input class="form-control" type="text" wire:model.defer="detailResultSetting.col" readonly />
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.colomnItems" readonly />
                             </div>
                             <div class="col-md-6 mb-2">
                                 <label for="Lebar Naik" class="form-label">Lebar Naik</label>
-                                <input class="form-control" type="text" wire:model.defer="detailResultSetting.row" readonly />
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.rowItems" readonly />
                             </div>
                             <div class="col-md-6 mb-2">
                                 <label for="Jarak Atas" class="form-label">Jarak Atas</label>
-                                <input class="form-control" type="text" wire:model.defer="detailResultSetting.sheetMarginTop" readonly />
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetMarginTop" readonly />
                             </div>
                             <div class="col-md-6 mb-2">
                                 <label for="Jarak Bawah" class="form-label">Jarak Bawah</label>
-                                <input class="form-control" type="text" wire:model.defer="detailResultSetting.sheetMarginBottom" readonly />
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetMarginBottom" readonly />
                             </div>
                             <div class="col-md-6 mb-2">
                                 <label for="Jarak Kiri" class="form-label">Jarak Kiri</label>
-                                <input class="form-control" type="text" wire:model.defer="detailResultSetting.sheetMarginLeft" readonly />
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetMarginLeft" readonly />
                             </div>
                             <div class="col-md-6 mb-2">
                                 <label for="Jarak Kanan" class="form-label">Jarak Kanan</label>
-                                <input class="form-control" type="text" wire:model.defer="detailResultSetting.sheetMarginRight" readonly />
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetMarginRight" readonly />
                             </div>
                             <div class="col-md-6 mb-2">
-                                <label for="Jarak Antar Barang" class="form-label">Jarak Antar Barang</label>
-                                <input class="form-control" type="text" wire:model.defer="detailResultSetting.gapBetweenItems" readonly />
+                                <label for="Jarak Panjang" class="form-label">Jarak Panjang</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.gapBetweenLengthItems" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Jarak Lebar" class="form-label">Jarak Lebar</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.gapBetweenWidthItems" readonly />
                             </div>
                             <div class="col-md-6 mb-2">
                                 <label for="1 Lembar Cetak" class="form-label">1 Lembar Cetak (Barang Jadi)</label>
-                                <input class="form-control" type="text" wire:model.defer="detailResultSetting.itemsPerSheet" readonly />
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.totalItemsOnSheet" readonly />
                             </div>
                         </div>
                     </div>
@@ -374,6 +380,69 @@
                 <canvas id="canvasSettingOtherSize"></canvas>
             </div>
         </div>
+        <div class="col-md-4">
+            @if ($showPreviewSettingOtherSize)
+                <div class="card">
+                    <h5 class="card-header">Details Layout Setting 2</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <label for="Panjang Lembar Cetak" class="form-label">Panjang Lembar Cetak</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetLengthWasteWidth" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Lebar Lembar" class="form-label">Lebar Lembar</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetWidthWasteWidth" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Panjang Barang Jadi" class="form-label">Panjang Barang Jadi</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.itemsLength" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Lebar Barang Jadi" class="form-label">Lebar Barang Jadi</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.itemsWidth" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Panjang Naik" class="form-label">Panjang Naik</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.colomnItemsWasteWidth" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Lebar Naik" class="form-label">Lebar Naik</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.rowItemsWasteWidth" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Jarak Atas" class="form-label">Jarak Atas</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetMarginTop" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Jarak Bawah" class="form-label">Jarak Bawah</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetMarginBottom" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Jarak Kiri" class="form-label">Jarak Kiri</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetMarginLeft" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Jarak Kanan" class="form-label">Jarak Kanan</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetMarginRight" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Jarak Panjang" class="form-label">Jarak Panjang</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.gapBetweenLengthItems" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Jarak Lebar" class="form-label">Jarak Lebar</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.gapBetweenWidthItems" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="1 Lembar Cetak" class="form-label">1 Lembar Cetak (Barang Jadi)</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.totalItemsOnSheetWasteWidth" readonly />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        </div>
         <div class="col-md-8">
             <div class="fabric-canvas-wrapper-bahan">
                 @if ($showPreviewBahan)
@@ -382,6 +451,61 @@
                 @endif
                 <canvas id="canvasBahan"></canvas>
             </div>
+        </div>
+        <div class="col-md-4">
+            @if ($showPreviewBahan)
+                <div class="card">
+                    <h5 class="card-header">Details Bahan</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            @if($showPreviewSettingOtherSize)
+                                <div class="col-md-6 mb-2">
+                                    <label for="Panjang Lembar Cetak 1" class="form-label">Panjang Lembar Cetak 1</label>
+                                    <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetLength" readonly />
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label for="Lebar Lembar 1" class="form-label">Lebar Lembar 1</label>
+                                    <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetWidth" readonly />
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label for="Panjang Lembar Cetak 2" class="form-label">Panjang Lembar Cetak 2</label>
+                                    <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetLengthWasteWidth" readonly />
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label for="Lebar Lembar 2" class="form-label">Lebar Lembar 2</label>
+                                    <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetWidthWasteWidth" readonly />
+                                </div>
+                            @else
+                                <div class="col-md-6 mb-2">
+                                    <label for="Panjang Lembar Cetak" class="form-label">Panjang Lembar Cetak</label>
+                                    <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetLength" readonly />
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label for="Lebar Lembar" class="form-label">Lebar Lembar</label>
+                                    <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetWidth" readonly />
+                                </div>
+                            @endif
+
+                            <div class="col-md-6 mb-2">
+                                <label for="Panjang Plano" class="form-label">Panjang Plano</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.planoLength" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Lebar Plano" class="form-label">Lebar Plano</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.planoWidth" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="1 Plano (Barang Jadi)" class="form-label">1 Plano (Barang Jadi)</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.totalItemsFinal" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Total Plano" class="form-label">Total Plano</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.totalPlano" readonly />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 
@@ -413,8 +537,8 @@
                     titlePanjangLembarCetak = "Panjang Lembar Cetak = ";
                     titleLebarLembarCetak = "Lebar Lembar Cetak = ";
                 } else {
-                    titlePanjangLembarCetak = "Panjang Lembar Cetak = ";
-                    titleLebarLembarCetak = "Lebar Lembar Cetak = ";
+                    titlePanjangLembarCetak = "Lebar Lembar Cetak = ";
+                    titleLebarLembarCetak = "Panjang Lembar Cetak = ";
                 }
 
                 function resizeCanvas() {

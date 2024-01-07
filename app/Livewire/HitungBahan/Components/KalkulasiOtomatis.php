@@ -50,7 +50,7 @@ class KalkulasiOtomatis extends Component
     public $folderTmpBahan;
     public $fileNameBahan;
 
-    public $resultAllSheet = [];
+    public $resultCalculate = [];
 
     public function mount($id)
     {
@@ -100,7 +100,7 @@ class KalkulasiOtomatis extends Component
         $maximalLengthBahan = $machine->panjang_maximal_bahan;
         $maximalWidthBahan = $machine->lebar_maximal_bahan;
 
-        $this->resultSheetLandscapeItems = $this->calculateSheet($this->quantityItems, $this->itemsLength, $this->itemsWidth, $gapBetweenLengthItems, $gapBetweenWidthItems, $minimalLengthSheet, $minimalWidthSheet, $maximalLengthSheet, $maximalWidthSheet, $this->orientationSetting, $this->planoLength, $this->planoWidth, $this->orientationPlano);
+        $this->resultSheetLandscapeItems = $this->calculateSheet(currency_convert($this->quantityItems), currency_convert($this->itemsLength), currency_convert($this->itemsWidth), $gapBetweenLengthItems, $gapBetweenWidthItems, $minimalLengthSheet, $minimalWidthSheet, $maximalLengthSheet, $maximalWidthSheet, $this->orientationSetting, currency_convert($this->planoLength), currency_convert($this->planoWidth), $this->orientationPlano);
     }
 
     public function calculateSheet($quantityItems, $itemsLength, $itemsWidth, $gapBetweenLengthItems, $gapBetweenWidthItems, $minimalLengthSheet, $minimalWidthSheet, $maximalLengthSheet, $maximalWidthSheet, $orientationSetting, $planoLength, $planoWidth, $orientationPlano)
@@ -216,12 +216,12 @@ class KalkulasiOtomatis extends Component
                         $result[$key]['rowItemsWasteWidth'] = $bestMatchingSheet['rowItems'];
                         $result[$key]['sheetLengthWasteWidth'] = $bestMatchingSheet['sheetLength'];
                         $result[$key]['sheetWidthWasteWidth'] = $bestMatchingSheet['sheetWidth'];
-                        $result[$key]['totalItemsOnSheetWasteWidth'] = $bestMatchingSheet['totalItemsOnSheet'];
+                        $result[$key]['totalItemsOnSheetWasteWidth'] = $result[$key]['colomnItemsWasteWidth'] * $result[$key]['rowItemsWasteWidth'];
                         $result[$key]['colomnSheetWasteWidth'] = floor($planoLength / $bestMatchingSheet['sheetLength']);
                         $result[$key]['rowSheetWasteWidth'] = floor($dataSheet['wastePlanoWidth'] / $bestMatchingSheet['sheetWidth']);
 
-                        $result[$key]['totalItemsOnPlanoWasteWidth'] = $result[$key]['totalItemsOnSheetWasteWidth'] * $result[$key]['colomnSheetWasteWidth'] * $result[$key]['rowSheetWasteWidth'];
-                        $result[$key]['totalItemsFinal'] = (int) $bestMatchingSheet['totalItemsFinal'] + (int) $result[$key]['totalItemsOnPlanoWasteWidth'];
+                        $result[$key]['totalItemsOnPlanoWasteWidth'] = (int) $result[$key]['totalItemsOnSheetWasteWidth'] * $result[$key]['colomnSheetWasteWidth'] * $result[$key]['rowSheetWasteWidth'];
+                        $result[$key]['totalItemsFinal'] = (int) $dataSheet['totalItemsFinal'] + (int) $result[$key]['totalItemsOnPlanoWasteWidth'];
                     }
                 }
             }else{
@@ -240,6 +240,13 @@ class KalkulasiOtomatis extends Component
         foreach ($result as $dataSheet) {
             if (isset($dataSheet['totalItemsFinal']) && $dataSheet['totalItemsFinal'] > $maxTotalItemsFinal) {
                 $maxTotalItemsFinal = $dataSheet['totalItemsFinal'];
+
+                $totalPlano = $quantityItems / $dataSheet['totalItemsFinal'];
+                $totalPlano = (int) ceil($totalPlano);
+                    if ($totalPlano != floor($totalPlano)) {
+                        $totalPlano += 1;
+                    }
+                $dataSheet['totalPlano'] = (int) $totalPlano;
                 $bestResult = $dataSheet;
             }
         }
@@ -247,11 +254,21 @@ class KalkulasiOtomatis extends Component
         if($bestResult['sheetLengthWasteWidth'] == null && $bestResult['sheetWidthWasteWidth'] == null){
             $this->dispatch('createLayoutSetting', $bestResult);
             $this->dispatch('createLayoutBahan', $bestResult);
-        }else{
+        } else {
             $this->dispatch('createLayoutSetting', $bestResult);
             $this->dispatch('createLayoutSettingOtherSize', $bestResult);
             $this->dispatch('createLayoutBahan', $bestResult);
         }
+
+        if($bestResult['sheetLength'] > $bestResult['sheetWidth']){
+            $bestResult['sheetLength'] = $bestResult['sheetLength'];
+            $bestResult['sheetWidth'] = $bestResult['sheetWidth'];
+        } else {
+            $bestResult['sheetLength'] = $bestResult['sheetWidth'];
+            $bestResult['sheetWidth'] = $bestResult['sheetLength'];
+        }
+
+        $this->resultCalculate = $bestResult;
 
         return $result;
     }
