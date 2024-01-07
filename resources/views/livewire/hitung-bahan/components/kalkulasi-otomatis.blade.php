@@ -1,5 +1,22 @@
 <div>
     {{-- Close your eyes. Count to one. That is how long forever feels. --}}
+    @if (session()->has('success'))
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+            <span class="alert-icon text-success me-2">
+                <i class="ti ti-check ti-xs"></i>
+            </span>
+            {{ session('success') }}
+        </div>
+    @endif
+    @if (session()->has('error'))
+        <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <span class="alert-icon text-danger me-2">
+                <i class="ti ti-ban ti-xs"></i>
+            </span>
+            {{ session('error') }}
+        </div>
+    @endif
+
     <div class="card mb-4">
         <h5 class="card-header">Form New SPK</h5>
         <div class="card-body">
@@ -19,7 +36,7 @@
                             $wire.set('machineSelected', $($el).val())
                         });
                         $($el).val($($el).val());
-                        $($el).trigger('change');" name="machineSelected" wire:model.live="machineSelected"
+                        $($el).trigger('change');" name="machineSelected" wire:model.defer="machineSelected"
                             id="machineSelected" class="select2 form-select form-select-lg" data-allow-clear="true">
                             <option label="Pilih Machine"></option>
                             @foreach ($machine as $data)
@@ -35,10 +52,10 @@
                     @enderror
                 </div>
                 <div class="col-md-4 mb-2">
-                    <x-forms.number wire:model.live="planoLength" :placeholder="'Panjang Bahan'"></x-forms.number>
+                    <x-forms.number wire:model.defer="planoLength" :placeholder="'Panjang Bahan'"></x-forms.number>
                 </div>
                 <div class="col-md-4 mb-2">
-                    <x-forms.number wire:model.live="planoWidth" :placeholder="'Lebar Bahan'"></x-forms.number>
+                    <x-forms.number wire:model.defer="planoWidth" :placeholder="'Lebar Bahan'"></x-forms.number>
                 </div>
                 <div class="col-md-4 mb-2">
                     <div class="row">
@@ -101,10 +118,10 @@
                     @enderror
                 </div> --}}
                 <div class="col-md-4 mb-2">
-                    <x-forms.number wire:model.live="itemsLength" :placeholder="'Panjang Barang Jadi'"></x-forms.number>
+                    <x-forms.number wire:model.defer="itemsLength" :placeholder="'Panjang Barang Jadi'"></x-forms.number>
                 </div>
                 <div class="col-md-4 mb-2">
-                    <x-forms.number wire:model.live="itemsWidth" :placeholder="'Lebar Barang Jadi'"></x-forms.number>
+                    <x-forms.number wire:model.defer="itemsWidth" :placeholder="'Lebar Barang Jadi'"></x-forms.number>
                 </div>
                 <div class="col-md-4 mb-2">
                     <div wire:ignore>
@@ -118,7 +135,7 @@
                             $wire.set('orientationSetting', $($el).val())
                         });
                         $($el).val($($el).val());
-                        $($el).trigger('change');" name="orientationSetting" wire:model.live="orientationSetting"
+                        $($el).trigger('change');" name="orientationSetting" wire:model.defer="orientationSetting"
                             id="orientationSetting" class="select2 form-select form-select-lg" data-allow-clear="true">
                             <option label="Pilih Orientation Layout Setting"></option>
                             <option value="landscape">Landscape</option>
@@ -140,7 +157,7 @@
                             <div class="form-check custom-option custom-option-basic">
                                 <label class="form-check-label custom-option-content" for="pondSelected1">
                                     <input name="pondSelected" class="form-check-input" type="radio" value="Y"
-                                        id="pondSelected1" wire:model.live="pondSelected" />
+                                        id="pondSelected1" wire:model.defer="pondSelected" />
                                     <span class="custom-option-header">
                                         <span class="h6 mb-0">Ya</span>
                                     </span>
@@ -151,7 +168,7 @@
                             <div class="form-check custom-option custom-option-basic">
                                 <label class="form-check-label custom-option-content" for="pondSelected2">
                                     <input name="pondSelected" class="form-check-input" type="radio" value="N"
-                                        id="pondSelected2" wire:model.live="pondSelected" />
+                                        id="pondSelected2" wire:model.defer="pondSelected" />
                                     <span class="custom-option-header">
                                         <span class="h6 mb-0">Tidak</span>
                                     </span>
@@ -174,7 +191,7 @@
                                 <label class="form-check-label custom-option-content" for="potongJadiSelected1">
                                     <input name="potongJadiSelected" class="form-check-input" type="radio"
                                         value="Y" id="potongJadiSelected1"
-                                        wire:model.live="potongJadiSelected" />
+                                        wire:model.defer="potongJadiSelected" />
                                     <span class="custom-option-header">
                                         <span class="h6 mb-0">Ya</span>
                                     </span>
@@ -186,7 +203,7 @@
                                 <label class="form-check-label custom-option-content" for="potongJadiSelected2">
                                     <input name="potongJadiSelected" class="form-check-input" type="radio"
                                         value="N" id="potongJadiSelected2"
-                                        wire:model.live="potongJadiSelected" />
+                                        wire:model.defer="potongJadiSelected" />
                                     <span class="custom-option-header">
                                         <span class="h6 mb-0">Tidak</span>
                                     </span>
@@ -209,7 +226,7 @@
                                 <label class="form-check-label custom-option-content" for="jarakPotongJadiSelected1">
                                     <input name="jarakPotongJadiSelected" class="form-check-input" type="radio"
                                         value="Y" id="jarakPotongJadiSelected1"
-                                        wire:model.live="jarakPotongJadiSelected" />
+                                        wire:model.defer="jarakPotongJadiSelected" />
                                     <span class="custom-option-header">
                                         <span class="h6 mb-0">Ya</span>
                                     </span>
@@ -221,7 +238,7 @@
                                 <label class="form-check-label custom-option-content" for="jarakPotongJadiSelected2">
                                     <input name="jarakPotongJadiSelected" class="form-check-input" type="radio"
                                         value="N" id="jarakPotongJadiSelected2"
-                                        wire:model.live="jarakPotongJadiSelected" />
+                                        wire:model.defer="jarakPotongJadiSelected" />
                                     <span class="custom-option-header">
                                         <span class="h6 mb-0">Tidak</span>
                                     </span>
@@ -879,8 +896,8 @@
                     titlePanjangLembarCetak = "Panjang Lembar Cetak = ";
                     titleLebarLembarCetak = "Lebar Lembar Cetak = ";
                 } else {
-                    titlePanjangLembarCetak = "Panjang Lembar Cetak = ";
-                    titleLebarLembarCetak = "Lebar Lembar Cetak = ";
+                    titlePanjangLembarCetak = "Lebar Lembar Cetak = ";
+                    titleLebarLembarCetak = "Panjang Lembar Cetak = ";
                 }
 
                 function resizeCanvas() {

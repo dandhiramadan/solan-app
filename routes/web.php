@@ -62,7 +62,6 @@ Route::group(['middleware' => ['auth']], function () {
     });
     Route::group(['prefix' => 'hitung-bahan', 'middleware' => ['user-access:Hitung Bahan']], function () {
         Route::get('/dashboard', DashboardHitungBahan::class)->name('dashboard.HitungBahan');
-        Route::get('/form-otomatis-hitung-bahan/{id}', FormOtomatisHitungBahan::class)->name('formOtomatis.HitungBahan');
         Route::get('/kalkulasi-otomatis/{id}', KalkulasiOtomatis::class)->name('kalkulasiOtomatis.HitungBahan');
         Route::get('/form-hitung-bahan/{state}/{id}', FormHitungBahan::class)->name('FormCreate.HitungBahan');
     });

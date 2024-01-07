@@ -35,6 +35,8 @@ return new class extends Migration
             $table->string('jumlah_bahan')->nullable();
             $table->string('panjang_sisa_bahan')->nullable();
             $table->string('lebar_sisa_bahan')->nullable();
+            $table->string('file_path')->nullable();
+            $table->string('file_name')->nullable();
             $table->longText('dataJSON')->nullable();
             $table->string('layout_custom_file_name')->nullable();
             $table->string('layout_custom_path')->nullable();

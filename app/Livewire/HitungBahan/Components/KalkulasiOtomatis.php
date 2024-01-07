@@ -2,10 +2,14 @@
 
 namespace App\Livewire\HitungBahan\Components;
 
+use Throwable;
 use App\Models\Machine;
 use Livewire\Component;
 use App\Models\Instruction;
+use App\Models\LayoutSetting;
+use Livewire\Attributes\Rule;
 use Livewire\Attributes\Title;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 #[Title('Kalkulasi Otomatis')]
@@ -13,20 +17,39 @@ class KalkulasiOtomatis extends Component
 {
     public $spk;
 
-    public $machineSelected = 3;
+    #[Rule('required', message: 'Machine harus diisi.')]
+    public $machineSelected;
 
-    public $quantityItems = 1000;
-    public $itemsLength = 10;
-    public $itemsWidth = 6;
+    #[Rule('required', message: 'Quantity harus diisi.')]
+    public $quantityItems;
+
+    #[Rule('required', message: 'Panjang Barang Jadi harus diisi.')]
+    public $itemsLength;
+
+    #[Rule('required', message: 'Lebar Barang Jadi harus diisi.')]
+    public $itemsWidth;
+
+    #[Rule('required', message: 'Orientasi Setting diisi.')]
     public $orientationSetting = 'landscape';
 
-    public $planoLength = 109;
-    public $planoWidth = 79;
-    public $orientationPlano = 'Y';
+    #[Rule('required', message: 'Panjang Plano harus diisi.')]
+    public $planoLength;
 
-    public $pondSelected = 'Y';
-    public $potongJadiSelected = 'Y';
-    public $jarakPotongJadiSelected = 'Y';
+    #[Rule('required', message: 'Lebar Plano harus diisi.')]
+    public $planoWidth;
+
+    #[Rule('required', message: 'Orientasi harus diisi.')]
+    public $orientationPlano;
+
+    #[Rule('required', message: 'Pond harus diisi.')]
+    public $pondSelected;
+
+    #[Rule('required', message: 'Potong Jadi harus diisi.')]
+    public $potongJadiSelected;
+
+    #[Rule('required', message: 'Jarak Potong harus diisi.')]
+    public $jarakPotongJadiSelected;
+
     public $resultSheetLandscapeItems = [];
     public $resultSheetPotraitItems = [];
     public $resultPlanoLandscapeItems = [];
@@ -67,6 +90,7 @@ class KalkulasiOtomatis extends Component
 
     public function calculate()
     {
+        $this->validate();
         $this->showPreviewSetting = false;
         $this->showPreviewSettingOtherSize = false;
         $this->showPreviewBahan = false;
@@ -251,7 +275,7 @@ class KalkulasiOtomatis extends Component
             }
         }
 
-        if($bestResult['sheetLengthWasteWidth'] == null && $bestResult['sheetWidthWasteWidth'] == null){
+        if($bestResult != null && $bestResult['sheetLengthWasteWidth'] == null && $bestResult['sheetWidthWasteWidth'] == null){
             $this->dispatch('createLayoutSetting', $bestResult);
             $this->dispatch('createLayoutBahan', $bestResult);
         } else {
@@ -260,7 +284,7 @@ class KalkulasiOtomatis extends Component
             $this->dispatch('createLayoutBahan', $bestResult);
         }
 
-        if($bestResult['sheetLength'] > $bestResult['sheetWidth']){
+        if($bestResult != null && $bestResult['sheetLength'] > $bestResult['sheetWidth']){
             $bestResult['sheetLength'] = $bestResult['sheetLength'];
             $bestResult['sheetWidth'] = $bestResult['sheetWidth'];
         } else {
@@ -329,6 +353,39 @@ class KalkulasiOtomatis extends Component
 
     public function store()
     {
+        $this->validate();
 
+        try {
+            DB::beginTransaction();
+            $createLayoutSetting = LayoutSetting::create([
+                'instruction_id' => $this->spk->id,
+                'sortorder' => 1,
+                'state' => null,
+                'panjang_barang_jadi' => $this->resultCalculate['itemsLength'],
+                'lebar_barang_jadi' => $this->resultCalculate['itemsWidth'],
+                'panjang_bahan_cetak' => $this->resultCalculate['sheetLength'],
+                'lebar_bahan_cetak' => $this->resultCalculate['sheetWidth'],
+                'panjang_naik' => $this->resultCalculate['colomnItems'],
+                'lebar_naik' => $this->resultCalculate['rowItems'],
+                'jarak_panjang' => $this->resultCalculate['gapBetweenLengthItems'],
+                'jarak_lebar' => $this->resultCalculate['gapBetweenWidthItems'],
+                'sisi_atas' => $this->resultCalculate['sheetMarginTop'],
+                'sisi_bawah' => $this->resultCalculate['sheetMarginBottom'],
+                'sisi_kiri' => $this->resultCalculate['sheetMarginLeft'],
+                'sisi_kanan' => $this->resultCalculate['sheetMarginRight'],
+                'jarak_tambahan_vertical' => null,
+                'jarak_tambahan_horizontal' => null,
+                'file_path' => $this->folderTmpSetting,
+                'file_name' => $this->fileNameSetting,
+                'dataJSON' => $this->layoutSettingDataJson,
+            ]);
+            DB::commit();
+
+            $this->redirectRoute('FormCreate.HitungBahan', ['state' => 'create', 'id' => $this->spk->id]);
+            session()->flash('success', 'Data berhasil disimpan.');
+        } catch (Throwable $th) {
+            DB::rollBack();
+            session()->flash('error', 'Terjadi kesalahan !!! ' . $th->getMessage());
+        }
     }
 }

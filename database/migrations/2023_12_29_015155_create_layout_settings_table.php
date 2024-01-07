@@ -31,6 +31,8 @@ return new class extends Migration
             $table->string('sisi_kanan')->nullable();
             $table->string('jarak_tambahan_vertical')->nullable();
             $table->string('jarak_tambahan_horizontal')->nullable();
+            $table->string('file_path')->nullable();
+            $table->string('file_name')->nullable();
             $table->longText('dataJSON')->nullable();
             $table->timestamps();
             $table->softDeletes();
