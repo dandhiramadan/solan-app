@@ -326,4 +326,9 @@ class KalkulasiOtomatis extends Component
     {
         $this->layoutBahanDataJson = $dataJson;
     }
+
+    public function store()
+    {
+
+    }
 }
