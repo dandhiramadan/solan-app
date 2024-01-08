@@ -532,6 +532,56 @@ class KalkulasiOtomatis extends Component
                 'layout_custom_path' => null,
             ]);
 
+            if($this->resultCalculate != null && $this->resultCalculate['sheetLengthWasteWidth'] != null && $this->resultCalculate['sheetWidthWasteWidth'] != null){
+                $createLayoutSettingOtherSize = LayoutSetting::create([
+                    'instruction_id' => $this->spk->id,
+                    'sortorder' => 2,
+                    'state' => null,
+                    'panjang_barang_jadi' => $this->resultCalculate['itemsLength'],
+                    'lebar_barang_jadi' => $this->resultCalculate['itemsWidth'],
+                    'panjang_bahan_cetak' => $this->resultCalculate['sheetLengthWasteWidth'],
+                    'lebar_bahan_cetak' => $this->resultCalculate['sheetWidthWasteWidth'],
+                    'panjang_naik' => $this->resultCalculate['colomnItemsWasteWidth'],
+                    'lebar_naik' => $this->resultCalculate['rowItemsWasteWidth'],
+                    'jarak_panjang' => $this->resultCalculate['gapBetweenLengthItems'],
+                    'jarak_lebar' => $this->resultCalculate['gapBetweenWidthItems'],
+                    'sisi_atas' => $this->resultCalculate['sheetMarginTop'],
+                    'sisi_bawah' => $this->resultCalculate['sheetMarginBottom'],
+                    'sisi_kiri' => $this->resultCalculate['sheetMarginLeft'],
+                    'sisi_kanan' => $this->resultCalculate['sheetMarginRight'],
+                    'jarak_tambahan_vertical' => null,
+                    'jarak_tambahan_horizontal' => null,
+                    'file_path' => $this->folderTmpSettingOtherSize,
+                    'file_name' => $this->fileNameSettingOtherSize,
+                    'dataJSON' => $this->layoutSettingDataJsonOtherSize,
+                ]);
+            }
+
+            if($this->resultCalculate != null && $this->resultCalculate['sheetLengthWasteWidth'] == $this->resultCalculate['sheetLengthWasteLength'] && $this->resultCalculate['sheetWidthWasteWidth'] != $this->resultCalculate['sheetWidthWasteLength']) {
+                $createLayoutSettingOtherSizeAutoRotate = LayoutSetting::create([
+                    'instruction_id' => $this->spk->id,
+                    'sortorder' => 2,
+                    'state' => null,
+                    'panjang_barang_jadi' => $this->resultCalculate['itemsLength'],
+                    'lebar_barang_jadi' => $this->resultCalculate['itemsWidth'],
+                    'panjang_bahan_cetak' => $this->resultCalculate['sheetLengthWasteLength'],
+                    'lebar_bahan_cetak' => $this->resultCalculate['sheetWidthWasteLength'],
+                    'panjang_naik' => $this->resultCalculate['colomnItemsWasteLength'],
+                    'lebar_naik' => $this->resultCalculate['rowItemsWasteLength'],
+                    'jarak_panjang' => $this->resultCalculate['gapBetweenLengthItems'],
+                    'jarak_lebar' => $this->resultCalculate['gapBetweenWidthItems'],
+                    'sisi_atas' => $this->resultCalculate['sheetMarginTop'],
+                    'sisi_bawah' => $this->resultCalculate['sheetMarginBottom'],
+                    'sisi_kiri' => $this->resultCalculate['sheetMarginLeft'],
+                    'sisi_kanan' => $this->resultCalculate['sheetMarginRight'],
+                    'jarak_tambahan_vertical' => null,
+                    'jarak_tambahan_horizontal' => null,
+                    'file_path' => $this->folderTmpSettingOtherSizeAutoRotate,
+                    'file_name' => $this->fileNameSettingOtherSizeAutoRotate,
+                    'dataJSON' => $this->layoutSettingDataJsonOtherSizeAutoRotate,
+                ]);
+            }
+
             DB::commit();
 
             session()->flash('success', 'Data berhasil disimpan.');
