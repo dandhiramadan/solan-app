@@ -7,6 +7,7 @@ use App\Models\Catatan;
 use App\Models\Document;
 use App\Models\LayoutBahan;
 use App\Models\LayoutSetting;
+use App\Models\FormKeterangan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -36,6 +37,11 @@ class Instruction extends Model
     public function layoutSetting()
     {
         return $this->hasMany(LayoutSetting::class);
+    }
+
+    public function formKeterangan()
+    {
+        return $this->hasMany(FormKeterangan::class);
     }
 
     public function layoutBahan()
