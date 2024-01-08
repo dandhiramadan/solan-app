@@ -1,5 +1,7 @@
 <div>
     {{-- Close your eyes. Count to one. That is how long forever feels. --}}
+    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Form /</span> Form Hitung Bahan</h4>
+
     @if (session()->has('success'))
         <div class="alert alert-success d-flex align-items-center" role="alert">
             <span class="alert-icon text-success me-2">
@@ -18,7 +20,7 @@
     @endif
 
     <div class="card mb-4">
-        <h5 class="card-header">Form New SPK</h5>
+        <h5 class="card-header">Form Hitung Bahan</h5>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6 mb-2">
@@ -52,72 +54,6 @@
                     @enderror
                 </div>
                 <div class="col-md-4 mb-2">
-                    <x-forms.number wire:model.defer="planoLength" :placeholder="'Panjang Bahan'"></x-forms.number>
-                </div>
-                <div class="col-md-4 mb-2">
-                    <x-forms.number wire:model.defer="planoWidth" :placeholder="'Lebar Bahan'"></x-forms.number>
-                </div>
-                <div class="col-md-4 mb-2">
-                    <div class="row">
-                        <label class="form-label" for="Orientation Layout Bahan">Orientation Layout Bahan</label>
-                        <div class="col-md mb-md-0 mb-2">
-                            <div class="form-check custom-option custom-option-basic">
-                                <label class="form-check-label custom-option-content" for="orientationPlano1">
-                                    <input name="orientationPlano" class="form-check-input" type="radio" value="Y"
-                                        id="orientationPlano1" wire:model.live="orientationPlano" />
-                                    <span class="custom-option-header">
-                                        <span class="h6 mb-0">Ya</span>
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-md">
-                            <div class="form-check custom-option custom-option-basic">
-                                <label class="form-check-label custom-option-content" for="orientationPlano2">
-                                    <input name="orientationPlano" class="form-check-input" type="radio" value="N"
-                                        id="orientationPlano2" wire:model.live="orientationPlano" />
-                                    <span class="custom-option-header">
-                                        <span class="h6 mb-0">Tidak</span>
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
-                        @error('orientationPlano')
-                            <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
-                                role="alert">
-                                {{ $message }}
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-                {{-- <div class="col-md-4 mb-2">
-                    <div wire:ignore>
-                        <label class="form-label" for="Orientation Layout Bahan">Orientation Layout Bahan</label>
-                        <select x-init="$($el).select2({
-                            placeholder: 'Pilih Orientation Layout Bahan',
-                            allowClear: true,
-                            width: '100%',
-                        });
-                        $($el).on('change', function() {
-                            $wire.set('orientationPlano', $($el).val())
-                        });
-                        $($el).val($($el).val());
-                        $($el).trigger('change');" name="orientationPlano" wire:model.live="orientationPlano"
-                            id="orientationPlano" class="select2 form-select form-select-lg" data-allow-clear="true">
-                            <option label="Pilih Orientation Layout Bahan"></option>
-                            <option value="landscape">Landscape</option>
-                            <option value="potrait">Potrait</option>
-                            <option value="auto rotate">Auto Rotate</option>
-                        </select>
-                    </div>
-                    @error('orientationPlano')
-                        <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
-                            role="alert">
-                            {{ $message }}
-                        </span>
-                    @enderror
-                </div> --}}
-                <div class="col-md-4 mb-2">
                     <x-forms.number wire:model.defer="itemsLength" :placeholder="'Panjang Barang Jadi'"></x-forms.number>
                 </div>
                 <div class="col-md-4 mb-2">
@@ -149,6 +85,67 @@
                             {{ $message }}
                         </span>
                     @enderror
+                </div>
+                <div class="col-md-4 mb-2">
+                    <x-forms.number wire:model.defer="planoLength" :placeholder="'Panjang Bahan'"></x-forms.number>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <x-forms.number wire:model.defer="planoWidth" :placeholder="'Lebar Bahan'"></x-forms.number>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <div class="row">
+                        <label class="form-label" for="Rotasi Layout Bahan">Rotasi Layout Bahan</label>
+                        <div class="col-md mb-md-0 mb-2">
+                            <div class="form-check custom-option custom-option-basic">
+                                <label class="form-check-label custom-option-content" for="orientationPlano1">
+                                    <input name="orientationPlano" class="form-check-input" type="radio" value="Y"
+                                        id="orientationPlano1" wire:model.live="orientationPlano" />
+                                    <span class="custom-option-header">
+                                        <span class="h6 mb-0">Ya</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-check custom-option custom-option-basic">
+                                <label class="form-check-label custom-option-content" for="orientationPlano2">
+                                    <input name="orientationPlano" class="form-check-input" type="radio" value="N"
+                                        id="orientationPlano2" wire:model.live="orientationPlano" />
+                                    <span class="custom-option-header">
+                                        <span class="h6 mb-0">Tidak</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        @error('orientationPlano')
+                            <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
+                                role="alert">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <div class="row">
+                        <label class="form-label" for="Auto Rotate">Auto Rotate</label>
+                        <div class="col-md mb-md-0 mb-2">
+                            <div class="form-check custom-option custom-option-basic">
+                                <label class="form-check-label custom-option-content" for="autoRotate1">
+                                    <input name="autoRotate" class="form-check-input" type="checkbox" value="Y"
+                                        id="autoRotate1" wire:model="autoRotate" />
+                                    <span class="custom-option-header">
+                                        <span class="h6 mb-0">Ya</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        @error('orientationPlano')
+                            <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
+                                role="alert">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
                 </div>
                 <div class="col-md-4 mb-2">
                     <div class="row">
@@ -461,6 +458,78 @@
             @endif
         </div>
         <div class="col-md-8">
+            <div class="fabric-canvas-wrapper-setting-other-size-auto-rotate" style="border: 1px black;">
+                @if ($showPreviewSettingOtherSizeAutoRotate)
+                    <h5 class="card-header">Layout Setting 3</h5>
+                    <img src="{{ asset(Storage::url($folderTmpSettingOtherSizeAutoRotate . '/' . $fileNameSettingOtherSizeAutoRotate)) }}">
+                @endif
+                <canvas id="canvasSettingOtherSizeAutoRotate"></canvas>
+            </div>
+        </div>
+        <div class="col-md-4">
+            @if ($showPreviewSettingOtherSizeAutoRotate)
+                <div class="card">
+                    <h5 class="card-header">Details Layout Setting 3</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <label for="Panjang Lembar Cetak" class="form-label">Panjang Lembar Cetak</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetLengthWasteLength" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Lebar Lembar" class="form-label">Lebar Lembar</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetWidthWasteLength" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Panjang Barang Jadi" class="form-label">Panjang Barang Jadi</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.itemsLength" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Lebar Barang Jadi" class="form-label">Lebar Barang Jadi</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.itemsWidth" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Panjang Naik" class="form-label">Panjang Naik</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.colomnItemsWasteLength" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Lebar Naik" class="form-label">Lebar Naik</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.rowItemsWasteLength" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Jarak Atas" class="form-label">Jarak Atas</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetMarginTop" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Jarak Bawah" class="form-label">Jarak Bawah</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetMarginBottom" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Jarak Kiri" class="form-label">Jarak Kiri</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetMarginLeft" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Jarak Kanan" class="form-label">Jarak Kanan</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.sheetMarginRight" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Jarak Panjang" class="form-label">Jarak Panjang</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.gapBetweenLengthItems" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="Jarak Lebar" class="form-label">Jarak Lebar</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.gapBetweenWidthItems" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="1 Lembar Cetak" class="form-label">1 Lembar Cetak (Barang Jadi)</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.totalItemsOnSheetWasteLength" readonly />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        </div>
+        <div class="col-md-8">
             <div class="fabric-canvas-wrapper-bahan">
                 @if ($showPreviewBahan)
                     <h5 class="card-header">Layout Bahan</h5>
@@ -513,7 +582,11 @@
                             </div>
                             <div class="col-md-6 mb-2">
                                 <label for="1 Plano (Barang Jadi)" class="form-label">1 Plano (Barang Jadi)</label>
-                                <input class="form-control" type="text" wire:model.defer="resultCalculate.totalItemsFinal" readonly />
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.totalItems" readonly />
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="1 Plano (Barang Jadi)" class="form-label">1 Plano (Lembar Cetak)</label>
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.totalSheetOnPlano" readonly />
                             </div>
                             <div class="col-md-6 mb-2">
                                 <label for="Total Plano" class="form-label">Total Plano</label>
@@ -696,6 +769,11 @@
                 let sheetLengthWasteWidth = data[0].sheetLengthWasteWidth;
                 let sheetWidthWasteWidth = data[0].sheetWidthWasteWidth;
 
+                let colomnSheetWasteLength = data[0].colomnSheetWasteLength;
+                let rowSheetWasteLength = data[0].rowSheetWasteLength;
+                let sheetLengthWasteLength = data[0].sheetLengthWasteLength;
+                let sheetWidthWasteLength = data[0].sheetWidthWasteLength;
+
                 function resizeCanvas() {
                     const outerCanvasContainer = $('.fabric-canvas-wrapper-bahan')[0];
                     const ratio = canvas.getWidth() / canvas.getHeight();
@@ -850,6 +928,58 @@
                             fontSize: 1,
                             left: leftPos,
                             top: topPos + sheetWidthWasteWidth,
+                            angle: -90,
+                            textAlign: 'center',
+                        });
+
+                        canvas.add(textWidth);
+                    }
+                }
+
+                // Loop untuk baris waste width plano
+                for (let i = 0; i < rowSheetWasteLength; i++) {
+                    // Loop untuk kolom
+                    for (let j = 0; j < colomnSheetWasteLength; j++) {
+                        // Hitung posisi kiri dan atas untuk setiap persegi panjang
+                        var leftPos = (j * sheetWidthWasteLength) + (colomnSheet * sheetLength);
+                        var topPos = (i * sheetLengthWasteLength) + 2;
+
+                        // Buat objek persegi panjang
+                        var rectangle = new fabric.Rect({
+                            top: topPos,
+                            left: leftPos,
+                            width: sheetWidthWasteLength,
+                            height: sheetLengthWasteLength,
+                            fill: 'transparent',
+                            stroke: 'blue',
+                            strokeWidth: 0.1,
+                            strokeUniform: true
+                        });
+
+                        // Tambahkan objek persegi panjang ke dalam canvas
+                        canvas.add(rectangle);
+
+                        // Hitung posisi teks untuk menempatkannya di tengah kotak
+                        var textLeftPos = leftPos + sheetWidthWasteLength / 2;
+                        var textTopPos = topPos + sheetLengthWasteLength / 2;
+
+                        // Tambahkan teks panjang ke dalam canvas
+                        var textLength = new fabric.IText(sheetWidthWasteLength + ' cm', {
+                            fontFamily: 'Arial',
+                            fontSize: 1,
+                            left: leftPos,
+                            top: topPos,
+                            textAlign: 'center',
+                        });
+
+                        canvas.add(textLength);
+
+                        // Tambahkan teks lebar ke dalam canvas
+                        var textWidth = new fabric.IText(sheetLengthWasteLength + ' cm', {
+                            fontFamily: 'Arial',
+                            fontSize: 1,
+                            left: leftPos,
+                            top: topPos + sheetLengthWasteLength,
                             angle: -90,
                             textAlign: 'center',
                         });
@@ -1020,6 +1150,157 @@
                     // Display the image
                     @this.setLayoutSettingDataUrlOtherSize(dataURL);
                     @this.setLayoutSettingDataJsonOtherSize(dataJSON);
+                }
+
+                saveCanvasSetting();
+            });
+
+            Livewire.on('createLayoutSettingOtherSizeAutoRotate', (data) => {
+                let itemsLengthWasteLength = data[0].itemsLengthWasteLength;
+                let itemsWidthWasteLength = data[0].itemsWidthWasteLength;
+                let colomnItemsWasteLength = data[0].colomnItemsWasteLength;
+                let rowItemsWasteLength = data[0].rowItemsWasteLength;
+                let sheetLengthWasteLength = data[0].sheetLengthWasteLength;
+                let sheetWidthWasteLength = data[0].sheetWidthWasteLength;
+                let gapBetweenItems = data[0].gapBetweenItems;
+                let sheetMarginTop = data[0].sheetMarginTop;
+                let sheetMarginBottom = data[0].sheetMarginBottom;
+                let sheetMarginLeft = data[0].sheetMarginLeft;
+                let sheetMarginRight = data[0].sheetMarginRight;
+                let gapBetweenLengthItems = data[0].gapBetweenLengthItems;
+                let gapBetweenWidthItems = data[0].gapBetweenWidthItems;
+
+                let titlePanjangLembarCetak;
+                let titleLebarLembarCetak;
+
+                if (sheetLengthWasteLength > sheetWidthWasteLength) {
+                    titlePanjangLembarCetak = "Panjang Lembar Cetak = ";
+                    titleLebarLembarCetak = "Lebar Lembar Cetak = ";
+                } else {
+                    titlePanjangLembarCetak = "Lebar Lembar Cetak = ";
+                    titleLebarLembarCetak = "Panjang Lembar Cetak = ";
+                }
+
+                function resizeCanvas() {
+                    const outerCanvasContainer = $('.fabric-canvas-wrapper-setting-other-size-auto-rotate')[0];
+                    const ratio = canvas.getWidth() / canvas.getHeight();
+                    const containerWidth = outerCanvasContainer.clientWidth;
+                    const containerHeight = outerCanvasContainer.clientHeight;
+
+                    const scale = containerWidth / canvas.getWidth();
+                    const zoom = canvas.getZoom() * scale;
+                    canvas.setDimensions({
+                        width: containerWidth,
+                        height: containerWidth / ratio
+                    });
+                    canvas.setViewportTransform([zoom, 0, 0, zoom, 0, 0]);
+                }
+
+                $(window).resize(resizeCanvas);
+
+                var canvas = new fabric.Canvas('canvasSettingOtherSizeAutoRotate');
+                let canvasWidth = sheetLengthWasteLength + 2;
+                let canvasHeight = sheetWidthWasteLength + 2;
+
+                canvas.setWidth(canvasWidth);
+                canvas.setHeight(canvasHeight);
+                canvas.clear();
+
+                var rectangle = new fabric.Rect({
+                    top: 1,
+                    left: 0,
+                    width: sheetLengthWasteLength,
+                    height: sheetWidthWasteLength,
+                    fill: 'transparent',
+                    stroke: 'blue',
+                    strokeWidth: 0.1,
+                    strokeUniform: true
+                });
+
+                canvas.add(rectangle);
+
+                var textsheetLengthWasteLength = new fabric.IText((titlePanjangLembarCetak) + (sheetLengthWasteLength) + ' cm', {
+                    fontFamily: 'Arial',
+                    fontSize: 0.5,
+                    left: 0,
+                    top: -0.2,
+                });
+
+                canvas.add(textsheetLengthWasteLength);
+
+                var textsheetWidthWasteLength = new fabric.IText((titleLebarLembarCetak) + (sheetWidthWasteLength) + ' cm', {
+                    fontFamily: 'Arial',
+                    fontSize: 0.5,
+                    left: sheetLengthWasteLength + 1.5,
+                    top: 0.2,
+                    angle: 90,
+                });
+
+                canvas.add(textsheetWidthWasteLength);
+
+                // Loop untuk baris
+                for (let i = 0; i < rowItemsWasteLength; i++) {
+                    // Loop untuk kolom
+                    for (let j = 0; j < colomnItemsWasteLength; j++) {
+                        // Hitung posisi kiri dan atas untuk setiap persegi panjang
+                        var leftPos = j * (itemsLengthWasteLength + gapBetweenLengthItems) + sheetMarginLeft;
+                        var topPos = i * (itemsWidthWasteLength + gapBetweenWidthItems) + sheetMarginTop + 1;
+
+                        // Buat objek persegi panjang
+                        var rectangle = new fabric.Rect({
+                            top: topPos,
+                            left: leftPos,
+                            width: itemsLengthWasteLength,
+                            height: itemsWidthWasteLength,
+                            fill: 'transparent',
+                            stroke: 'red',
+                            strokeWidth: 0.1,
+                            strokeUniform: true
+                        });
+
+                        // Tambahkan objek persegi panjang ke dalam canvas
+                        canvas.add(rectangle);
+
+                        // Hitung posisi teks untuk menempatkannya di tengah kotak
+                        var textLeftPos = leftPos + itemsLengthWasteLength / 2;
+                        var textTopPos = topPos + itemsWidthWasteLength / 2;
+
+                        // Tambahkan teks panjang ke dalam canvas
+                        var textLength = new fabric.IText(itemsLengthWasteLength + ' cm', {
+                            fontFamily: 'Arial',
+                            fontSize: 0.5,
+                            left: leftPos,
+                            top: topPos,
+                            textAlign: 'center',
+                        });
+
+                        canvas.add(textLength);
+
+                        // Tambahkan teks lebar ke dalam canvas
+                        var textWidth = new fabric.IText(itemsWidthWasteLength + ' cm', {
+                            fontFamily: 'Arial',
+                            fontSize: 0.5,
+                            left: leftPos,
+                            top: topPos + itemsWidthWasteLength,
+                            angle: -90,
+                            textAlign: 'center',
+                        });
+
+                        canvas.add(textWidth);
+                    }
+                }
+
+                resizeCanvas();
+
+                function saveCanvasSetting() {
+                    var dataURL = canvas.toDataURL('image/png');
+                    var dataJSON = canvas.toJSON();
+                    delete dataJSON.version;
+                    var dataJSON = JSON.stringify(dataJSON);
+
+                    // Display the image
+                    @this.setLayoutSettingDataUrlOtherSizeAutoRotate(dataURL);
+                    @this.setLayoutSettingDataJsonOtherSizeAutoRotate(dataJSON);
                 }
 
                 saveCanvasSetting();

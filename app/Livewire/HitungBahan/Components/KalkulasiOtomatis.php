@@ -6,6 +6,7 @@ use Throwable;
 use App\Models\Machine;
 use Livewire\Component;
 use App\Models\Instruction;
+use App\Models\LayoutBahan;
 use App\Models\LayoutSetting;
 use Livewire\Attributes\Rule;
 use Livewire\Attributes\Title;
@@ -17,38 +18,18 @@ class KalkulasiOtomatis extends Component
 {
     public $spk;
 
-    #[Rule('required', message: 'Machine harus diisi.')]
-    public $machineSelected;
-
-    #[Rule('required', message: 'Quantity harus diisi.')]
+    public $machineSelected = 3;
     public $quantityItems;
-
-    #[Rule('required', message: 'Panjang Barang Jadi harus diisi.')]
-    public $itemsLength;
-
-    #[Rule('required', message: 'Lebar Barang Jadi harus diisi.')]
-    public $itemsWidth;
-
-    #[Rule('required', message: 'Orientasi Setting diisi.')]
+    public $itemsLength = 18;
+    public $itemsWidth = 5;
     public $orientationSetting = 'landscape';
-
-    #[Rule('required', message: 'Panjang Plano harus diisi.')]
-    public $planoLength;
-
-    #[Rule('required', message: 'Lebar Plano harus diisi.')]
-    public $planoWidth;
-
-    #[Rule('required', message: 'Orientasi harus diisi.')]
-    public $orientationPlano;
-
-    #[Rule('required', message: 'Pond harus diisi.')]
-    public $pondSelected;
-
-    #[Rule('required', message: 'Potong Jadi harus diisi.')]
-    public $potongJadiSelected;
-
-    #[Rule('required', message: 'Jarak Potong harus diisi.')]
-    public $jarakPotongJadiSelected;
+    public $planoLength = 109;
+    public $planoWidth = 79;
+    public $orientationPlano = 'N';
+    public $autoRotate = true;
+    public $pondSelected = 'Y';
+    public $potongJadiSelected = 'N';
+    public $jarakPotongJadiSelected = 'N';
 
     public $resultSheetLandscapeItems = [];
     public $resultSheetPotraitItems = [];
@@ -66,6 +47,12 @@ class KalkulasiOtomatis extends Component
     public $layoutSettingDataUrlOtherSize;
     public $folderTmpSettingOtherSize;
     public $fileNameSettingOtherSize;
+
+    public $showPreviewSettingOtherSizeAutoRotate = false;
+    public $layoutSettingDataJsonOtherSizeAutoRotate;
+    public $layoutSettingDataUrlOtherSizeAutoRotate;
+    public $folderTmpSettingOtherSizeAutoRotate;
+    public $fileNameSettingOtherSizeAutoRotate;
 
     public $showPreviewBahan = false;
     public $layoutBahanDataJson;
@@ -90,9 +77,38 @@ class KalkulasiOtomatis extends Component
 
     public function calculate()
     {
-        $this->validate();
+        $this->validate(
+            [
+                'machineSelected' => 'required',
+                'quantityItems' => 'required',
+                'itemsLength' => 'required',
+                'itemsWidth' => 'required',
+                'orientationSetting' => 'required',
+                'planoLength' => 'required',
+                'planoWidth' => 'required',
+                'orientationPlano' => 'required',
+                'pondSelected' => 'required',
+                'potongJadiSelected' => 'required',
+                'jarakPotongJadiSelected' => 'required',
+            ],
+            [
+                'machineSelected.required' => 'Machine harus diisi.',
+                'quantityItems.required' => 'Quantity harus diisi.',
+                'itemsLength.required' => 'Panjang Barang Jadi harus diisi.',
+                'itemsWidth.required' => 'Lebar Barang Jadi harus diisi.',
+                'orientationSetting.required' => 'Orientasi Setting diisi.',
+                'planoLength.required' => 'Panjang Plano harus diisi.',
+                'planoWidth.required' => 'Lebar Plano harus diisi.',
+                'orientationPlano.required' => 'Orientasi harus diisi.',
+                'pondSelected.required' => 'Pond harus diisi.',
+                'potongJadiSelected.required' => 'Potong Jadi harus diisi.',
+                'jarakPotongJadiSelected.required' => 'Jarak Potong harus diisi.',
+            ],
+        );
+
         $this->showPreviewSetting = false;
         $this->showPreviewSettingOtherSize = false;
+        $this->showPreviewSettingOtherSizeAutoRotate = false;
         $this->showPreviewBahan = false;
 
         //pemilihan mesin
@@ -124,10 +140,10 @@ class KalkulasiOtomatis extends Component
         $maximalLengthBahan = $machine->panjang_maximal_bahan;
         $maximalWidthBahan = $machine->lebar_maximal_bahan;
 
-        $this->resultSheetLandscapeItems = $this->calculateSheet(currency_convert($this->quantityItems), currency_convert($this->itemsLength), currency_convert($this->itemsWidth), $gapBetweenLengthItems, $gapBetweenWidthItems, $minimalLengthSheet, $minimalWidthSheet, $maximalLengthSheet, $maximalWidthSheet, $this->orientationSetting, currency_convert($this->planoLength), currency_convert($this->planoWidth), $this->orientationPlano);
+        $this->resultSheetLandscapeItems = $this->calculateSheet(currency_convert($this->quantityItems), currency_convert($this->itemsLength), currency_convert($this->itemsWidth), $gapBetweenLengthItems, $gapBetweenWidthItems, $minimalLengthSheet, $minimalWidthSheet, $maximalLengthSheet, $maximalWidthSheet, $this->orientationSetting, currency_convert($this->planoLength), currency_convert($this->planoWidth), $this->orientationPlano, $this->autoRotate);
     }
 
-    public function calculateSheet($quantityItems, $itemsLength, $itemsWidth, $gapBetweenLengthItems, $gapBetweenWidthItems, $minimalLengthSheet, $minimalWidthSheet, $maximalLengthSheet, $maximalWidthSheet, $orientationSetting, $planoLength, $planoWidth, $orientationPlano)
+    public function calculateSheet($quantityItems, $itemsLength, $itemsWidth, $gapBetweenLengthItems, $gapBetweenWidthItems, $minimalLengthSheet, $minimalWidthSheet, $maximalLengthSheet, $maximalWidthSheet, $orientationSetting, $planoLength, $planoWidth, $orientationPlano, $autoRotate)
     {
         $sheetMarginTop = 1;
         $sheetMarginBottom = 0.5;
@@ -213,6 +229,32 @@ class KalkulasiOtomatis extends Component
                         'wastePlanoLengthWasteWidth' => null,
                         'wastePlanoWidthWasteWidth' => null,
                         'totalItemsOnPlanoWasteWidth' => null,
+                        'totalSheetOnPlanoWasteWidth' => null,
+                        'totalItemsFinalOnWasteWidth' => null,
+
+                        'sheetMarginTopWasteLength' => (float) $sheetMarginTop,
+                        'sheetMarginBottomWasteLength' => (float) $sheetMarginBottom,
+                        'sheetMarginLeftWasteLength' => (float) $sheetMarginLeft,
+                        'sheetMarginRightWasteLength' => (float) $sheetMarginRight,
+                        'gapBetweenLengthItemsWasteLength' => (float) $gapBetweenLengthItems,
+                        'gapBetweenWidthItemsWasteLength' => (float) $gapBetweenWidthItems,
+                        'itemsLengthWasteLength' => (float) $itemsLength,
+                        'itemsWidthWasteLength' => (float) $itemsWidth,
+                        'colomnItemsWasteLength' => null,
+                        'rowItemsWasteLength' => null,
+                        'sheetLengthWasteLength' => null,
+                        'sheetWidthWasteLength' => null,
+                        'orientationItemsWasteLength' => $orientationSetting,
+                        'totalItemsOnSheetWasteLength' => null,
+                        'colomnSheetWasteLength' => null,
+                        'rowSheetWasteLength' => null,
+                        'wastePlanoLengthWasteLength' => null,
+                        'wastePlanoWidthWasteLength' => null,
+                        'totalItemsOnPlanoWasteLength' => null,
+                        'totalSheetOnPlanoWasteLength' => null,
+                        'totalItemsFinalOnWasteLength' => null,
+
+                        'totalSheetOnPlano' => (int) ($colomnSheet * $rowSheet),
                         'totalItemsFinal' => (int) ($colomnSheet * $rowSheet) * ($colomn * $row),
                     ];
 
@@ -222,7 +264,7 @@ class KalkulasiOtomatis extends Component
         }
 
         foreach($result as $key => $dataSheet) {
-            if($dataSheet['wastePlanoWidth'] >= $minimalWidthSheet){
+            if($dataSheet['wastePlanoWidth'] >= $minimalWidthSheet) {
                 foreach($result as $itemSheet) {
                     $maxTotalItemsOnSheet = 0;
                     $bestMatchingSheet = null;
@@ -245,11 +287,39 @@ class KalkulasiOtomatis extends Component
                         $result[$key]['rowSheetWasteWidth'] = floor($dataSheet['wastePlanoWidth'] / $bestMatchingSheet['sheetWidth']);
 
                         $result[$key]['totalItemsOnPlanoWasteWidth'] = (int) $result[$key]['totalItemsOnSheetWasteWidth'] * $result[$key]['colomnSheetWasteWidth'] * $result[$key]['rowSheetWasteWidth'];
-                        $result[$key]['totalItemsFinal'] = (int) $dataSheet['totalItemsFinal'] + (int) $result[$key]['totalItemsOnPlanoWasteWidth'];
+                        $result[$key]['totalSheetOnPlanoWasteWidth'] = (int) $dataSheet['totalSheetOnPlano'] + ($result[$key]['colomnSheetWasteWidth'] * $result[$key]['rowSheetWasteWidth']);
+                        $result[$key]['totalItemsFinalOnWasteWidth'] = (int) $result[$key]['totalItemsOnPlanoWasteWidth'];
                     }
                 }
-            }else{
+            }
 
+            if($dataSheet['wastePlanoLength'] >= $dataSheet['wastePlanoWidth'] && $autoRotate == true) {
+                foreach($result as $itemSheet) {
+                    $maxTotalItemsOnSheet = 0;
+                    $bestMatchingSheet = null;
+
+                    if($dataSheet['sheetLength'] == $itemSheet['sheetLengthOnPlano'] && $itemSheet['sheetWidth'] <= $dataSheet['wastePlanoLength']){
+                        //cari pada $item yang memiliki value pada key totalItemsOnSheet yang terbanyak
+                        if ($itemSheet['totalItemsOnSheet'] > $maxTotalItemsOnSheet) {
+                            $maxTotalItemsOnSheet = $itemSheet['totalItemsOnSheet'];
+                            $bestMatchingSheet = $itemSheet;
+                        }
+                    }
+
+                    if ($bestMatchingSheet) {
+                        $result[$key]['colomnItemsWasteLength'] = $bestMatchingSheet['colomnItems'];
+                        $result[$key]['rowItemsWasteLength'] = $bestMatchingSheet['rowItems'];
+                        $result[$key]['sheetLengthWasteLength'] = $bestMatchingSheet['sheetLength'];
+                        $result[$key]['sheetWidthWasteLength'] = $bestMatchingSheet['sheetWidth'];
+                        $result[$key]['totalItemsOnSheetWasteLength'] = $result[$key]['colomnItemsWasteLength'] * $result[$key]['rowItemsWasteLength'];
+                        $result[$key]['colomnSheetWasteLength'] = floor($dataSheet['wastePlanoLength'] / $bestMatchingSheet['sheetWidth']);
+                        $result[$key]['rowSheetWasteLength'] = floor($planoWidth / $bestMatchingSheet['sheetLength']);
+
+                        $result[$key]['totalItemsOnPlanoWasteLength'] = (int) $result[$key]['totalItemsOnSheetWasteLength'] * $result[$key]['colomnSheetWasteLength'] * $result[$key]['rowSheetWasteLength'];
+                        $result[$key]['totalSheetOnPlanoWasteLength'] = (int) $dataSheet['totalSheetOnPlano'] + ($result[$key]['colomnSheetWasteLength'] * $result[$key]['rowSheetWasteLength']);
+                        $result[$key]['totalItemsFinalOnWasteLength'] = (int) $result[$key]['totalItemsOnPlanoWasteLength'];
+                    }
+                }
             }
         }
 
@@ -257,15 +327,19 @@ class KalkulasiOtomatis extends Component
             return $a['colomnItems'] - $b['colomnItems'];
         });
 
+        foreach($result as $key => $dataSheet) {
+            $totalItems = $dataSheet['totalItemsFinal'] + $dataSheet['totalItemsFinalOnWasteWidth'] + $dataSheet['totalItemsFinalOnWasteLength'];
+            $result[$key]['totalItems'] = $totalItems;
+        }
 
         $maxTotalItemsFinal = 0;
         $bestResult = null;
 
         foreach ($result as $dataSheet) {
-            if (isset($dataSheet['totalItemsFinal']) && $dataSheet['totalItemsFinal'] > $maxTotalItemsFinal) {
-                $maxTotalItemsFinal = $dataSheet['totalItemsFinal'];
+            if (isset($dataSheet['totalItems']) && $dataSheet['totalItems'] > $maxTotalItemsFinal) {
+                $maxTotalItemsFinal = $dataSheet['totalItems'];
 
-                $totalPlano = $quantityItems / $dataSheet['totalItemsFinal'];
+                $totalPlano = $quantityItems / $dataSheet['totalItems'];
                 $totalPlano = (int) ceil($totalPlano);
                     if ($totalPlano != floor($totalPlano)) {
                         $totalPlano += 1;
@@ -275,13 +349,15 @@ class KalkulasiOtomatis extends Component
             }
         }
 
-        if($bestResult != null && $bestResult['sheetLengthWasteWidth'] == null && $bestResult['sheetWidthWasteWidth'] == null){
-            $this->dispatch('createLayoutSetting', $bestResult);
-            $this->dispatch('createLayoutBahan', $bestResult);
-        } else {
-            $this->dispatch('createLayoutSetting', $bestResult);
+        $this->dispatch('createLayoutSetting', $bestResult);
+        $this->dispatch('createLayoutBahan', $bestResult);
+
+        if($bestResult != null && $bestResult['sheetLengthWasteWidth'] != null && $bestResult['sheetWidthWasteWidth'] != null){
             $this->dispatch('createLayoutSettingOtherSize', $bestResult);
-            $this->dispatch('createLayoutBahan', $bestResult);
+        }
+
+        if($bestResult != null && $bestResult['sheetLengthWasteWidth'] == $bestResult['sheetLengthWasteLength'] && $bestResult['sheetWidthWasteWidth'] != $bestResult['sheetWidthWasteLength']) {
+            $this->dispatch('createLayoutSettingOtherSizeAutoRotate', $bestResult);
         }
 
         if($bestResult != null && $bestResult['sheetLength'] > $bestResult['sheetWidth']){
@@ -333,6 +409,24 @@ class KalkulasiOtomatis extends Component
         $this->layoutSettingDataJsonOtherSize = $dataJson;
     }
 
+    public function setLayoutSettingDataUrlOtherSizeAutoRotate($dataURL)
+    {
+        $this->folderTmpSettingOtherSizeAutoRotate = 'public/' . $this->spk->spk_number . '/hitung-bahan/tmp-setting/';
+        $this->layoutSettingDataUrlOtherSizeAutoRotate = $dataURL;
+        $base64ImageSetting = $dataURL;
+        $uniqueIdSetting = uniqid();
+        $this->fileNameSettingOtherSizeAutoRotate = $uniqueIdSetting . '.png';
+        $imageSetting = base64_decode(substr($base64ImageSetting, strpos($base64ImageSetting, ',') + 1));
+        Storage::put($this->folderTmpSettingOtherSizeAutoRotate . $this->fileNameSettingOtherSizeAutoRotate, $imageSetting);
+
+        $this->showPreviewSettingOtherSizeAutoRotate = true;
+    }
+
+    public function setLayoutSettingDataJsonOtherSizeAutoRotate($dataJson)
+    {
+        $this->layoutSettingDataJsonOtherSizeAutoRotate = $dataJson;
+    }
+
     public function setLayoutBahanDataUrl($dataURL)
     {
         $this->folderTmpBahan = 'public/' . $this->spk->spk_number . '/hitung-bahan/tmp-bahan/';
@@ -353,10 +447,39 @@ class KalkulasiOtomatis extends Component
 
     public function store()
     {
-        $this->validate();
+        $this->validate(
+            [
+                'machineSelected' => 'required',
+                'quantityItems' => 'required',
+                'itemsLength' => 'required',
+                'itemsWidth' => 'required',
+                'orientationSetting' => 'required',
+                'planoLength' => 'required',
+                'planoWidth' => 'required',
+                'orientationPlano' => 'required',
+                'pondSelected' => 'required',
+                'potongJadiSelected' => 'required',
+                'jarakPotongJadiSelected' => 'required',
+            ],
+            [
+                'machineSelected.required' => 'Machine harus diisi.',
+                'quantityItems.required' => 'Quantity harus diisi.',
+                'itemsLength.required' => 'Panjang Barang Jadi harus diisi.',
+                'itemsWidth.required' => 'Lebar Barang Jadi harus diisi.',
+                'orientationSetting.required' => 'Orientasi Setting diisi.',
+                'planoLength.required' => 'Panjang Plano harus diisi.',
+                'planoWidth.required' => 'Lebar Plano harus diisi.',
+                'orientationPlano.required' => 'Orientasi harus diisi.',
+                'pondSelected.required' => 'Pond harus diisi.',
+                'potongJadiSelected.required' => 'Potong Jadi harus diisi.',
+                'jarakPotongJadiSelected.required' => 'Jarak Potong harus diisi.',
+            ],
+        );
+
 
         try {
             DB::beginTransaction();
+
             $createLayoutSetting = LayoutSetting::create([
                 'instruction_id' => $this->spk->id,
                 'sortorder' => 1,
@@ -379,10 +502,41 @@ class KalkulasiOtomatis extends Component
                 'file_name' => $this->fileNameSetting,
                 'dataJSON' => $this->layoutSettingDataJson,
             ]);
+
+            $createLayoutBahan = LayoutBahan::create([
+                'instruction_id' => $this->spk->id,
+                'sortorder' => 1,
+                'state' => null,
+                'include_belakang' => null,
+                'panjang_plano' => $this->resultCalculate['planoLength'],
+                'lebar_plano' => $this->resultCalculate['planoWidth'],
+                'panjang_lembar_cetak' => $this->resultCalculate['sheetLength'],
+                'lebar_lembar_cetak' => $this->resultCalculate['sheetWidth'],
+                'jenis_bahan' => null,
+                'gramasi' => null,
+                'one_plano' => $this->resultCalculate['totalSheetOnPlano'],
+                'sumber_bahan' => null,
+                'merk_bahan' => null,
+                'supplier' => null,
+                'jumlah_lembar_cetak' => $this->resultCalculate['totalSheetOnPlano'],
+                'jumlah_incit' => null,
+                'total_lembar_cetak' => $this->resultCalculate['totalSheetOnPlano'],
+                'harga_bahan' => null,
+                'jumlah_bahan' => $this->resultCalculate['totalPlano'],
+                'panjang_sisa_bahan' => null,
+                'lebar_sisa_bahan' => null,
+                'file_path' => $this->folderTmpBahan,
+                'file_name' => $this->fileNameBahan,
+                'dataJSON' => $this->layoutBahanDataJson,
+                'layout_custom_file_name' => null,
+                'layout_custom_path' => null,
+            ]);
+
             DB::commit();
 
-            $this->redirectRoute('FormCreate.HitungBahan', ['state' => 'create', 'id' => $this->spk->id]);
             session()->flash('success', 'Data berhasil disimpan.');
+            $this->redirectRoute('FormCreate.HitungBahan', ['state' => 'create', 'id' => $this->spk->id]);
+
         } catch (Throwable $th) {
             DB::rollBack();
             session()->flash('error', 'Terjadi kesalahan !!! ' . $th->getMessage());
