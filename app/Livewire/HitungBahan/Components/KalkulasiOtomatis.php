@@ -18,18 +18,18 @@ class KalkulasiOtomatis extends Component
 {
     public $spk;
 
-    public $machineSelected = 3;
+    public $machineSelected;
     public $quantityItems;
-    public $itemsLength = 18;
-    public $itemsWidth = 5;
-    public $orientationSetting = 'landscape';
-    public $planoLength = 109;
-    public $planoWidth = 79;
-    public $orientationPlano = 'N';
-    public $autoRotate = true;
-    public $pondSelected = 'Y';
-    public $potongJadiSelected = 'N';
-    public $jarakPotongJadiSelected = 'N';
+    public $itemsLength;
+    public $itemsWidth;
+    public $orientationSetting;
+    public $planoLength;
+    public $planoWidth;
+    public $orientationPlano;
+    public $autoRotate;
+    public $pondSelected;
+    public $potongJadiSelected;
+    public $jarakPotongJadiSelected;
 
     public $resultSheetLandscapeItems = [];
     public $resultSheetPotraitItems = [];
@@ -584,7 +584,7 @@ class KalkulasiOtomatis extends Component
 
             DB::commit();
 
-            session()->flash('success', 'Data berhasil disimpan.');
+            session()->flash('success', 'Data kalkulasi otomatis berhasil disimpan.');
             $this->redirectRoute('FormCreate.HitungBahan', ['state' => 'create', 'id' => $this->spk->id]);
 
         } catch (Throwable $th) {
