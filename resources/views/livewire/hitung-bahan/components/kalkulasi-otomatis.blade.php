@@ -586,7 +586,7 @@
                             </div>
                             <div class="col-md-6 mb-2">
                                 <label for="1 Plano (Barang Jadi)" class="form-label">1 Plano (Lembar Cetak)</label>
-                                <input class="form-control" type="text" wire:model.defer="resultCalculate.totalSheetOnPlano" readonly />
+                                <input class="form-control" type="text" wire:model.defer="resultCalculate.totalSheet" readonly />
                             </div>
                             <div class="col-md-6 mb-2">
                                 <label for="Total Plano" class="form-label">Total Plano</label>

@@ -287,7 +287,7 @@ class KalkulasiOtomatis extends Component
                         $result[$key]['rowSheetWasteWidth'] = floor($dataSheet['wastePlanoWidth'] / $bestMatchingSheet['sheetWidth']);
 
                         $result[$key]['totalItemsOnPlanoWasteWidth'] = (int) $result[$key]['totalItemsOnSheetWasteWidth'] * $result[$key]['colomnSheetWasteWidth'] * $result[$key]['rowSheetWasteWidth'];
-                        $result[$key]['totalSheetOnPlanoWasteWidth'] = (int) $dataSheet['totalSheetOnPlano'] + ($result[$key]['colomnSheetWasteWidth'] * $result[$key]['rowSheetWasteWidth']);
+                        $result[$key]['totalSheetOnPlanoWasteWidth'] = (int) ($result[$key]['colomnSheetWasteWidth'] * $result[$key]['rowSheetWasteWidth']);
                         $result[$key]['totalItemsFinalOnWasteWidth'] = (int) $result[$key]['totalItemsOnPlanoWasteWidth'];
                     }
                 }
@@ -316,7 +316,7 @@ class KalkulasiOtomatis extends Component
                         $result[$key]['rowSheetWasteLength'] = floor($planoWidth / $bestMatchingSheet['sheetLength']);
 
                         $result[$key]['totalItemsOnPlanoWasteLength'] = (int) $result[$key]['totalItemsOnSheetWasteLength'] * $result[$key]['colomnSheetWasteLength'] * $result[$key]['rowSheetWasteLength'];
-                        $result[$key]['totalSheetOnPlanoWasteLength'] = (int) $dataSheet['totalSheetOnPlano'] + ($result[$key]['colomnSheetWasteLength'] * $result[$key]['rowSheetWasteLength']);
+                        $result[$key]['totalSheetOnPlanoWasteLength'] = (int) ($result[$key]['colomnSheetWasteLength'] * $result[$key]['rowSheetWasteLength']);
                         $result[$key]['totalItemsFinalOnWasteLength'] = (int) $result[$key]['totalItemsOnPlanoWasteLength'];
                     }
                 }
@@ -344,7 +344,10 @@ class KalkulasiOtomatis extends Component
                     if ($totalPlano != floor($totalPlano)) {
                         $totalPlano += 1;
                     }
+
+                $totalSheet = $dataSheet['totalSheetOnPlano'] + $dataSheet['totalSheetOnPlanoWasteWidth'] + $dataSheet['totalSheetOnPlanoWasteLength'];
                 $dataSheet['totalPlano'] = (int) $totalPlano;
+                $dataSheet['totalSheet'] = (int) $totalSheet;
                 $bestResult = $dataSheet;
             }
         }
@@ -526,13 +529,15 @@ class KalkulasiOtomatis extends Component
                 'lembar_cetak' => json_encode($sheetSize),
                 'jenis_bahan' => null,
                 'gramasi' => null,
-                'one_plano' => $this->resultCalculate['totalSheetOnPlano'],
+                'one_plano' => $this->resultCalculate['totalSheet'],
+                'one_plano_items' => $this->resultCalculate['totalItems'],
+                'request_bahan' => null,
                 'sumber_bahan' => null,
                 'merk_bahan' => null,
                 'supplier' => null,
-                'jumlah_lembar_cetak' => $this->resultCalculate['totalSheetOnPlano'],
+                'jumlah_lembar_cetak' => null,
                 'jumlah_incit' => null,
-                'total_lembar_cetak' => $this->resultCalculate['totalSheetOnPlano'],
+                'total_lembar_cetak' => null,
                 'harga_bahan' => null,
                 'jumlah_bahan' => $this->resultCalculate['totalPlano'],
                 'panjang_sisa_bahan' => null,

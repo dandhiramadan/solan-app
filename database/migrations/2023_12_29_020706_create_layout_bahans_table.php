@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('jenis_bahan')->nullable();
             $table->string('gramasi')->nullable();
             $table->string('one_plano')->nullable();
+            $table->string('one_plano_items')->nullable();
+            $table->string('request_bahan')->nullable();
             $table->string('sumber_bahan')->nullable();
             $table->string('merk_bahan')->nullable();
             $table->string('supplier')->nullable();

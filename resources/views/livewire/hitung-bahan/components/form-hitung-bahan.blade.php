@@ -200,6 +200,143 @@
     </div>
 
     <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="card-title header-elements">
+                        <h5 class="m-0 me-2">Form Keterangan 1</h5>
+                        <div class="card-title-elements ms-auto">
+                            <button type="button" class="btn btn-sm btn-primary"><span
+                                    class="ti-xs ti ti-trash me-1"></span>Delete Keterangan</button>
+                            <button type="button" class="btn btn-sm btn-info" wire:click="addFormketerangan"><span
+                                    class="ti-xs ti ti-file-plus me-1"></span>Add Keterangan</button>
+                        </div>
+                    </div>
+                    {{-- Action canvas --}}
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="card shadow-none bg-transparent border border-secondary mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title">Plate</h6>
+                                    <div class="row mb-2">
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="Status">Status</label>
+                                            <div class="form-check custom-option custom-option-basic">
+                                                <label class="form-check-label custom-option-content"
+                                                    for="customRadioTemp1"
+                                                    style="padding: .422rem .875rem; padding-left: 2.77rem;">
+                                                    <input name="focCustomerNumber"
+                                                        wire:model.live='focCustomerNumber' class="form-check-input"
+                                                        type="checkbox" value="1" id="customRadioTemp1" />
+                                                    <span class="custom-option-header">
+                                                        <span class="h6 mb-0">Baru</span>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                            @error('focCustomerNumber')
+                                                <span class=""
+                                                    style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
+                                                    role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="Ukuran">Ukuran</label>
+                                            <input type="text" class="form-control" wire:model.defer=""
+                                                placeholder="Ukuran Plate" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="Jumlah">Jumlah</label>
+                                            <input type="text" class="form-control" wire:model.defer=""
+                                                placeholder="Jumlah Plate" />
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="Status">Status</label>
+                                            <div class="form-check custom-option custom-option-basic">
+                                                <label class="form-check-label custom-option-content"
+                                                    for="customRadioTemp2"
+                                                    style="padding: .422rem .875rem; padding-left: 2.77rem;">
+                                                    <input name="focCustomerNumber"
+                                                        wire:model.live='focCustomerNumber' class="form-check-input"
+                                                        type="checkbox" value="2" id="customRadioTemp2" />
+                                                    <span class="custom-option-header">
+                                                        <span class="h6 mb-0">Repeat</span>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                            @error('focCustomerNumber')
+                                                <span class=""
+                                                    style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
+                                                    role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="Ukuran">Ukuran</label>
+                                            <input type="text" class="form-control" wire:model.defer=""
+                                                placeholder="Ukuran Plate" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="Jumlah">Jumlah</label>
+                                            <input type="text" class="form-control" wire:model.defer=""
+                                                placeholder="Jumlah Plate" />
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="Status">Status</label>
+                                            <div class="form-check custom-option custom-option-basic">
+                                                <label class="form-check-label custom-option-content"
+                                                    for="customRadioTemp3"
+                                                    style="padding: .422rem .875rem; padding-left: 2.77rem;">
+                                                    <input name="focCustomerNumber"
+                                                        wire:model.live='focCustomerNumber' class="form-check-input"
+                                                        type="checkbox" value="Baru" id="customRadioTemp3" />
+                                                    <span class="custom-option-header">
+                                                        <span class="h6 mb-0">Sample</span>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                            @error('focCustomerNumber')
+                                                <span class=""
+                                                    style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
+                                                    role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="Ukuran">Ukuran</label>
+                                            <input type="text" class="form-control" wire:model.defer=""
+                                                placeholder="Ukuran Plate" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="Jumlah">Jumlah</label>
+                                            <input type="text" class="form-control" wire:model.defer=""
+                                                placeholder="Jumlah Plate" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card shadow-none bg-transparent border border-secondary mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title">Pond</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
         @forelse ($resultLayoutBahan as $index => $data)
             <div class="col-md-12">
                 <div class="card mb-4">
@@ -306,9 +443,16 @@
                                                                 :placeholder="'Panjang Lembar Cetak (cm)'"></x-forms.number>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <x-forms.number
-                                                                wire:model.defer="resultLayoutBahan.{{ $index }}.sheetSize.{{ $key }}.sheetWidth"
-                                                                :placeholder="'Lebar Lembar Cetak (cm)'"></x-forms.number>
+                                                            <label class="form-label" for="Lebar Lembar Cetak">Lebar
+                                                                Lembar Cetak</label>
+                                                            <div class="input-group">
+                                                                <input type="number" class="form-control"
+                                                                    name="resultLayoutBahan.{{ $index }}.sheetSize.{{ $key }}.sheetWidth"
+                                                                    wire:model.defer="resultLayoutBahan.{{ $index }}.sheetSize.{{ $key }}.sheetWidth"
+                                                                    placeholder="Lebar Lembar Cetak (cm)" />
+                                                                <button class="btn btn-outline-primary" type="button"
+                                                                    wire:click="removeLembarCetak({{ $index }}, {{ $key }})">Delete</button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 @empty
@@ -325,32 +469,21 @@
                                                         </div>
                                                     </div>
                                                 @endforelse
+                                                <button type="button" class="btn btn-sm btn-info"
+                                                    wire:click='addLembarCetak({{ $index }})'><span
+                                                        class="ti-xs ti ti-plus me-1"></span>Add Lembar Cetak</button>
                                             </div>
                                             <div class="col-md-6 mb-2">
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <x-forms.number
-                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.colomnItems"
-                                                            :placeholder="'Panjang Naik'"></x-forms.number>
+                                                        <x-forms.text
+                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.bahanType"
+                                                            :placeholder="'Jenis Bahan'"></x-forms.text>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <x-forms.number
-                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.rowItems"
-                                                            :placeholder="'Lebar Naik'"></x-forms.number>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {{-- <div class="col-md-6 mb-2">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <x-forms.number
-                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.gapBetweenLengthItems"
-                                                            :placeholder="'Jarak Panjang (cm)'"></x-forms.number>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <x-forms.number
-                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.gapBetweenWidthItems"
-                                                            :placeholder="'Jarak Lebar (cm)'"></x-forms.number>
+                                                        <x-forms.text
+                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.gramasi"
+                                                            :placeholder="'Gramasi'"></x-forms.text>
                                                     </div>
                                                 </div>
                                             </div>
@@ -358,13 +491,68 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <x-forms.number
-                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.marginTop"
-                                                            :placeholder="'Sisi Atas (cm)'"></x-forms.number>
+                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.onePlanoSheet"
+                                                            :placeholder="'1 Plano (Lembar Cetak)'"></x-forms.number>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <x-forms.number
-                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.marginBottom"
-                                                            :placeholder="'Sisi Bawah (cm)'"></x-forms.number>
+                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.onePlanoItems"
+                                                            :placeholder="'1 Plano (Total Items)'"></x-forms.number>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label" for="Status Bahan">Status
+                                                            Bahan</label>
+                                                        <select id="defaultSelect"
+                                                            class="form-select @error('resultLayoutBahan.' . $index . '.requestBahan') is-invalid @enderror"
+                                                            name="resultLayoutBahan.{{ $index }}.requestBahan"
+                                                            wire:model.defer='resultLayoutBahan.{{ $index }}.requestBahan'>
+                                                            <option label="Pilih Status Bahan"></option>
+                                                            <option value="stock">Stock</option>
+                                                            <option value="beli">Beli</option>
+                                                            <option value="stock/beli">Stock & Beli</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <x-forms.text
+                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.sourceBahan"
+                                                            :placeholder="'Sumber Bahan'"></x-forms.text>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <x-forms.text
+                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.merkBahan"
+                                                            :placeholder="'Merk Bahan'"></x-forms.text>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <x-forms.text
+                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.supplier"
+                                                            :placeholder="'Supplier'"></x-forms.text>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 mb-2">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <x-forms.number
+                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.jumlahSheet"
+                                                            :placeholder="'Jumlah Lembar Cetak'"></x-forms.number>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <x-forms.number
+                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.jumlahIncit"
+                                                            :placeholder="'Jumlah Incit'"></x-forms.number>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <x-forms.number
+                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.totalSheet"
+                                                            :placeholder="'Total Lembar Cetak'"></x-forms.number>
                                                     </div>
                                                 </div>
                                             </div>
@@ -372,13 +560,13 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <x-forms.number
-                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.marginLeft"
-                                                            :placeholder="'Sisi Kiri (cm)'"></x-forms.number>
+                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.price"
+                                                            :placeholder="'Harga Bahan'"></x-forms.number>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <x-forms.number
-                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.marginRight"
-                                                            :placeholder="'Sisi Kanan (cm)'"></x-forms.number>
+                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.totalPlano"
+                                                            :placeholder="'Jumlah Bahan'"></x-forms.number>
                                                     </div>
                                                 </div>
                                             </div>
@@ -386,16 +574,16 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <x-forms.number
-                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.gapVertical"
-                                                            :placeholder="'Jarak Tambahan Vertical (cm)'"></x-forms.number>
+                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.wasteLength"
+                                                            :placeholder="'Panjang Sisa Bahan'"></x-forms.number>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <x-forms.number
-                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.gapHorizontal"
-                                                            :placeholder="'Jarak Tambahan Horizontal (cm)'"></x-forms.number>
+                                                            wire:model.defer="resultLayoutBahan.{{ $index }}.wasteWidth"
+                                                            :placeholder="'Lebar Sisa Bahan'"></x-forms.number>
                                                     </div>
                                                 </div>
-                                            </div> --}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -450,11 +638,12 @@
             // Tambahkan kode logika lainnya di sini, seperti menambahkan objek atau event listener
             var json = @this.resultLayoutSetting[index].dataJSON;
             if (json) {
-                canvas.loadFromJSON(json, function () {
+                canvas.loadFromJSON(json, function() {
                     var firstObject = canvas.getObjects()[0];
                     // Check if the first object exists and its dimensions are within canvas boundaries
-                    if (firstObject && firstObject.width * 20 <= canvas.width && firstObject.height * 20 <= canvas.height) {
-                        canvas.forEachObject(function (object) {
+                    if (firstObject && firstObject.width * 20 <= canvas.width && firstObject.height * 20 <= canvas
+                        .height) {
+                        canvas.forEachObject(function(object) {
                             // Scale each object by a factor of 20
                             object.scaleX *= 20;
                             object.scaleY *= 20;
@@ -463,8 +652,8 @@
                             // Add any other scaling adjustments you may need
                         });
                         canvas.renderAll();
-                    }else{
-                        canvas.forEachObject(function (object) {
+                    } else {
+                        canvas.forEachObject(function(object) {
                             // Scale each object by a factor of 20
                             object.scaleX *= 10;
                             object.scaleY *= 10;
@@ -660,11 +849,12 @@
 
             var json = @this.resultLayoutBahan[indexBahan].dataJSON;
             if (json) {
-                canvas.loadFromJSON(json, function () {
+                canvas.loadFromJSON(json, function() {
                     var firstObject = canvas.getObjects()[0];
                     // Check if the first object exists and its dimensions are within canvas boundaries
-                    if (firstObject && firstObject.width * 20 <= canvas.width && firstObject.height * 20 <= canvas.height) {
-                        canvas.forEachObject(function (object) {
+                    if (firstObject && firstObject.width * 20 <= canvas.width && firstObject.height * 20 <= canvas
+                        .height) {
+                        canvas.forEachObject(function(object) {
                             // Scale each object by a factor of 20
                             object.scaleX *= 20;
                             object.scaleY *= 20;
@@ -673,8 +863,8 @@
                             // Add any other scaling adjustments you may need
                         });
                         canvas.renderAll();
-                    }else{
-                        canvas.forEachObject(function (object) {
+                    } else {
+                        canvas.forEachObject(function(object) {
                             // Scale each object by a factor of 20
                             object.scaleX *= 10;
                             object.scaleY *= 10;

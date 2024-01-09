@@ -54,26 +54,28 @@ class FormHitungBahan extends Component
             $this->noFormLayoutSetting++;
         }
 
-        foreach($spk->layoutBahan as $data) {
-
+        foreach ($spk->layoutBahan as $data) {
             $dataLayoutBahan[] = [
                 'noFormLayoutBahan' => $this->noFormLayoutBahan,
                 'state' => $data['state'],
                 'planoLength' => $data['panjang_plano'],
                 'planoWidth' => $data['lebar_plano'],
                 'sheetSize' => json_decode($data['lembar_cetak'], true),
-                // 'sheetLength' => $data['panjang_bahan_cetak'],
-                // 'sheetWidth' => $data['lebar_bahan_cetak'],
-                // 'colomnItems' => $data['panjang_naik'],
-                // 'rowItems' => $data['lebar_naik'],
-                // 'gapBetweenLengthItems' => $data['jarak_panjang'],
-                // 'gapBetweenWidthItems' => $data['jarak_lebar'],
-                // 'marginTop' => $data['sisi_atas'],
-                // 'marginBottom' => $data['sisi_bawah'],
-                // 'marginLeft' => $data['sisi_kiri'],
-                // 'marginRight' => $data['sisi_kanan'],
-                // 'gapVertical' => $data['sisi_kanan'],
-                // 'gapHorizontal' => $data['sisi_kanan'],
+                'bahanType' => $data['jenis_bahan'],
+                'gramasi' => $data['gramasi'],
+                'onePlanoSheet' => $data['one_plano'],
+                'onePlanoItems' => $data['one_plano_items'],
+                'requestBahan' => $data['request_bahan'],
+                'sourceBahan' => $data['sumber_bahan'],
+                'merkBahan' => $data['merk_bahan'],
+                'supplier' => $data['supplier'],
+                'jumlahSheet' => $data['jumlah_lembar_cetak'],
+                'jumlahIncit' => $data['jumlah_incit'],
+                'totalSheet' => $data['total_lembar_cetak'],
+                'price' => $data['harga_bahan'],
+                'totalPlano' => $data['jumlah_bahan'],
+                'wasteLength' => null,
+                'wasteWidth' => null,
                 'dataURL' => null,
                 'dataJSON' => $data['dataJSON'],
             ];
@@ -109,6 +111,48 @@ class FormHitungBahan extends Component
         ];
 
         $this->noFormLayoutSetting++;
+    }
+
+    public function addFormBahan()
+    {
+        $this->resultLayoutBahan[] = [
+            'noFormLayoutBahan' => $this->noFormLayoutBahan,
+            'state' => null,
+            'planoLength' => null,
+            'planoWidth' => null,
+            'sheetSize' => [],
+            'bahanType' => null,
+            'gramasi' => null,
+            'onePlanoSheet' => null,
+            'onePlanoItems' => null,
+            'requestBahan' => null,
+            'sourceBahan' => null,
+            'merkBahan' => null,
+            'supplier' => null,
+            'jumlahSheet' => null,
+            'jumlahIncit' => null,
+            'totalSheet' => null,
+            'price' => null,
+            'totalPlano' => null,
+            'wasteLength' => null,
+            'wasteWidth' => null,
+            'dataURL' => null,
+            'dataJSON' => null,
+        ];
+    }
+
+    public function addLembarCetak($index)
+    {
+        $this->resultLayoutBahan[$index]['sheetSize'][] = [
+            'sheetLength' => '',
+            'sheetWidth' => '',
+        ];
+    }
+
+    public function removeLembarCetak($index, $key)
+    {
+        unset($this->resultLayoutBahan[$index]['sheetSize'][$key]);
+        $this->resultLayoutBahan = array_values($this->resultLayoutBahan);
     }
 
     public function render()
