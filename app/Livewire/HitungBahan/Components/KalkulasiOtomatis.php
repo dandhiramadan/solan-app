@@ -486,8 +486,8 @@ class KalkulasiOtomatis extends Component
                 'state' => null,
                 'panjang_barang_jadi' => $this->resultCalculate['itemsLength'],
                 'lebar_barang_jadi' => $this->resultCalculate['itemsWidth'],
-                'panjang_bahan_cetak' => $this->resultCalculate['sheetLength'],
-                'lebar_bahan_cetak' => $this->resultCalculate['sheetWidth'],
+                'panjang_lembar_cetak' => $this->resultCalculate['sheetLength'],
+                'lebar_lembar_cetak' => $this->resultCalculate['sheetWidth'],
                 'panjang_naik' => $this->resultCalculate['colomnItems'],
                 'lebar_naik' => $this->resultCalculate['rowItems'],
                 'jarak_panjang' => $this->resultCalculate['gapBetweenLengthItems'],
@@ -503,6 +503,19 @@ class KalkulasiOtomatis extends Component
                 'dataJSON' => $this->layoutSettingDataJson,
             ]);
 
+            $sheetSize = [
+                [
+                    'sheetLength' => $this->resultCalculate['sheetLength'], 'sheetWidth' => $this->resultCalculate['sheetWidth'],
+                ],
+                [
+                    'sheetLength' => $this->resultCalculate['sheetLengthWasteWidth'], 'sheetWidth' => $this->resultCalculate['sheetWidthWasteWidth'],
+                ],
+                [
+                    'sheetLength' => $this->resultCalculate['sheetLengthWasteLength'], 'sheetWidth' => $this->resultCalculate['sheetWidthWasteLength'],
+
+                ]
+            ];
+
             $createLayoutBahan = LayoutBahan::create([
                 'instruction_id' => $this->spk->id,
                 'sortorder' => 1,
@@ -510,8 +523,7 @@ class KalkulasiOtomatis extends Component
                 'include_belakang' => null,
                 'panjang_plano' => $this->resultCalculate['planoLength'],
                 'lebar_plano' => $this->resultCalculate['planoWidth'],
-                'panjang_lembar_cetak' => $this->resultCalculate['sheetLength'],
-                'lebar_lembar_cetak' => $this->resultCalculate['sheetWidth'],
+                'lembar_cetak' => json_encode($sheetSize),
                 'jenis_bahan' => null,
                 'gramasi' => null,
                 'one_plano' => $this->resultCalculate['totalSheetOnPlano'],
@@ -539,8 +551,8 @@ class KalkulasiOtomatis extends Component
                     'state' => null,
                     'panjang_barang_jadi' => $this->resultCalculate['itemsLength'],
                     'lebar_barang_jadi' => $this->resultCalculate['itemsWidth'],
-                    'panjang_bahan_cetak' => $this->resultCalculate['sheetLengthWasteWidth'],
-                    'lebar_bahan_cetak' => $this->resultCalculate['sheetWidthWasteWidth'],
+                    'panjang_lembar_cetak' => $this->resultCalculate['sheetLengthWasteWidth'],
+                    'lebar_lembar_cetak' => $this->resultCalculate['sheetWidthWasteWidth'],
                     'panjang_naik' => $this->resultCalculate['colomnItemsWasteWidth'],
                     'lebar_naik' => $this->resultCalculate['rowItemsWasteWidth'],
                     'jarak_panjang' => $this->resultCalculate['gapBetweenLengthItems'],
@@ -564,8 +576,8 @@ class KalkulasiOtomatis extends Component
                     'state' => null,
                     'panjang_barang_jadi' => $this->resultCalculate['itemsLength'],
                     'lebar_barang_jadi' => $this->resultCalculate['itemsWidth'],
-                    'panjang_bahan_cetak' => $this->resultCalculate['sheetLengthWasteLength'],
-                    'lebar_bahan_cetak' => $this->resultCalculate['sheetWidthWasteLength'],
+                    'panjang_lembar_cetak' => $this->resultCalculate['sheetLengthWasteLength'],
+                    'lebar_lembar_cetak' => $this->resultCalculate['sheetWidthWasteLength'],
                     'panjang_naik' => $this->resultCalculate['colomnItemsWasteLength'],
                     'lebar_naik' => $this->resultCalculate['rowItemsWasteLength'],
                     'jarak_panjang' => $this->resultCalculate['gapBetweenLengthItems'],

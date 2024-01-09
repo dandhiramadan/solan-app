@@ -20,8 +20,9 @@ return new class extends Migration
             $table->string('include_belakang')->nullable();
             $table->string('panjang_plano')->nullable();
             $table->string('lebar_plano')->nullable();
-            $table->string('panjang_lembar_cetak')->nullable();
-            $table->string('lebar_lembar_cetak')->nullable();
+            $table->json('lembar_cetak')->nullable();
+            // $table->string('panjang_lembar_cetak')->nullable();
+            // $table->string('lebar_lembar_cetak')->nullable();
             $table->string('jenis_bahan')->nullable();
             $table->string('gramasi')->nullable();
             $table->string('one_plano')->nullable();

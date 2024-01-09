@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->string('panjang_barang_jadi')->nullable();
             $table->string('lebar_barang_jadi')->nullable();
-            $table->string('panjang_bahan_cetak')->nullable();
-            $table->string('lebar_bahan_cetak')->nullable();
+            $table->string('panjang_lembar_cetak')->nullable();
+            $table->string('lebar_lembar_cetak')->nullable();
             $table->string('panjang_naik')->nullable();
             $table->string('lebar_naik')->nullable();
             $table->string('jarak_panjang')->nullable();
